@@ -140,13 +140,24 @@ export default function Clinics({
                     style={{ ['--k' as string]: k }}
                     aria-hidden="true"
                   >
-                    <polygon
-                      points={pts}
-                      fill={k === LAYERS - 1 ? col.top : col.side}
-                      fillOpacity={k === LAYERS - 1 ? 0.92 : 1}
-                      stroke={k === LAYERS - 1 ? '#fff' : 'none'}
-                      strokeWidth={k === LAYERS - 1 ? 0.25 : 0}
-                    />
+                    {k === LAYERS - 1 ? (
+                      // top face: the raised piece of the map itself, tinted, so the streets show through
+                      <>
+                        <clipPath id={`map-area-${c.id}`}>
+                          <polygon points={pts} />
+                        </clipPath>
+                        <image
+                          href="/map/alexandria-east.jpg"
+                          width="100"
+                          height="100"
+                          preserveAspectRatio="none"
+                          clipPath={`url(#map-area-${c.id})`}
+                        />
+                        <polygon points={pts} fill={col.top} fillOpacity={0.6} stroke="#fff" strokeWidth={0.25} />
+                      </>
+                    ) : (
+                      <polygon points={pts} fill={col.side} />
+                    )}
                   </svg>
                 ))}
                 <span className="map3d__anchor" data-anchor={ci} style={{ left: `${a.center[0]}%`, top: `${a.center[1]}%` }} />
