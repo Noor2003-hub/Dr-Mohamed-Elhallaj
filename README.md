@@ -7,12 +7,24 @@ Next.js 16 + Payload CMS 3 (SQLite). Everything the doctor edits lives in the ad
 ```bash
 npm install
 cp .env.example .env          # then put a long random string in PAYLOAD_SECRET
-npm run seed                  # fills the CMS with all the content from the design
+npm run import                # fills the CMS from src/import/content.json
 npm run dev                   # http://localhost:3000  ·  admin: http://localhost:3000/admin
 ```
 
 The first time you open `/admin` it asks you to create the admin user.
-`npm run seed` can be run again at any time. It wipes and re-creates the content (not users).
+
+## The import file
+
+All of the doctor's content is in **`src/import/content.json`**, with its images in **`src/import/images/`**:
+
+- site texts, hero, About, contact and the Experts Physio House details
+- certificates (each has a `key`), body areas (they list certificate keys), tools, workplaces, reels and clinic branches
+
+Image fields hold a file name from `src/import/images` (`""` means no image).
+
+`npm run import` checks the whole file first: missing images, unknown certificate keys and similar problems. If anything is wrong it stops without changing anything. If everything is fine, it **replaces** all content and the site settings with what's in the file. Admin users are kept.
+
+After the first import, edit in `/admin`. Running the import again would overwrite those edits.
 
 ## What the doctor can edit (admin → Content / Settings)
 
