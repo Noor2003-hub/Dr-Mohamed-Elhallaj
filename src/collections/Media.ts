@@ -4,6 +4,6 @@ export const Media: CollectionConfig = {
   slug: 'media',
   access: { read: () => true },
   admin: { group: 'Files' },
-  fields: [{ name: 'alt', type: 'text', required: true, label: 'Alt text (describe the image)' }],
+  fields: [{ name: 'alt', localized: true, type: 'text', required: true, label: 'Alt text (describe the image)' }],
   upload: { mimeTypes: ['image/*'] },
 }

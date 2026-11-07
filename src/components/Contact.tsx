@@ -1,7 +1,8 @@
 import type { SiteData } from '@/lib/data'
 import { waLink } from '@/lib/links'
+import type { Dict } from '@/lib/i18n'
 
-export default function Contact({ site }: { site: SiteData['site'] }) {
+export default function Contact({ site, t }: { site: SiteData['site']; t: Dict }) {
   return (
     <section id="contact" className="contact sec sec--dark">
       <div className="wrap contact__grid">
@@ -15,11 +16,11 @@ export default function Contact({ site }: { site: SiteData['site'] }) {
           <p className="contact__text" data-reveal>{site.contactText}</p>
           <div className="contact__ctas" data-reveal>
             <a className="btn btn--cyan" href={waLink(site.whatsapp)} target="_blank" rel="noreferrer">
-              Message on WhatsApp
+              {t.contact.whatsapp}
             </a>
             {site.email && (
               <a className="btn btn--ghost" href={`mailto:${site.email}`}>
-                Send an email
+                {t.contact.email}
               </a>
             )}
           </div>

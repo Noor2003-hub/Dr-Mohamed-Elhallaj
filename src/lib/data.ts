@@ -1,6 +1,7 @@
 import { getPayload } from 'payload'
 import config from '@payload-config'
 import type { Media } from '@/payload-types'
+import { DEFAULT_LOCALE, type Locale } from './i18n'
 
 export type Img = { url: string; alt: string } | null
 
@@ -11,20 +12,23 @@ export const img = (m: unknown): Img => {
   return d.url ? { url: d.url, alt: d.alt || '' } : null
 }
 
-export async function getSiteData() {
+export async function getSiteData(locale: Locale = DEFAULT_LOCALE) {
   const payload = await getPayload({ config })
   const visible = { visible: { not_equals: false } }
+  // an Arabic field that is still empty falls back to the English text
+  const l = { locale, fallbackLocale: DEFAULT_LOCALE } as const
   const [site, tools, areas, certificates, experiences, reels, clinics] = await Promise.all([
-    payload.findGlobal({ slug: 'site', depth: 1 }),
-    payload.find({ collection: 'tools', where: visible, sort: 'order', limit: 50, depth: 1 }),
-    payload.find({ collection: 'body-areas', sort: 'order', limit: 20, depth: 1 }),
-    payload.find({ collection: 'certificates', where: visible, sort: 'order', limit: 100, depth: 0 }),
-    payload.find({ collection: 'experiences', where: visible, sort: 'order', limit: 50, depth: 1 }),
-    payload.find({ collection: 'reels', where: visible, sort: 'order', limit: 50, depth: 1 }),
-    payload.find({ collection: 'clinics', where: visible, sort: 'order', limit: 10, depth: 0 }),
+    payload.findGlobal({ slug: 'site', depth: 1, ...l }),
+    payload.find({ collection: 'tools', where: visible, sort: 'order', limit: 50, depth: 1, ...l }),
+    payload.find({ collection: 'body-areas', sort: 'order', limit: 20, depth: 1, ...l }),
+    payload.find({ collection: 'certificates', where: visible, sort: 'order', limit: 100, depth: 0, ...l }),
+    payload.find({ collection: 'experiences', where: visible, sort: 'order', limit: 50, depth: 1, ...l }),
+    payload.find({ collection: 'reels', where: visible, sort: 'order', limit: 50, depth: 1, ...l }),
+    payload.find({ collection: 'clinics', where: visible, sort: 'order', limit: 10, depth: 0, ...l }),
   ])
 
   return {
+    locale,
     site: {
       name: site.name,
       fullName: site.fullName || site.name,
@@ -32,14 +36,14 @@ export async function getSiteData() {
       heroLines: (site.heroLines || '').split('\n').filter(Boolean),
       logoOnDark: img(site.logoOnDark),
       logoOnLight: img(site.logoOnLight),
-      aboutHeading: site.aboutHeading || 'Who is Dr. Elhallaj?',
+      aboutHeading: site.aboutHeading || '',
       storyLines: (site.storyLines || []).map((l) => l.text),
       years: site.years ?? 18,
-      yearsLabel: site.yearsLabel || 'Years of experience',
+      yearsLabel: site.yearsLabel || '',
       aboutText: site.aboutText || '',
       clinicName: site.clinicName || '',
       clinicNameArabic: site.clinicNameArabic || '',
-      clinicRole: site.clinicRole || 'Co-founder',
+      clinicRole: site.clinicRole || '',
       clinicLogo: img(site.clinicLogo),
       clinicInstagram: site.clinicInstagram || '',
       contactHeading: site.contactHeading || '',

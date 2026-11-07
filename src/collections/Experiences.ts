@@ -8,9 +8,9 @@ export const Experiences: CollectionConfig = {
   access: { read: () => true },
   defaultSort: 'order',
   fields: [
-    { name: 'place', type: 'text', required: true },
-    { name: 'role', type: 'text', required: true },
-    { name: 'years', type: 'text', required: true, admin: { description: 'e.g. "2013 to 2014" or "2011 to now".' } },
+    { name: 'place', localized: true, type: 'text', required: true },
+    { name: 'role', localized: true, type: 'text', required: true },
+    { name: 'years', localized: true, type: 'text', required: true, admin: { description: 'e.g. "2013 to 2014" or "2011 to now".' } },
     { name: 'current', type: 'checkbox', defaultValue: false, admin: { description: 'Highlights the station in orange.' } },
     { name: 'logo', type: 'upload', relationTo: 'media' },
     orderField,

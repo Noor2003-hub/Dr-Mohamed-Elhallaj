@@ -8,7 +8,7 @@ export const BodyAreas: CollectionConfig = {
   access: { read: () => true },
   defaultSort: 'order',
   fields: [
-    { name: 'name', type: 'text', required: true, admin: { description: 'Shown on the button and the card.' } },
+    { name: 'name', localized: true, type: 'text', required: true, admin: { description: 'Shown on the button and the card.' } },
     {
       name: 'key',
       type: 'select',

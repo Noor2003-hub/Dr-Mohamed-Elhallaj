@@ -469,6 +469,7 @@ button {
   min-width: 2.2ch;
 }
 .years__label {
+  margin-inline-start: 0.6em; /* breathing room after the big number */
   font-family: var(--head);
   font-weight: 700;
   font-size: 26px;
@@ -760,90 +761,22 @@ button {
   min-height: 5.5em;
 }
 
-/* ============ Grainient ============ */
-.grain-bg {
+/* ============ Section gradient (WebGL shader) ============ */
+.reels,
+.edu {
+  background: #eef2f0; /* shows before the shader starts or without WebGL2 */
+  overflow: hidden;
+}
+.sec-gradient {
   position: absolute;
   inset: 0;
-  overflow: hidden;
-  background: #e8f0f1;
   z-index: 0;
   pointer-events: none;
 }
-.blob {
-  position: absolute;
-  border-radius: 50%;
-  filter: blur(60px);
-}
-.b1 {
-  width: 75%;
-  height: 50%;
-  left: -18%;
-  top: 38%;
-  background: #24687c;
-  opacity: 0.7;
-  transform: rotate(-28deg);
-  animation: w1 24s ease-in-out infinite alternate;
-}
-.b2 {
-  width: 60%;
-  height: 65%;
-  right: -18%;
-  top: -22%;
-  background: #8fcfe0;
-  opacity: 0.7;
-  animation: w2 28s ease-in-out infinite alternate;
-}
-.b3 {
-  width: 55%;
-  height: 45%;
-  left: 32%;
-  bottom: -22%;
-  background: #bfe3ec;
-  opacity: 0.9;
-  animation: w3 32s ease-in-out infinite alternate;
-}
-.b4 {
-  width: 40%;
-  height: 40%;
-  right: 5%;
-  top: 40%;
-  background: #f4f1ea;
-  opacity: 0.8;
-  animation: w2 36s ease-in-out infinite alternate-reverse;
-}
-.grain-bg--b .b1 {
-  left: auto;
-  right: -20%;
-  top: 10%;
-  background: #f26b3a;
-  opacity: 0.18;
-}
-.grain-bg--b .b2 {
-  right: auto;
-  left: -10%;
-}
-@keyframes w1 {
-  to {
-    transform: rotate(-12deg) translate(14%, -12%) scale(1.15);
-  }
-}
-@keyframes w2 {
-  to {
-    transform: translate(-18%, 16%) scale(0.9);
-  }
-}
-@keyframes w3 {
-  to {
-    transform: translate(-22%, -14%) rotate(18deg) scale(1.1);
-  }
-}
-.grain {
-  position: absolute;
-  inset: 0;
+.sec-gradient__canvas {
   width: 100%;
   height: 100%;
-  opacity: 0.45;
-  mix-blend-mode: multiply;
+  overflow: hidden;
 }
 
 /* ============ Reels ============ */
@@ -852,16 +785,69 @@ button {
   gap: 8px;
   flex-wrap: wrap;
 }
-.reels__grid {
+.reels__controls {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  flex-wrap: wrap;
+}
+.reels__arrows {
+  display: flex;
+  gap: 8px;
+}
+.reels__arrow {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-  gap: 28px 22px;
+  place-items: center;
+  border: 1.5px solid var(--navy);
+  background: rgba(255, 255, 255, 0.55);
+  color: var(--navy);
+  cursor: pointer;
+  transition: background 0.25s, color 0.25s, opacity 0.25s;
+}
+.reels__arrow:hover:not(:disabled) {
+  background: var(--navy);
+  color: #fff;
+}
+.reels__arrow:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+/* carousel: starts in line with the heading, runs off the right edge */
+.reels__track {
+  --edge: max(var(--pad), calc((100vw - var(--wrap)) / 2));
+  position: relative;
+  z-index: 1;
+  display: flex;
+  gap: 22px;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x mandatory;
+  scroll-padding-inline: var(--edge);
+  padding: 10px var(--edge) 20px;
+  scrollbar-width: none;
+  cursor: grab;
+}
+.reels__track::-webkit-scrollbar {
+  display: none;
+}
+.reels__track.is-dragging {
+  cursor: grabbing;
+  scroll-snap-type: none;
+}
+.reels__track.is-dragging .reel {
+  pointer-events: none;
 }
 .reel {
+  flex: 0 0 clamp(200px, 22vw, 260px);
+  scroll-snap-align: start;
   display: flex;
   flex-direction: column;
   gap: 12px;
   text-decoration: none;
+  user-select: none;
 }
 .reel__frame {
   position: relative;
@@ -1349,13 +1335,6 @@ button {
   width: 2px;
   height: 34px;
 }
-.map3d__credit {
-  position: absolute;
-  right: 16px;
-  bottom: 70px;
-  font-size: 11px;
-  color: var(--muted);
-}
 .clinics__cards {
   position: relative;
   z-index: 2;
@@ -1464,8 +1443,8 @@ button {
 }
 .footer__top {
   display: flex;
-  justify-content: space-between;
-  gap: 40px;
+  justify-content: flex-start;
+  gap: 40px 120px; /* links sit near the logo, not pushed to the far side */
   flex-wrap: wrap;
 }
 .footer__brand {
@@ -1636,7 +1615,6 @@ button {
   }
 }
 @media (prefers-reduced-motion: reduce) {
-  .blob,
   .spin,
   .story__hint-dot {
     animation: none;
@@ -1645,4 +1623,105 @@ button {
   .tape {
     animation-duration: 0.01s;
   }
+}
+
+/* ============ Language switch ============ */
+.site-header__nav a.lang-switch {
+  display: inline-flex;
+  align-items: center;
+  padding: 7px 14px;
+  border: 1.5px solid rgba(238, 242, 240, 0.45);
+  border-radius: 999px;
+  font-weight: 600;
+  opacity: 1;
+  text-decoration: none;
+}
+.site-header__nav a.lang-switch:hover {
+  border-color: var(--cyan);
+  color: var(--cyan);
+}
+.lang-switch:lang(ar) {
+  font-family: var(--font-body-ar), system-ui, sans-serif;
+}
+.lang-switch:lang(en) {
+  font-family: var(--font-body), 'Archivo', system-ui, sans-serif;
+}
+
+/* ============ Arabic (right to left) ============ */
+:root[lang='ar'] {
+  --head: var(--font-head-ar), 'Cairo', system-ui, sans-serif;
+  --body: var(--font-body-ar), 'IBM Plex Sans Arabic', system-ui, sans-serif;
+}
+/* letter-spacing breaks the joins between Arabic letters */
+[lang='ar'] body * {
+  letter-spacing: 0 !important;
+}
+[lang='ar'] .h-display,
+[lang='ar'] .h-section,
+[lang='ar'] .story__name {
+  line-height: 1.25;
+}
+[dir='rtl'] .site-header {
+  padding: 10px 28px 10px 14px;
+}
+[dir='rtl'] .story__hint {
+  right: auto;
+  left: 24px;
+}
+[dir='rtl'] .bodymap__ribbon {
+  right: auto;
+  left: -36px;
+  transform: rotate(-30deg);
+}
+/* the hero photo is mirrored so the knee sits on the left, away from the Arabic text */
+[dir='rtl'] .story__canvas {
+  scale: -1 1;
+}
+[dir='rtl'] .story__shade {
+  background: linear-gradient(to left, rgba(3, 45, 59, 0.92) 0%, rgba(3, 45, 59, 0.72) 40%, rgba(3, 45, 59, 0) 66%);
+}
+/* track runs right to left: the walkers face left and the progress fills from the right */
+[dir='rtl'] .track__rail {
+  padding-left: 0;
+  padding-right: 40px;
+}
+[dir='rtl'] .track__fig {
+  scale: -1 1;
+}
+[dir='rtl'] .track__lane-fill {
+  left: auto;
+  right: 0;
+  background: linear-gradient(270deg, rgba(43, 179, 214, 0) 0%, rgba(43, 179, 214, 0.55) 100%);
+}
+/* the Arabic clinic name is longer: smaller so it fits on one line */
+[lang='ar'] .clinics__title .h-display {
+  font-size: clamp(34px, 4vw, 58px);
+}
+@media (min-width: 900px) {
+  [lang='ar'] .clinics__title .h-display {
+    white-space: nowrap;
+  }
+}
+[dir='rtl'] .tools__index li i {
+  margin-left: 0;
+  margin-right: auto;
+}
+[dir='rtl'] .reel__tag,
+[dir='rtl'] .reel__views {
+  left: auto;
+  right: 10px;
+}
+[dir='rtl'] .reel__tag {
+  transform: rotate(6deg);
+}
+[dir='rtl'] .reels__arrow svg {
+  transform: scaleX(-1);
+}
+[dir='rtl'] .edu__line {
+  left: 0;
+  right: 60px;
+}
+/* stations sit in the left-to-right rail; keep their text right-aligned in Arabic */
+[dir='rtl'] .station {
+  text-align: right;
 }

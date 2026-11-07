@@ -2,9 +2,10 @@
 import { useEffect, useRef, useState } from 'react'
 import { gsap, ScrollTrigger, prefersReducedMotion } from '@/lib/gsap'
 import type { SiteData } from '@/lib/data'
+import type { Dict } from '@/lib/i18n'
 
 /** Stacked cards: the section pins and each scroll step slides the next tool card over the last. */
-export default function Tools({ heading, tools }: { heading: string; tools: SiteData['tools'] }) {
+export default function Tools({ heading, tools, t: dict }: { heading: string; tools: SiteData['tools']; t: Dict }) {
   const section = useRef<HTMLElement>(null)
   const stack = useRef<HTMLDivElement>(null)
   const [active, setActive] = useState(0)
@@ -17,7 +18,12 @@ export default function Tools({ heading, tools }: { heading: string; tools: Site
     const mm = gsap.matchMedia()
     mm.add('(min-width: 900px)', () => {
       gsap.set(cards.slice(1), { yPercent: 115 })
-      const tl = gsap.timeline({ defaults: { ease: 'none' } })
+      // Text switches only once the incoming card is fully in place. Read the timeline's own
+      // progress (not the scroll's) so the scrub lag is respected.
+      const tl = gsap.timeline({
+        defaults: { ease: 'none' },
+        onUpdate: () => setActive(Math.min(n - 1, Math.floor(tl.progress() * (n - 1) + 0.01))),
+      })
       for (let i = 1; i < n; i++) {
         tl.to(cards[i], { yPercent: 0, duration: 1 }, i - 1)
         for (let j = 0; j < i; j++) {
@@ -27,7 +33,6 @@ export default function Tools({ heading, tools }: { heading: string; tools: Site
             {
               y: -Math.min(depth, 3) * 26,
               scale: 1 - Math.min(depth, 3) * 0.045,
-              filter: `brightness(${1 - Math.min(depth, 3) * 0.22})`,
               duration: 1,
             },
             i - 1,
@@ -42,7 +47,6 @@ export default function Tools({ heading, tools }: { heading: string; tools: Site
         scrub: 0.6,
         animation: tl,
         snap: { snapTo: 1 / (n - 1), duration: { min: 0.15, max: 0.4 }, ease: 'power1.inOut' },
-        onUpdate: (self) => setActive(Math.min(n - 1, Math.round(self.progress * (n - 1)))),
       })
       return () => st.kill()
     })
@@ -54,9 +58,11 @@ export default function Tools({ heading, tools }: { heading: string; tools: Site
     <section id="tools" ref={section} className="tools sec sec--dark">
       <div className="wrap tools__grid">
         <div className="tools__left">
-          <span className="eyebrow">Tools in the clinic</span>
+          <span className="eyebrow">{dict.tools.eyebrow}</span>
           <h2 className="h-section">
-            {heading.replace(/\s*with\.?$/i, '')} <span className="accent">with.</span>
+            {/* last word in the accent colour: "What he treats with." */}
+            {heading.slice(0, heading.trimEnd().lastIndexOf(' ') + 1)}
+            <span className="accent">{heading.trimEnd().slice(heading.trimEnd().lastIndexOf(' ') + 1)}</span>
           </h2>
           <ol className="tools__index">
             {tools.map((x, i) => (

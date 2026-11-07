@@ -9,9 +9,10 @@ export const Reels: CollectionConfig = {
   defaultSort: 'order',
   fields: [
     { name: 'url', type: 'text', required: true, admin: { description: 'Paste the Instagram reel link.' } },
-    { name: 'title', type: 'text', required: true },
+    { name: 'title', localized: true, type: 'text', required: true },
     {
       name: 'direction',
+      localized: true,
       type: 'select',
       defaultValue: 'ltr',
       options: [
@@ -20,7 +21,7 @@ export const Reels: CollectionConfig = {
       ],
     },
     { name: 'views', type: 'text', admin: { description: 'e.g. "129M" or "739K".' } },
-    { name: 'tag', type: 'text', admin: { description: 'Filter chip, e.g. "Knee", "Ankle", "Posture".' } },
+    { name: 'tag', localized: true, type: 'text', admin: { description: 'Filter chip, e.g. "Knee", "Ankle", "Posture".' } },
     { name: 'cover', type: 'upload', relationTo: 'media' },
     orderField,
     visibleField,

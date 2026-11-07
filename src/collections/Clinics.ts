@@ -8,7 +8,7 @@ export const Clinics: CollectionConfig = {
   access: { read: () => true },
   defaultSort: 'order',
   fields: [
-    { name: 'name', type: 'text', required: true, admin: { description: 'Area name, e.g. "Smouha".' } },
+    { name: 'name', localized: true, type: 'text', required: true, admin: { description: 'Area name, e.g. "Smouha".' } },
     {
       name: 'mapArea',
       type: 'select',
@@ -27,13 +27,13 @@ export const Clinics: CollectionConfig = {
         { label: 'Cyan', value: 'cyan' },
       ],
     },
-    { name: 'address', type: 'textarea', required: true },
+    { name: 'address', localized: true, type: 'textarea', required: true },
     {
       name: 'phones',
       type: 'array',
       fields: [{ name: 'number', type: 'text', required: true }],
     },
-    { name: 'hours', type: 'text', defaultValue: 'Open 12 pm – 8 pm' },
+    { name: 'hours', localized: true, type: 'text', defaultValue: 'Open 12 pm – 8 pm' },
     { name: 'mapsUrl', type: 'text', admin: { description: 'Google Maps link for "Get directions".' } },
     orderField,
     visibleField,

@@ -4,6 +4,7 @@ import { gsap, prefersReducedMotion } from '@/lib/gsap'
 import geo from '@/lib/mapgeo.json'
 import type { SiteData } from '@/lib/data'
 import { telLink } from '@/lib/links'
+import type { Dict, Locale } from '@/lib/i18n'
 
 const LAYERS = 12 // slices that build each raised area
 const COLORS = {
@@ -18,7 +19,17 @@ const AREAS = geo.areas as Record<string, Area>
  * The flat map image lies on a plane that tilts back while you scroll,
  * then each branch area rises out of it, one after the other.
  */
-export default function Clinics({ site, clinics }: { site: SiteData['site']; clinics: SiteData['clinics'] }) {
+export default function Clinics({
+  site,
+  clinics,
+  lang,
+  t,
+}: {
+  site: SiteData['site']
+  clinics: SiteData['clinics']
+  lang: Locale
+  t: Dict
+}) {
   const section = useRef<HTMLElement>(null)
   const plane = useRef<HTMLDivElement>(null)
   const seal = useRef<SVGSVGElement>(null)
@@ -95,23 +106,24 @@ export default function Clinics({ site, clinics }: { site: SiteData['site']; cli
           <h2 className="h-display" data-reveal>
             {words[0]} <span className="accent-teal">{words.slice(1).join(' ')}</span>
           </h2>
-          {site.clinicNameArabic && (
+          {/* on the Arabic page the main name is already Arabic */}
+          {lang !== 'ar' && site.clinicNameArabic && (
             <p className="clinics__ar" dir="rtl" lang="ar" data-reveal>
               {site.clinicNameArabic}
             </p>
           )}
           {site.clinicInstagram && (
             <a className="link" href={site.clinicInstagram} target="_blank" rel="noreferrer" data-reveal>
-              Follow the clinic on Instagram →
+              {t.clinics.followClinic}
             </a>
           )}
         </div>
       </div>
 
-      <div className="map3d" aria-label="Map of eastern Alexandria with both branches">
+      <div className="map3d" dir="ltr" aria-label={t.clinics.map}>
         <div ref={plane} className="map3d__plane" style={{ aspectRatio: `${geo.width} / ${geo.height}` }}>
           <img className="map3d__img" src="/map/alexandria-east.jpg" alt="" />
-          <span className="map3d__sea">Mediterranean Sea</span>
+          <span className="map3d__sea">{t.clinics.sea}</span>
           {clinics.map((c, ci) => {
             const a = c.area ? AREAS[c.area] : null
             if (!a) return null
@@ -154,7 +166,6 @@ export default function Clinics({ site, clinics }: { site: SiteData['site']; cli
             </div>
           )
         })}
-        <span className="map3d__credit">© OpenStreetMap contributors</span>
       </div>
 
       <div className="wrap clinics__cards">
@@ -185,7 +196,7 @@ export default function Clinics({ site, clinics }: { site: SiteData['site']; cli
                   target="_blank"
                   rel="noreferrer"
                 >
-                  Get directions →
+                  {t.clinics.directions}
                 </a>
               </div>
             </article>

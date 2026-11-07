@@ -1,6 +1,7 @@
 'use client'
 import { useState } from 'react'
 import type { SiteData } from '@/lib/data'
+import type { Dict } from '@/lib/i18n'
 
 /**
  * Tape strips drawn on the 338×600 body photos (public/img/body).
@@ -37,24 +38,30 @@ const TAPES: Record<string, Strip[]> = {
   ],
   kids: [],
 }
-// Where each button sits around the body
-const PINS: Record<string, { l: number; t: number }> = {
+// Where each button sits around the body (px on the 338px photo).
+// l = left edge of the button; r = right edge, for buttons left of the body,
+// so they end next to it whatever the label length (English or Arabic).
+type Pin = { l: number; t: number } | { r: number; t: number }
+const PINS: Record<string, Pin> = {
   neck: { l: 214, t: 84 },
-  shoulder: { l: -70, t: 120 },
+  shoulder: { r: 96, t: 120 },
   back: { l: 222, t: 164 },
   si: { l: 226, t: 224 },
-  knee: { l: -44, t: 404 },
+  knee: { r: 104, t: 404 },
   ankle: { l: 196, t: 500 },
 }
+const pinStyle = (p: Pin) => ('r' in p ? { right: `calc(100% - ${p.r}px)`, top: p.t } : { left: p.l, top: p.t })
 
 export default function BodyMap({
   heading,
   intro,
   areas,
+  t,
 }: {
   heading: string
   intro: string
   areas: SiteData['areas']
+  t: Dict
 }) {
   const start = areas.find((a) => a.key === 'knee') || areas[0]
   const [key, setKey] = useState(start?.key)
@@ -71,9 +78,9 @@ export default function BodyMap({
           <p className="sec-head__intro">{intro}</p>
         </div>
         <div className="bodymap__grid">
-          <div className="bodymap__figure" data-reveal>
-            <img className={`bodymap__img ${view === 'back' ? 'is-on' : ''}`} src="/img/body/back.jpg" alt="Patient seen from the back" />
-            <img className={`bodymap__img ${view === 'front' ? 'is-on' : ''}`} src="/img/body/front.jpg" alt="Patient seen from the front" />
+          <div className="bodymap__figure" dir="ltr" data-reveal>
+            <img className={`bodymap__img ${view === 'back' ? 'is-on' : ''}`} src="/img/body/back.jpg" alt={t.body.back} />
+            <img className={`bodymap__img ${view === 'front' ? 'is-on' : ''}`} src="/img/body/front.jpg" alt={t.body.front} />
             <div key={key} className={`bodymap__tapes ${key === 'kids' ? 'is-kids' : ''}`} aria-hidden="true">
               {(TAPES[key || ''] || []).map((s, i) => (
                 <span
@@ -99,7 +106,7 @@ export default function BodyMap({
                   type="button"
                   className="chip chip--pin"
                   aria-pressed={a.key === key}
-                  style={{ left: PINS[a.key].l, top: PINS[a.key].t }}
+                  style={pinStyle(PINS[a.key])}
                   onClick={() => setKey(a.key)}
                 >
                   {a.name}
@@ -109,7 +116,7 @@ export default function BodyMap({
 
           <div className="bodymap__card" data-reveal>
             <span className="bodymap__ribbon" aria-hidden="true" />
-            <span className="bodymap__label">Selected area</span>
+            <span className="bodymap__label">{t.body.selected}</span>
             <h3 key={`h${key}`} className="bodymap__title anim-in">{area.name}</h3>
             <ul key={`l${key}`} className="bodymap__list">
               {area.certificates.map((c, i) => (
@@ -117,7 +124,7 @@ export default function BodyMap({
                   <span className="bodymap__row">
                     <strong>
                       {c.title}
-                      {c.inProgress ? ' (in progress)' : ''}
+                      {c.inProgress ? t.body.inProgress : ''}
                     </strong>
                     <span className="muted">{c.issuer}</span>
                   </span>
@@ -129,9 +136,9 @@ export default function BodyMap({
         </div>
         {kids && (
           <div className="bodymap__kids" data-reveal>
-            <span className="muted">For children:</span>
+            <span className="muted">{t.body.forChildren}</span>
             <button type="button" className="chip" aria-pressed={key === 'kids'} onClick={() => setKey('kids')}>
-              Whole-body pediatric rehab
+              {t.body.kids}
             </button>
           </div>
         )}

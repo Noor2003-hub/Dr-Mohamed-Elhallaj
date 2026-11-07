@@ -2,16 +2,18 @@
 import { useEffect, useRef } from 'react'
 import { gsap, ScrollTrigger, prefersReducedMotion } from '@/lib/gsap'
 import type { SiteData } from '@/lib/data'
+import type { Dict } from '@/lib/i18n'
 
 /** Recovery stages drawn above the track, left to right. Files are in public/img/track. */
+/** Alt texts are in i18n.ts (track.figures), in the same order. */
 const FIGURES = [
-  { src: '/img/track/t1.png', alt: 'The doctor pushing the patient in a wheelchair', h: 290 },
-  { src: '/img/track/t2.png', alt: 'The patient walking on two crutches beside the doctor', h: 290 },
-  { src: '/img/track/t3.png', alt: 'The patient walking with one crutch, the doctor talking to him', h: 290 },
-  { src: '/img/track/t4.png', alt: 'The patient walking on his own with kinesio tape, the doctor just behind', h: 290 },
-  { src: '/img/track/t5.png', alt: 'The doctor watching proudly as the patient walks ahead', h: 290 },
-  { src: '/img/track/t6.png', alt: 'The patient running', h: 262 },
-  { src: '/img/track/t7.png', alt: 'The patient kicking a football', h: 226 },
+  { src: '/img/track/t1.png', h: 290 },
+  { src: '/img/track/t2.png', h: 290 },
+  { src: '/img/track/t3.png', h: 290 },
+  { src: '/img/track/t4.png', h: 290 },
+  { src: '/img/track/t5.png', h: 290 },
+  { src: '/img/track/t6.png', h: 262 },
+  { src: '/img/track/t7.png', h: 226 },
 ]
 const STEP = 290 // px between stations
 const FIRST = 240
@@ -20,22 +22,33 @@ export default function Track({
   heading,
   intro,
   stations,
+  t,
+  rtl = false,
 }: {
   heading: string
   intro: string
   stations: SiteData['experiences']
+  t: Dict
+  /** Arabic: the track runs from right to left */
+  rtl?: boolean
 }) {
   const section = useRef<HTMLElement>(null)
   const rail = useRef<HTMLDivElement>(null)
   const width = FIRST + stations.length * STEP + 260
 
   useEffect(() => {
+    // small screens scroll the track by hand: in Arabic start at its right end
+    const vp = rail.current?.parentElement
+    if (rtl && vp) vp.scrollLeft = vp.scrollWidth
     if (prefersReducedMotion()) return
     const mm = gsap.matchMedia()
     mm.add('(min-width: 900px)', () => {
       const r = rail.current!
       const distance = () => r.scrollWidth - window.innerWidth + 40
-      const move = gsap.to(r, { x: () => -distance(), ease: 'none' })
+      // English moves the rail left; Arabic starts at its right end and moves it right
+      const move = rtl
+        ? gsap.fromTo(r, { x: () => -distance() }, { x: 0, ease: 'none' })
+        : gsap.to(r, { x: () => -distance(), ease: 'none' })
       const st = ScrollTrigger.create({
         trigger: section.current,
         start: 'top top',
@@ -47,9 +60,11 @@ export default function Track({
         onUpdate: (self) => {
           r.style.setProperty('--progress', String(self.progress))
           // light up the stations the viewer has passed
-          const passed = -Number(gsap.getProperty(r, 'x')) + window.innerWidth * 0.62
+          const x = Number(gsap.getProperty(r, 'x'))
+          const w = window.innerWidth
           r.querySelectorAll<HTMLElement>('.station').forEach((s) => {
-            s.classList.toggle('is-lit', s.offsetLeft < passed)
+            const lit = rtl ? x + s.offsetLeft + s.offsetWidth > w * 0.38 : x + s.offsetLeft < w * 0.62
+            s.classList.toggle('is-lit', lit)
           })
         },
       })
@@ -61,7 +76,13 @@ export default function Track({
           y: 40,
           scale: 0.92,
           ease: 'power2.out',
-          scrollTrigger: { trigger: f, containerAnimation: move, start: 'left 92%', end: 'left 60%', scrub: true },
+          scrollTrigger: {
+            trigger: f,
+            containerAnimation: move,
+            start: rtl ? 'right 8%' : 'left 92%',
+            end: rtl ? 'right 40%' : 'left 60%',
+            scrub: true,
+          },
         }),
       )
       return () => {
@@ -70,23 +91,23 @@ export default function Track({
       }
     })
     return () => mm.revert()
-  }, [stations.length])
+  }, [stations.length, rtl])
 
   return (
-    <section id="track" ref={section} className="track sec--dark" aria-label="Experience">
+    <section id="track" ref={section} className="track sec--dark" aria-label={t.track.label}>
       <div className="wrap track__head" data-reveal>
         <h2 className="h-section">{heading}</h2>
         <p className="sec-head__intro on-dark">{intro}</p>
       </div>
-      <div className="track__viewport">
+      <div className="track__viewport" dir="ltr">
         <div ref={rail} className="track__rail" style={{ width }}>
           {FIGURES.map((f, i) => (
             <img
               key={f.src}
               className="track__fig"
               src={f.src}
-              alt={f.alt}
-              style={{ left: 150 + (i * (width - 520)) / (FIGURES.length - 1), height: f.h, top: 300 - f.h }}
+              alt={t.track.figures[i] || ''}
+              style={{ [rtl ? 'right' : 'left']: 150 + (i * (width - 520)) / (FIGURES.length - 1), height: f.h, top: 300 - f.h }}
             />
           ))}
           <div className="track__lane" aria-hidden="true">
@@ -97,11 +118,12 @@ export default function Track({
               <li
                 key={s.id}
                 className={`station ${s.current ? 'is-current' : ''}`}
-                style={{ left: FIRST + i * STEP }}
+                style={{ [rtl ? 'right' : 'left']: FIRST + i * STEP }}
+                dir="auto"
               >
                 <span className={`station__step ${i % 2 ? 'is-low' : ''} ${i >= stations.length - 3 ? 'is-boot' : ''}`} aria-hidden="true" />
                 <span className="station__logo">
-                  {s.logo ? <img src={s.logo.url} alt={s.logo.alt} /> : <em>Logo</em>}
+                  {s.logo ? <img src={s.logo.url} alt={s.logo.alt} /> : <em>{t.track.logo}</em>}
                 </span>
                 <span className="station__years">{s.years}</span>
                 <strong className="station__place">{s.place}</strong>

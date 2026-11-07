@@ -1,21 +1,24 @@
-import Grainient from './Grainient'
+import SectionGradient from './SectionGradient'
 import type { SiteData } from '@/lib/data'
+import type { Dict } from '@/lib/i18n'
 
 export default function Education({
   heading,
   degreesNote,
   certificates,
+  t,
 }: {
   heading: string
   degreesNote: string
   certificates: SiteData['certificates']
+  t: Dict
 }) {
   const degrees = certificates.filter((c) => c.type === 'degree')
   const diplomas = certificates.filter((c) => c.type === 'diploma')
   const courses = certificates.filter((c) => c.type === 'course')
   return (
     <section id="education" className="edu sec">
-      <Grainient variant="b" />
+      <SectionGradient />
       <div className="wrap rel">
         <h2 className="h-section edu__h" data-reveal>{heading}</h2>
 
@@ -38,11 +41,11 @@ export default function Education({
 
         {diplomas.length > 0 && (
           <>
-            <span className="eyebrow eyebrow--ink" data-reveal>Diplomas</span>
+            <span className="eyebrow eyebrow--ink" data-reveal>{t.edu.diplomas}</span>
             <div className="edu__diplomas">
               {diplomas.map((d) => (
                 <div key={d.id} className={`edu__diploma ${d.inProgress ? 'is-progress' : ''}`} data-reveal>
-                  {d.inProgress ? <span className="badge">● In progress</span> : d.note && <span className="edu__note">{d.note}</span>}
+                  {d.inProgress ? <span className="badge">{t.edu.inProgress}</span> : d.note && <span className="edu__note">{d.note}</span>}
                   <strong>{d.title}</strong>
                   <span className="muted">{d.issuer}</span>
                 </div>
@@ -53,7 +56,7 @@ export default function Education({
 
         {courses.length > 0 && (
           <>
-            <span className="eyebrow eyebrow--ink" data-reveal>Further training</span>
+            <span className="eyebrow eyebrow--ink" data-reveal>{t.edu.further}</span>
             <ul className="edu__courses">
               {courses.map((c) => (
                 <li key={c.id} data-reveal>

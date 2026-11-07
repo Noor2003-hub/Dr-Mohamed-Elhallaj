@@ -1,4 +1,6 @@
+import { notFound } from 'next/navigation'
 import { getSiteData } from '@/lib/data'
+import { getDict, isLocale } from '@/lib/i18n'
 import SmoothScroll from '@/components/SmoothScroll'
 import Header from '@/components/Header'
 import Story from '@/components/Story'
@@ -13,23 +15,33 @@ import Footer from '@/components/Footer'
 
 export const dynamic = 'force-dynamic'
 
-export default async function HomePage() {
-  const data = await getSiteData()
+export default async function HomePage({ params }: PageProps<'/[lang]'>) {
+  const { lang } = await params
+  if (!isLocale(lang)) notFound()
+  const t = getDict(lang)
+  const data = await getSiteData(lang)
   const { site } = data
   return (
     <SmoothScroll>
-      <Header logo={site.logoOnDark} whatsapp={site.whatsapp} />
+      <Header logo={site.logoOnDark} whatsapp={site.whatsapp} lang={lang} t={t} />
       <main>
-        <Story site={site} />
-        <BodyMap heading={site.mapHeading} intro={site.mapIntro} areas={data.areas} />
-        {data.tools.length > 0 && <Tools heading={site.toolsHeading} tools={data.tools} />}
-        <Reels heading={site.reelsHeading} intro={site.reelsIntro} reels={data.reels} instagram={site.instagram} followers={site.instagramFollowers} />
-        <Track heading={site.trackHeading} intro={site.trackIntro} stations={data.experiences} />
-        <Education heading={site.educationHeading} degreesNote={site.degreesNote} certificates={data.certificates} />
-        {data.clinics.length > 0 && <Clinics site={site} clinics={data.clinics} />}
-        <Contact site={site} />
+        <Story site={site} t={t} />
+        <BodyMap heading={site.mapHeading} intro={site.mapIntro} areas={data.areas} t={t} />
+        {data.tools.length > 0 && <Tools heading={site.toolsHeading} tools={data.tools} t={t} />}
+        <Reels
+          heading={site.reelsHeading}
+          intro={site.reelsIntro}
+          reels={data.reels}
+          instagram={site.instagram}
+          followers={site.instagramFollowers}
+          t={t}
+        />
+        <Track heading={site.trackHeading} intro={site.trackIntro} stations={data.experiences} t={t} rtl={lang === 'ar'} />
+        <Education heading={site.educationHeading} degreesNote={site.degreesNote} certificates={data.certificates} t={t} />
+        {data.clinics.length > 0 && <Clinics site={site} clinics={data.clinics} lang={lang} t={t} />}
+        <Contact site={site} t={t} />
       </main>
-      <Footer site={site} />
+      <Footer site={site} t={t} />
     </SmoothScroll>
   )
 }

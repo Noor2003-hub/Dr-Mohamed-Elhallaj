@@ -2,8 +2,9 @@
 import { useEffect, useRef } from 'react'
 import type { Img } from '@/lib/data'
 import { waLink } from '@/lib/links'
+import { homePath, type Dict, type Locale } from '@/lib/i18n'
 
-export default function Header({ logo, whatsapp }: { logo: Img; whatsapp: string }) {
+export default function Header({ logo, whatsapp, lang, t }: { logo: Img; whatsapp: string; lang: Locale; t: Dict }) {
   const ref = useRef<HTMLElement>(null)
   useEffect(() => {
     let last = 0
@@ -18,19 +19,30 @@ export default function Header({ logo, whatsapp }: { logo: Img; whatsapp: string
     window.addEventListener('scroll', onScroll, { passive: true })
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
+  const other: Locale = lang === 'ar' ? 'en' : 'ar'
   return (
     <header ref={ref} className="site-header">
-      <a href="#top" className="site-header__logo" aria-label="Back to top">
-        {logo ? <img src={logo.url} alt={logo.alt} /> : <strong>Dr. Elhallaj</strong>}
+      <a href="#top" className="site-header__logo" aria-label={t.nav.backToTop}>
+        {logo ? <img src={logo.url} alt={logo.alt} /> : <strong>{t.nav.brand}</strong>}
       </a>
-      <nav aria-label="Main" className="site-header__nav">
-        <a href="#about">About</a>
-        <a href="#map">What I treat</a>
-        <a href="#reels">Reels</a>
-        <a href="#track">Experience</a>
-        <a href="#clinics">Clinics</a>
+      <nav aria-label={t.nav.main} className="site-header__nav">
+        <a href="#about">{t.nav.about}</a>
+        <a href="#map">{t.nav.treat}</a>
+        <a href="#reels">{t.nav.reels}</a>
+        <a href="#track">{t.nav.experience}</a>
+        <a href="#clinics">{t.nav.clinics}</a>
+        <a
+          className="lang-switch"
+          href={homePath(other)}
+          hrefLang={other}
+          lang={other}
+          aria-label={t.nav.switchLabel}
+          title={t.nav.switchLabel}
+        >
+          {t.nav.switchTo}
+        </a>
         <a className="btn btn--cyan btn--sm" href={waLink(whatsapp)} target="_blank" rel="noreferrer">
-          Book on WhatsApp
+          {t.nav.book}
         </a>
       </nav>
     </header>

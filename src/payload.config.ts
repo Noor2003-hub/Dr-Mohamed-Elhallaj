@@ -26,6 +26,15 @@ export default buildConfig({
   },
   collections: [Tools, BodyAreas, Certificates, Experiences, Reels, Clinics, Media, Users],
   globals: [Site],
+  localization: {
+    locales: [
+      { label: 'English', code: 'en' },
+      { label: 'العربية', code: 'ar', rtl: true },
+    ],
+    defaultLocale: 'en',
+    // an Arabic field left empty shows the English text instead of nothing
+    fallback: true,
+  },
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || '',
   typescript: { outputFile: path.resolve(dirname, 'payload-types.ts') },

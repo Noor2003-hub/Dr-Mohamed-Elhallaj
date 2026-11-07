@@ -3,7 +3,10 @@
 # Project brief — Dr. Mohamed Elhallaj website
 
 - **Owner:** Noor builds this for Dr. Mohamed Abdellatif Elhallaj, a physiotherapist and co-founder of Experts Physio House (Alexandria).
-- **Language:** reply to Noor in **Egyptian Arabic**. All site copy is English.
+- **Language:** reply to Noor in **Egyptian Arabic**. The site has English (`/`) and Arabic (`/ar`, right to left).
+  - Payload localization is on (`en` default, `ar`); text fields are `localized: true`. An empty Arabic field falls back to English.
+  - Fixed interface text (buttons, labels, alt text) lives in `src/lib/i18n.ts`, never hard-coded in components.
+  - Imported Arabic content is in `src/import/content.ar.json` (translated text only, same order as `content.json`).
 - **Working style:** don't ask permission before making changes. Make them, then tell her what changed.
 - **Content:** use only data from the doctor's CV or data Noor gives. Anything missing becomes a visible placeholder like `[Phone]`; never invent facts. Avoid repeating the same information in two places.
 - **Design reference:** the approved design is in `design/` (`Final.dc.html` holds all copy and styles; the PDF shows the full page). Image paths in `Final.dc.html` are from the design tool; the real images are in the import folder (`src/import/images`) and `public/`.

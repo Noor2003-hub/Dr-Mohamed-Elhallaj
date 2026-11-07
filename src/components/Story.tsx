@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from 'react'
 import { gsap, ScrollTrigger, prefersReducedMotion } from '@/lib/gsap'
 import { waLink } from '@/lib/links'
 import type { SiteData } from '@/lib/data'
+import type { Dict } from '@/lib/i18n'
 
 /**
  * Hero → connector → About as ONE scroll-scrubbed clinic video.
@@ -20,7 +21,7 @@ const ABOUT_IN = 0.8 // about content starts to appear
 
 type Glow = ([number, number, number] | null)[]
 
-export default function Story({ site }: { site: SiteData['site'] }) {
+export default function Story({ site, t }: { site: SiteData['site']; t: Dict }) {
   const section = useRef<HTMLElement>(null)
   const canvas = useRef<HTMLCanvasElement>(null)
   const hero = useRef<HTMLDivElement>(null)
@@ -92,16 +93,19 @@ export default function Story({ site }: { site: SiteData['site'] }) {
       const dy = (H - dh) / 2
       ctx.drawImage(im, dx, dy, dw, dh)
 
-      // pulsing pain glow on the knee
+      // pain glow on the knee: it beats from the first render until scrolling starts,
+      // then holds steady and fades out with the scroll
       const g = glow[idx]
       const glowAlpha = 1 - gsap.utils.clamp(0, 1, (p - 0.18) / (GLOW_OUT - 0.18))
       if (g && glowAlpha > 0) {
-        const pulse = reduced ? 1 : 0.82 + 0.18 * Math.sin(t / 290)
+        const beating = reduced ? 0 : 1 - gsap.utils.clamp(0, 1, p / 0.02)
+        const wave = Math.pow(0.5 + 0.5 * Math.sin(t / 230), 2) // 0 → 1, about 1.4 s per beat
+        const pulse = 1 - beating * (1 - wave)
         const x = dx + g[0] * dw
         const y = dy + g[1] * dh
         // radius follows the zoom so the glow always covers the kneecap
-        const r = dh * 0.2 * g[2] * (0.88 + 0.16 * pulse)
-        const a = glowAlpha * (0.75 + 0.25 * pulse)
+        const r = dh * 0.2 * g[2] * (0.78 + 0.26 * pulse)
+        const a = glowAlpha * (0.3 + 0.7 * pulse)
         const grad = ctx.createRadialGradient(x, y, 0, x, y, r)
         grad.addColorStop(0, `rgba(255,70,40,${0.62 * a})`)
         grad.addColorStop(0.4, `rgba(255,107,61,${0.3 * a})`)
@@ -168,7 +172,7 @@ export default function Story({ site }: { site: SiteData['site'] }) {
   }, [lines.length, site.years])
 
   return (
-    <section id="top" ref={section} className="story" aria-label="Introduction">
+    <section id="top" ref={section} className="story" aria-label={t.story.label}>
       <div className="story__stage">
         <canvas ref={canvas} className="story__canvas" aria-hidden="true" />
         <div ref={heroShade} className="story__shade" aria-hidden="true" />
@@ -182,16 +186,16 @@ export default function Story({ site }: { site: SiteData['site'] }) {
           </p>
           <div className="story__ctas">
             <a className="btn btn--cyan" href={waLink(site.whatsapp)} target="_blank" rel="noreferrer">
-              Book an assessment
+              {t.story.book}
             </a>
             <a className="btn btn--ghost" href="#reels">
-              Watch his reels
+              {t.story.watch}
             </a>
           </div>
         </div>
 
         <div ref={hint} className="story__hint" aria-hidden="true">
-          <span className="story__hint-dot" /> Scroll to meet the doctor
+          <span className="story__hint-dot" /> {t.story.hint}
         </div>
 
         <div ref={about} id="about" className="story__about wrap" style={{ visibility: 'hidden' }}>
@@ -226,9 +230,9 @@ export default function Story({ site }: { site: SiteData['site'] }) {
   )
 }
 
-/** Colours the doctor's name inside "Who is Dr. Elhallaj?" */
+/** Colours the doctor's name inside "Who is Dr. Elhallaj?" / "من هو د. الحلاج؟" */
 function renderHeading(h: string) {
-  const m = h.match(/^(.*?)(Dr\.?\s?[^?]+)(\??)$/)
+  const m = h.match(/^(.*?)((?:Dr|د)\.?\s?[^?؟]+)([?؟]?)$/)
   if (!m) return h
   return (
     <>
