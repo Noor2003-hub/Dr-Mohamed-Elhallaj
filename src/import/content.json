@@ -1,0 +1,460 @@
+{
+  "_readme": "All the website content. Edit this file, put any new images in src/import/images, then run: npm run import. Image fields hold a file name from src/import/images. Importing replaces all content (not users).",
+  "site": {
+    "name": "Dr. Mohamed Elhallaj",
+    "fullName": "Dr. Mohamed Abdellatif Elhallaj",
+    "title": "Doctor of Physical Therapy",
+    "heroLines": [
+      "Doctor of physical therapy",
+      "Orthopedic diseases and sports injuries specialist"
+    ],
+    "logoOnDark": {
+      "file": "logo-dr-elhallaj-dark-bg.png",
+      "alt": "Dr. Elhallaj Clinic"
+    },
+    "logoOnLight": {
+      "file": "logo-dr-elhallaj-light-bg.png",
+      "alt": "Dr. Elhallaj Clinic"
+    },
+    "about": {
+      "heading": "Who is Dr. Elhallaj?",
+      "storyLines": [
+        "My fascination with the human body made me want to become a physiotherapist,",
+        "along with a wish to help children with cerebral palsy and high-level disabilities.",
+        "I have always been interested in how the body works and repairs itself,",
+        "and how exercise and hydrotherapy can improve it."
+      ],
+      "years": 18,
+      "yearsLabel": "Years of experience",
+      "text": "Consultant Physical Therapist across all PT specialties, with dedicated specialization in post-operative orthopedic rehabilitation, sports injuries, and recovery protocols for optimal function and safe return to normal life and sports."
+    },
+    "clinic": {
+      "name": "Experts Physio House",
+      "nameArabic": "مركز الخبراء للعلاج الطبيعي",
+      "role": "Co-founder",
+      "logo": {
+        "file": "logo-experts-physio-house.png",
+        "alt": "Experts Physio House logo"
+      },
+      "instagram": "https://www.instagram.com/experts_physio_house_clinic/"
+    },
+    "contact": {
+      "heading": "Ready for your first session?",
+      "text": "Tell him about the injury or your child's needs, and you will plan the first session together.",
+      "image": {
+        "file": "contact-stretch.jpg",
+        "alt": "The recovered patient in a full overhead stretch"
+      },
+      "whatsapp": "+965 5028 2082",
+      "email": "Dr.mohamed.elhallaj@gmail.com",
+      "location": "Salmiya, Kuwait",
+      "instagram": "https://www.instagram.com/dr.mohamedelhallaj/",
+      "instagramFollowers": "370K followers",
+      "youtube": ""
+    },
+    "sections": {
+      "mapHeading": "Where does it hurt?",
+      "mapIntro": "Choose an area. Kinesio tape goes on, and you see the training behind its treatment.",
+      "toolsHeading": "What he treats with.",
+      "reelsHeading": "Learn from his reels",
+      "reelsIntro": "[One line on reels]",
+      "trackHeading": "Step by step, back to the pitch",
+      "trackIntro": "With each workplace the patient needs less help, from a wheelchair to crutches to his first free steps, until he runs and shoots.",
+      "educationHeading": "Education and training",
+      "degreesNote": "Degrees, Cairo University"
+    }
+  },
+  "certificates": [
+    {
+      "key": "bsc",
+      "title": "Bachelor of Physical Therapy",
+      "type": "degree",
+      "issuer": "Faculty of Physical Therapy",
+      "years": "2005 to 2010"
+    },
+    {
+      "key": "dpt",
+      "title": "Doctor of Physical Therapy (DPT)",
+      "type": "degree",
+      "issuer": "Orthopedic diseases specialist",
+      "years": "2017 to 2019"
+    },
+    {
+      "key": "omtc",
+      "title": "Orthopaedic Manual Therapy Diploma (OMTC)",
+      "type": "diploma",
+      "issuer": "Dr. Mahmoud Saad, Kuwait",
+      "note": "Levels one and two, UK certified",
+      "description": "Hands-on manual therapy for bones, joints and soft tissue."
+    },
+    {
+      "key": "fifa",
+      "title": "FIFA Diploma in Football Medicine",
+      "type": "diploma",
+      "issuer": "FIFA Medical Network",
+      "inProgress": true,
+      "description": "Managing and rehabilitating football injuries, tendinopathy load management, pitch-side first aid and safe return to play."
+    },
+    {
+      "key": "dn",
+      "title": "Dry needling specialist",
+      "type": "course",
+      "issuer": "AIMS Academy",
+      "years": "2024 to now",
+      "description": "Dry needling of muscle trigger points to ease referred pain, improve circulation and relax the muscle."
+    },
+    {
+      "key": "cerv",
+      "title": "Cervical pain management workshop",
+      "type": "course",
+      "issuer": "Prime Physio, Dr. Mahmoud Saad",
+      "description": "Assessing and treating neck pain and its mechanical causes."
+    },
+    {
+      "key": "si",
+      "title": "Sacroiliac pain management workshop",
+      "type": "course",
+      "issuer": "Prime Physio, Dr. Mahmoud Saad",
+      "description": "Diagnosing and treating sacroiliac joint and pelvic pain."
+    },
+    {
+      "key": "img",
+      "title": "Imaging course: spine, knee, brain and shoulder",
+      "type": "course",
+      "issuer": "Dr. Mamdouh Mahfouz",
+      "description": "Reading X-ray and MRI imaging of the spine, knee, brain and shoulder."
+    },
+    {
+      "key": "gaitU",
+      "title": "Gait analysis updates",
+      "type": "course",
+      "issuer": "Dr. Ehab Wally",
+      "description": "Analysing walking and movement in children and adults."
+    },
+    {
+      "key": "gaitCP",
+      "title": "Gait analysis in cerebral palsy",
+      "type": "course",
+      "issuer": "Free2move",
+      "description": "Analysing walking and movement in children with cerebral palsy."
+    },
+    {
+      "key": "ndt",
+      "title": "NDT, levels one and two",
+      "type": "course",
+      "issuer": "Free2move, Mrs Estelle",
+      "description": "Neurodevelopmental treatment for children with neurological conditions."
+    },
+    {
+      "key": "suit",
+      "title": "Suit training for paediatric rehabilitation",
+      "type": "course",
+      "issuer": "Free2move",
+      "description": "Using a therapy suit to improve alignment, stability and neuromuscular control in children."
+    },
+    {
+      "key": "ueu",
+      "title": "Universal exercise unit workshop (Spider, Ogle)",
+      "type": "course",
+      "issuer": "Free2move",
+      "description": "Strengthening and balance training for children using the universal exercise unit."
+    },
+    {
+      "key": "gmfm",
+      "title": "Gross Motor Function Measure (GMFM)",
+      "type": "course",
+      "issuer": "Free2move",
+      "description": "Measuring gross motor function in children, especially cerebral palsy."
+    },
+    {
+      "key": "aid",
+      "title": "Heartsaver First Aid, CPR and AED",
+      "type": "course",
+      "issuer": "American Heart Association"
+    }
+  ],
+  "bodyAreas": [
+    {
+      "name": "Neck",
+      "key": "neck",
+      "view": "back",
+      "certificates": [
+        "cerv",
+        "omtc",
+        "dn",
+        "img"
+      ]
+    },
+    {
+      "name": "Shoulder",
+      "key": "shoulder",
+      "view": "front",
+      "certificates": [
+        "omtc",
+        "dn",
+        "img"
+      ]
+    },
+    {
+      "name": "Back and spine",
+      "key": "back",
+      "view": "back",
+      "certificates": [
+        "omtc",
+        "dn",
+        "img",
+        "gaitU"
+      ]
+    },
+    {
+      "name": "SI joint and pelvis",
+      "key": "si",
+      "view": "back",
+      "certificates": [
+        "si",
+        "omtc",
+        "dn",
+        "fifa",
+        "gaitU"
+      ]
+    },
+    {
+      "name": "Knee",
+      "key": "knee",
+      "view": "front",
+      "certificates": [
+        "fifa",
+        "omtc",
+        "dn",
+        "img",
+        "gaitU"
+      ]
+    },
+    {
+      "name": "Ankle and foot",
+      "key": "ankle",
+      "view": "front",
+      "certificates": [
+        "fifa",
+        "omtc",
+        "gaitU"
+      ]
+    },
+    {
+      "name": "Pediatric rehab",
+      "key": "kids",
+      "view": "front",
+      "certificates": [
+        "ndt",
+        "suit",
+        "ueu",
+        "gmfm",
+        "gaitCP"
+      ]
+    }
+  ],
+  "tools": [
+    {
+      "title": "Achedaway Cupping Therapy",
+      "shortName": "Cupping therapy",
+      "tag": "Recovery",
+      "image": {
+        "file": "tool-cupping.jpg",
+        "alt": "Two Achedaway smart cupping devices on a patient's upper back"
+      },
+      "description": "We use Achedaway Cupping Therapy to help relieve muscle tension, reduce discomfort, and improve local blood circulation through controlled suction. It is used as part of a recovery program to promote muscle relaxation and support overall mobility."
+    },
+    {
+      "title": "Dry Needling Therapy",
+      "shortName": "Dry needling",
+      "tag": "Trigger points",
+      "image": {
+        "file": "tool-needling.jpg",
+        "alt": "Thin needles placed in the lower back muscles"
+      },
+      "description": "We use Dry Needling Therapy to relieve muscle pain and tension by targeting myofascial trigger points — tight, sensitive areas within the muscles that often develop due to muscular overload, repetitive strain, and intense physical training. This technique helps reduce muscle tightness, alleviate pain, and restore optimal muscle function and mobility."
+    },
+    {
+      "title": "Advanced IASTM Therapy",
+      "shortName": "IASTM therapy",
+      "tag": "Soft tissue",
+      "image": {
+        "file": "tool-iastm.jpg",
+        "alt": "An IASTM tool used on the upper back"
+      },
+      "description": "We use Advanced IASTM Therapy with heat and vibration to relieve muscle tension, improve soft tissue mobility, reduce discomfort, and support faster recovery and optimal muscle function."
+    },
+    {
+      "title": "Kinesiology Taping",
+      "shortName": "Kinesiology taping",
+      "tag": "Support",
+      "image": {
+        "file": "tool-taping.jpg",
+        "alt": "Kinesiology tape applied to a shoulder"
+      },
+      "description": "We use Kinesiology Taping to support muscles and joints, improve movement efficiency, and help manage pain during physical activity. The elastic therapeutic tape is applied to targeted areas to provide additional support, reduce excessive strain, and facilitate functional movement without restricting the body's natural range of motion. It can also be used as part of a comprehensive rehabilitation program to support recovery and optimize physical performance."
+    },
+    {
+      "title": "Shockwave Therapy",
+      "shortName": "Shockwave therapy",
+      "tag": "Tendon pain",
+      "image": {
+        "file": "tool-shockwave.jpg",
+        "alt": "A shockwave applicator on a patient's shoulder"
+      },
+      "description": "We use Shockwave Therapy to target chronic muscle and tendon pain through focused acoustic waves, helping stimulate tissue healing, reduce discomfort, and improve mobility and functional recovery."
+    },
+    {
+      "title": "Mulligan Technique",
+      "shortName": "Mulligan technique",
+      "tag": "Joint mobility",
+      "image": {
+        "file": "tool-mulligan.jpg",
+        "alt": "Mulligan mobilisation of the ankle with a belt"
+      },
+      "description": "We use the Mulligan Technique to improve joint mobility, reduce pain, and restore normal movement through specific manual mobilization techniques combined with active patient movement."
+    },
+    {
+      "title": "Electrical Stimulation Therapy",
+      "shortName": "Electrical stimulation",
+      "tag": "Muscle activation",
+      "image": {
+        "file": "tool-estim.jpg",
+        "alt": "Electrode pads on the thigh connected to a stimulation unit"
+      },
+      "description": "We use Electrical Stimulation Therapy to help relieve pain, stimulate muscle activity, improve circulation, and support muscle strengthening and rehabilitation."
+    }
+  ],
+  "experiences": [
+    {
+      "years": "2007",
+      "place": "Islamic Relief pediatric center",
+      "role": "Trainee physiotherapist",
+      "logo": "station-islamic.png"
+    },
+    {
+      "years": "2008 to 2010",
+      "place": "Free2move pediatric rehabilitation center",
+      "role": "Physiotherapist",
+      "logo": "station-free2move.png"
+    },
+    {
+      "years": "2008 to 2010",
+      "place": "Alyasmen center for orthopedic, neurological and sports injuries",
+      "role": "Senior physiotherapist",
+      "logo": ""
+    },
+    {
+      "years": "2009 to 2011",
+      "place": "Ministry of Health, Egypt",
+      "role": "Physiotherapist",
+      "logo": "station-moh_eg.png"
+    },
+    {
+      "years": "2010 to 2011",
+      "place": "Nour Alhayah pediatric rehabilitation center",
+      "role": "Senior pediatric physiotherapist",
+      "logo": "station-nour.png"
+    },
+    {
+      "years": "2011 to now",
+      "place": "Alnibras School for Special Needs",
+      "role": "Spine and posture physiotherapist",
+      "logo": "station-nibras.png",
+      "current": true
+    },
+    {
+      "years": "2013 to 2014",
+      "place": "Khaitan Sports Club",
+      "role": "Sports physical therapist",
+      "logo": "station-khaitan.png"
+    },
+    {
+      "years": "2014 to 2016",
+      "place": "Al-Tadamon Sports Club",
+      "role": "Sports physical therapist",
+      "logo": "station-tadamon.png"
+    },
+    {
+      "years": "2017 to 2023",
+      "place": "Al-Qadsiya Sports Club",
+      "role": "Senior sports physiotherapist",
+      "logo": "station-qadsia.png"
+    }
+  ],
+  "reels": [
+    {
+      "url": "https://www.instagram.com/reel/C0hPJjsN1RB/",
+      "views": "129M",
+      "tag": "Posture",
+      "direction": "rtl",
+      "title": "بعض التمارين المهمة لتعديل وضعية انحناء الظهر",
+      "cover": "reel-posture.jpg"
+    },
+    {
+      "url": "https://www.instagram.com/reel/C9clDvaNb6W/",
+      "views": "21.3M",
+      "tag": "Ankle",
+      "direction": "ltr",
+      "title": "Messi’s ankle injury",
+      "cover": ""
+    },
+    {
+      "url": "https://www.instagram.com/reel/DWPHtm2Dh-8/",
+      "views": "739K",
+      "tag": "Ankle",
+      "direction": "ltr",
+      "title": "What should we do in case of acute ankle sprain?",
+      "cover": ""
+    },
+    {
+      "url": "https://www.instagram.com/reel/DewNhUEu4vS/",
+      "views": "659K",
+      "tag": "Knee",
+      "direction": "ltr",
+      "title": "Complete tear of ACL",
+      "cover": ""
+    },
+    {
+      "url": "https://www.instagram.com/reel/DXpaFifDgHC/",
+      "views": "639K",
+      "tag": "Taping",
+      "direction": "rtl",
+      "title": "أتعلم ازاي تستخدم اللاصق الطبي لالتهاب وتر أكيليس والشوكة العظمية",
+      "cover": "reel-taping.jpg"
+    },
+    {
+      "url": "https://www.instagram.com/reel/DdMRB3-PISr/",
+      "views": "613K",
+      "tag": "Knee",
+      "direction": "ltr",
+      "title": "Neymar’s knee fixation",
+      "cover": ""
+    }
+  ],
+  "clinics": [
+    {
+      "name": "Smouha",
+      "mapArea": "smouha",
+      "color": "orange",
+      "address": "11 Zaki Ragab St. (Saeed Nassar), Al-Tawheed Tower, Al-Iman Building, 1st floor, above Sobeiko Market",
+      "phones": [
+        "+20 128 222 5725",
+        "03 427 8388"
+      ],
+      "hours": "Open 12 pm – 8 pm",
+      "mapsUrl": ""
+    },
+    {
+      "name": "Gianaclis",
+      "mapArea": "gianaclis",
+      "color": "cyan",
+      "address": "133 El Horreya Rd., Al-Zeraiyin Towers, Mohamed Saleh Tower (1), 1st floor, Apt. 12",
+      "phones": [
+        "+20 104 444 2813"
+      ],
+      "hours": "Open 12 pm – 8 pm",
+      "mapsUrl": ""
+    }
+  ]
+}
