@@ -39,6 +39,7 @@ const en = {
   body: {
     back: 'Patient seen from the back',
     front: 'Patient seen from the front',
+    kidsPhoto: 'A child patient seen from the front',
     selected: 'Selected area',
     inProgress: ' (in progress)',
     forChildren: 'For children:',
@@ -108,6 +109,7 @@ const ar: Dict = {
   body: {
     back: 'المريض من الخلف',
     front: 'المريض من الأمام',
+    kidsPhoto: 'طفل من الأمام',
     selected: 'المنطقة المختارة',
     inProgress: ' (قيد الدراسة)',
     forChildren: 'للأطفال:',

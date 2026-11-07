@@ -65,10 +65,12 @@ export default function BodyMap({
 }) {
   const start = areas.find((a) => a.key === 'knee') || areas[0]
   const [key, setKey] = useState(start?.key)
+  const [kidsPhoto, setKidsPhoto] = useState(true)
   const area = areas.find((a) => a.key === key)
   if (!area) return null
-  const view = area.view
   const kids = areas.find((a) => a.key === 'kids')
+  // children get their own photo (public/img/body/kids.jpg); until it exists, the front photo is used
+  const view = key === 'kids' && kidsPhoto ? 'kids' : area.view
 
   return (
     <section id="map" className="bodymap sec">
@@ -81,6 +83,14 @@ export default function BodyMap({
           <div className="bodymap__figure" dir="ltr" data-reveal>
             <img className={`bodymap__img ${view === 'back' ? 'is-on' : ''}`} src="/img/body/back.jpg" alt={t.body.back} />
             <img className={`bodymap__img ${view === 'front' ? 'is-on' : ''}`} src="/img/body/front.jpg" alt={t.body.front} />
+            {kids && kidsPhoto && (
+              <img
+                className={`bodymap__img ${view === 'kids' ? 'is-on' : ''}`}
+                src="/img/body/kids.jpg"
+                alt={t.body.kidsPhoto}
+                onError={() => setKidsPhoto(false)}
+              />
+            )}
             <div key={key} className={`bodymap__tapes ${key === 'kids' ? 'is-kids' : ''}`} aria-hidden="true">
               {(TAPES[key || ''] || []).map((s, i) => (
                 <span
