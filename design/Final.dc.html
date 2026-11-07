@@ -1,0 +1,467 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Dr. Mohamed Elhallaj — final design</title>
+
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,300..900&amp;family=Bricolage+Grotesque:opsz,wght@12..96,500..800&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#E9EEEC}
+a{color:inherit}a:hover{color:#0B6E91}
+button:focus-visible,a:focus-visible{outline:3px solid #2BB3D6;outline-offset:3px}
+.grain-bg{position:absolute;inset:0;overflow:hidden;background:#E8F0F1;z-index:0;pointer-events:none}
+.blob{position:absolute;border-radius:50%;filter:blur(60px)}
+.b1{width:75%;height:50%;left:-18%;top:38%;background:#24687C;opacity:.7;transform:rotate(-28deg);animation:w1 24s ease-in-out infinite alternate}
+.b2{width:60%;height:65%;right:-18%;top:-22%;background:#8FCFE0;opacity:.7;animation:w2 28s ease-in-out infinite alternate}
+.b3{width:55%;height:45%;left:32%;bottom:-22%;background:#BFE3EC;opacity:.9;animation:w3 32s ease-in-out infinite alternate}
+.b4{width:40%;height:40%;right:5%;top:40%;background:#F4F1EA;opacity:.8;animation:w2 36s ease-in-out infinite alternate-reverse}
+@keyframes w1{to{transform:rotate(-12deg) translate(14%,-12%) scale(1.15)}}
+@keyframes w2{to{transform:translate(-18%,16%) scale(.9)}}
+@keyframes w3{to{transform:translate(-22%,-14%) rotate(18deg) scale(1.1)}}
+.grain{position:absolute;inset:0;width:100%;height:100%;opacity:.45;mix-blend-mode:multiply}
+.pain{animation:pulse 1.8s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:.5;transform:translate(-50%,-50%) scale(.88)}50%{opacity:1;transform:translate(-50%,-50%) scale(1.08)}}
+.spin{animation:spin 26s linear infinite;transform-origin:50% 50%}
+@keyframes spin{to{transform:rotate(360deg)}}
+@media (prefers-reduced-motion:reduce){.blob,.pain,.spin{animation:none}}
+@media (max-width:720px){.big-name{font-size:44px !important;white-space:normal !important}.sec-pad{padding-left:20px !important;padding-right:20px !important}.hero-img{width:100% !important;opacity:.35}}
+</style>
+</helmet>
+<div style="font-family: 'Archivo', sans-serif; color: #0E2A33; background: #E9EEEC; min-height: 100vh">
+
+<!-- 1. HERO: clinic video, starting on the injured knee -->
+<section id="top" style="position: relative; height: 860px; overflow: hidden; background: #032D3B">
+<img src="../assets/hero-knee-dark.jpg" alt="" aria-hidden="true" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 100% 50%; filter: blur(5px); transform: scale(1.02)">
+<img src="../assets/hero-knee-dark.jpg" alt="A patient's knee in a post-operative brace, sitting on a treatment bed in the clinic" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 100% 50%; -webkit-mask-image: linear-gradient(to right, transparent 52%, #000 74%); mask-image: linear-gradient(to right, transparent 52%, #000 74%)">
+<div aria-hidden="true" style="position: absolute; inset: 0; background: linear-gradient(to right, rgba(3,45,59,0.92) 0%, rgba(3,45,59,0.74) 42%, rgba(3,45,59,0) 66%)"></div>
+<span aria-hidden="true" class="pain" style="position: absolute; left: calc(100% - 136px); top: 505px; width: 340px; height: 340px; border-radius: 50%; background: radial-gradient(circle, rgba(255,70,40,0.62) 0%, rgba(255,107,61,0.3) 40%, rgba(255,107,61,0) 70%)"></span>
+
+<header style="position: relative; z-index: 2; max-width: 1360px; margin: 14px auto 0; padding: 10px 28px; border-radius: 999px; background: rgba(3,45,59,0.72); border: 1px solid rgba(238,242,240,0.14); color: #EEF2F0; backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); box-shadow: 0 10px 30px -18px rgba(0,0,0,0.6); display: flex; align-items: center; justify-content: space-between; gap: 24px; flex-wrap: wrap" class="sec-pad">
+<a href="#top" aria-label="Dr. Elhallaj Clinic, home" style="display: block; text-decoration: none"><img src="../assets/logo-dr-elhallaj-dark-bg.png" alt="Dr. Elhallaj Clinic" style="height: 70px; width: auto; display: block"></a>
+<nav aria-label="Main" style="display: flex; align-items: center; gap: 28px; flex-wrap: wrap; font-size: 15px; font-weight: 500">
+<a href="#about" style="text-decoration: none">About</a>
+<a href="#map" style="text-decoration: none">What I treat</a>
+<a href="#reels" style="text-decoration: none">Reels</a>
+<a href="#track" style="text-decoration: none">Experience</a>
+<a href="#clinics" style="text-decoration: none">Clinics</a>
+<a href="#contact" style="display: inline-flex; align-items: center; min-height: 44px; padding: 0 20px; border-radius: 999px; background: #2BB3D6; color: #032D3B; text-decoration: none; font-weight: 600">Book on WhatsApp</a>
+</nav>
+</header>
+<div style="position: relative; z-index: 1; max-width: 1360px; margin: 0 auto; padding: 140px 40px 0; display: flex; flex-direction: column; gap: 26px" class="sec-pad">
+<h1 class="big-name" style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 700; letter-spacing: -0.02em; font-size: 76px; line-height: 1; white-space: nowrap; color: #F4F7F6">Dr. Mohamed Elhallaj</h1>
+<p style="margin: 0; font-size: 21px; line-height: 1.45; max-width: 520px; color: #CFE0E5; width: 606px; white-space: pre-line">{{heroLine}}</p>
+<div style="display: flex; gap: 14px; flex-wrap: wrap; align-items: center">
+<a href="#contact" style="display: inline-flex; align-items: center; min-height: 52px; padding: 0 26px; border-radius: 999px; background: #2BB3D6; color: #032D3B; text-decoration: none; font-weight: 700; font-size: 16px">Book an assessment</a>
+<a href="#reels" style="display: inline-flex; align-items: center; min-height: 52px; padding: 0 26px; border-radius: 999px; border: 1.5px solid #EEF2F0; color: #EEF2F0; text-decoration: none; font-weight: 600; font-size: 16px">Watch his reels</a>
+</div>
+</div>
+<span style="position: absolute; right: 24px; bottom: 22px; z-index: 2; display: inline-flex; align-items: center; gap: 8px; padding: 8px 14px; border-radius: 999px; background: rgba(3,45,59,0.82); font-size: 13px; color: #EEF2F0"><span aria-hidden="true" style="width: 8px; height: 8px; border-radius: 50%; background: #FF6B3D"></span>Plays as you scroll: the camera pulls back from the knee</span>
+</section>
+
+<!-- Between hero and about: the same clinic video keeps playing -->
+<div style="background: #032D3B; padding: 56px 40px; display: flex; flex-direction: column; align-items: center; gap: 22px; text-align: center" class="sec-pad">
+<div style="display: flex; align-items: center; gap: 18px; flex-wrap: wrap; justify-content: center">
+<img src="../assets/connector-1-patient.jpg" alt="The patient sitting on a treatment bed beside a wheelchair" style="width: 120px; height: 213px; object-fit: cover; border-radius: 14px">
+<svg width="36" height="16" viewBox="0 0 36 16" aria-hidden="true"><path d="M2 8 H32 M26 2 L32 8 L26 14" fill="none" stroke="#9FC4CF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+<img src="../assets/connector-2-doctor-kneels.jpg" alt="The doctor kneeling to support the patient's knee" style="width: 120px; height: 213px; object-fit: cover; border-radius: 14px">
+<svg width="36" height="16" viewBox="0 0 36 16" aria-hidden="true"><path d="M2 8 H32 M26 2 L32 8 L26 14" fill="none" stroke="#9FC4CF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+<img src="../assets/connector-3-doctor-stands.jpg" alt="The doctor standing in the centre of the clinic" style="width: 120px; height: 213px; object-fit: cover; border-radius: 14px">
+</div>
+<span style="font-size: 14px; line-height: 1.5; color: #9FC4CF; max-width: 520px">One continuous clinic video: the camera reveals the patient, the doctor kneels to examine the knee, then walks to the centre of the room for the next section.</span>
+</div>
+
+<!-- 2. ABOUT: the doctor standing in the clinic -->
+<section id="about" style="position: relative; overflow: hidden; min-height: 860px; padding: 0 40px; display: flex; align-items: center; background: #032D3B" class="sec-pad">
+<img src="../assets/about-doctor-clinic.jpg" alt="" aria-hidden="true" style="position: absolute; left: 50%; top: -1.6%; height: 134.8%; width: auto; max-width: none; transform: translateX(-49.6%) scale(1.02); filter: blur(6px)">
+<img src="../assets/about-doctor-clinic.jpg" alt="Dr. Mohamed Elhallaj in navy, arms crossed, standing in the middle of his clinic" style="position: absolute; left: 50%; top: -1.6%; height: 134.8%; width: auto; max-width: none; transform: translateX(-49.6%); -webkit-mask-image: radial-gradient(ellipse 11% 56% at 49.6% 40%, #000 62%, transparent 100%); mask-image: radial-gradient(ellipse 11% 56% at 49.6% 40%, #000 62%, transparent 100%)">
+<div aria-hidden="true" style="position: absolute; inset: 0; background: linear-gradient(to right, rgba(3,45,59,0.88) 0%, rgba(3,45,59,0.55) 30%, rgba(3,45,59,0) 40%, rgba(3,45,59,0) 60%, rgba(3,45,59,0.55) 70%, rgba(3,45,59,0.88) 100%)"></div>
+<div style="position: relative; width: 100%; max-width: 1360px; margin: 0 auto; display: flex; flex-wrap: wrap; gap: 32px; align-items: center; justify-content: space-between; padding: 80px 0">
+<div style="flex: 0 1 470px; min-width: 0; display: flex; flex-direction: column; gap: 20px; color: #EEF2F0">
+<h2 style="margin: 0 0 6px; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 700; letter-spacing: -0.02em; font-size: 46px; line-height: 1.05; color: #F4F7F6">Who is <span style="color: #2BB3D6">Dr. Elhallaj</span>?</h2>
+<p style="margin: 0; font-size: 28px; line-height: 1.24; font-weight: 600; font-stretch: 92%; filter: blur(2.5px); opacity: 0.4">My fascination with the human body made me want to become a physiotherapist,</p>
+<p style="margin: 0; font-size: 28px; line-height: 1.24; font-weight: 600; font-stretch: 92%; position: relative; align-self: flex-start; padding: 6px 14px">
+<span aria-hidden="true" style="position: absolute; left: 0; top: 0; width: 18px; height: 18px; border-left: 3px solid #FF6B3D; border-top: 3px solid #FF6B3D"></span>
+<span aria-hidden="true" style="position: absolute; right: 0; top: 0; width: 18px; height: 18px; border-right: 3px solid #FF6B3D; border-top: 3px solid #FF6B3D"></span>
+<span aria-hidden="true" style="position: absolute; left: 0; bottom: 0; width: 18px; height: 18px; border-left: 3px solid #FF6B3D; border-bottom: 3px solid #FF6B3D"></span>
+<span aria-hidden="true" style="position: absolute; right: 0; bottom: 0; width: 18px; height: 18px; border-right: 3px solid #FF6B3D; border-bottom: 3px solid #FF6B3D"></span>
+along with a wish to help children with cerebral palsy and high-level disabilities.</p>
+<p style="margin: 0; font-size: 28px; line-height: 1.24; font-weight: 600; font-stretch: 92%; filter: blur(2.5px); opacity: 0.4">I have always been interested in how the body works and repairs itself,</p>
+<p style="margin: 0; font-size: 28px; line-height: 1.24; font-weight: 600; font-stretch: 92%; filter: blur(2.5px); opacity: 0.4">and how exercise and hydrotherapy can improve it.</p>
+</div>
+<div aria-hidden="true" style="flex: 0 0 260px; height: 1px"></div>
+<div style="flex: 0 1 430px; min-width: 0; display: flex; flex-direction: column; gap: 28px">
+<div style="display: flex; align-items: center; gap: 14px">
+<span aria-hidden="true" style="flex: 0 0 auto; display: flex; align-items: center"><span style="width: 12px; height: 12px; border-radius: 50%; background: #FF6B3D; box-shadow: 0 0 0 6px rgba(255,107,61,0.18)"></span><span style="width: 34px; border-top: 1.5px solid #9FC4CF"></span></span>
+<div style="display: flex; align-items: center; gap: 16px; flex: 1 1 auto">
+<strong style="font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 104px; line-height: 0.85; letter-spacing: -0.04em; color: #2BB3D6">+18</strong>
+<span style="font-family: 'Bricolage Grotesque', sans-serif; font-weight: 700; font-size: 26px; line-height: 1.1; color: #EEF2F0">Years of<br>experience</span>
+</div>
+</div>
+<p style="margin: 0; font-size: 19px; line-height: 1.6; color: #CFE0E5">Consultant Physical Therapist across all PT specialties, with dedicated specialization in post-operative orthopedic rehabilitation, sports injuries, and recovery protocols for optimal function and safe return to normal life and sports.</p>
+</div>
+</div>
+</section>
+
+<!-- 3. BODY MAP: static light background -->
+<section id="map" style="background: #EEF2F0; color: #0E2A33; padding: 120px 40px" class="sec-pad">
+<div style="max-width: 1240px; margin: 0 auto; display: flex; flex-direction: column; gap: 48px">
+<div style="display: flex; justify-content: space-between; align-items: flex-end; gap: 24px; flex-wrap: wrap">
+<h2 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 700; letter-spacing: -0.02em; font-size: 60px; line-height: 1">Where does it hurt?</h2>
+<p style="margin: 0; font-size: 17px; color: #35505A; max-width: 400px">Choose an area. Kinesio tape goes on, and you see the training behind its treatment.</p>
+</div>
+<div style="display: flex; flex-wrap: wrap; gap: 64px; align-items: flex-start">
+<div style="flex: 0 0 338px; position: relative; width: 338px; height: 600px; margin: 0 auto">
+<sc-if value="{{showBack}}" hint-placeholder-val="{{ true }}"><img src="../assets/bodymap-back.jpg" alt="Patient seen from the back" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; border-radius: 24px"></sc-if>
+<sc-if value="{{showFront}}" hint-placeholder-val="{{ false }}"><img src="../assets/bodymap-front.jpg" alt="Patient seen from the front" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; border-radius: 24px"></sc-if>
+<sc-if value="{{onNeck}}" hint-placeholder-val="{{ false }}"><span aria-hidden="true" style="position: absolute; background: #2BB3D6; border-radius: 4px; left: 158px; top: 101px; width: 9px; height: 36px"></span><span aria-hidden="true" style="position: absolute; background: #2BB3D6; border-radius: 4px; left: 171px; top: 101px; width: 9px; height: 36px"></span></sc-if>
+<sc-if value="{{onBack}}" hint-placeholder-val="{{ true }}"><span aria-hidden="true" style="position: absolute; background: #2BB3D6; border-radius: 4px; left: 153px; top: 151px; width: 11px; height: 65px"></span><span aria-hidden="true" style="position: absolute; background: #2BB3D6; border-radius: 4px; left: 174px; top: 151px; width: 11px; height: 65px"></span><span aria-hidden="true" style="position: absolute; border-radius: 4px; background: #E9C9A8; left: 136px; top: 194px; width: 65px; height: 11px"></span></sc-if>
+<sc-if value="{{onSI}}" hint-placeholder-val="{{ false }}"><span aria-hidden="true" style="position: absolute; background: #2BB3D6; border-radius: 4px; left: 141px; top: 219px; width: 57px; height: 10px; transform: rotate(25deg)"></span><span aria-hidden="true" style="position: absolute; background: #2BB3D6; border-radius: 4px; left: 141px; top: 219px; width: 57px; height: 10px; transform: rotate(-25deg)"></span></sc-if>
+<sc-if value="{{onShoulder}}" hint-placeholder-val="{{ false }}"><span aria-hidden="true" style="position: absolute; background: #2BB3D6; border-radius: 4px; left: 97px; top: 141px; width: 14px; height: 56px; transform: rotate(15deg)"></span><span aria-hidden="true" style="position: absolute; border-radius: 4px; background: #E9C9A8; left: 80px; top: 147px; width: 56px; height: 12px; transform: rotate(-15deg)"></span></sc-if>
+<sc-if value="{{onKnee}}" hint-placeholder-val="{{ false }}"></sc-if>
+<sc-if value="{{onAnkle}}" hint-placeholder-val="{{ false }}"><span aria-hidden="true" style="position: absolute; background: #2BB3D6; border-radius: 4px; left: 124px; top: 500px; width: 10px; height: 44px"></span><span aria-hidden="true" style="position: absolute; border-radius: 4px; background: #E9C9A8; left: 112px; top: 528px; width: 36px; height: 9px; transform: rotate(-20deg)"></span></sc-if>
+<button type="button" onClick="{{pickNeck}}" aria-pressed="{{pressNeck}}" style="position: absolute; min-height: 44px; padding: 0 14px; border-radius: 999px; border: 1.5px solid #0E2A33; background: #FFFFFF; font: 600 14px 'Archivo', sans-serif; color: #0E2A33; cursor: pointer; white-space: nowrap; left: 214px; top: 84px">Neck</button>
+<button type="button" onClick="{{pickShoulder}}" aria-pressed="{{pressShoulder}}" style="position: absolute; min-height: 44px; padding: 0 14px; border-radius: 999px; border: 1.5px solid #0E2A33; background: #FFFFFF; font: 600 14px 'Archivo', sans-serif; color: #0E2A33; cursor: pointer; white-space: nowrap; left: -70px; top: 120px">Shoulder</button>
+<button type="button" onClick="{{pickBack}}" aria-pressed="{{pressBack}}" style="position: absolute; min-height: 44px; padding: 0 14px; border-radius: 999px; border: 1.5px solid #0E2A33; background: #FFFFFF; font: 600 14px 'Archivo', sans-serif; color: #0E2A33; cursor: pointer; white-space: nowrap; left: 222px; top: 164px">Back and spine</button>
+<button type="button" onClick="{{pickSI}}" aria-pressed="{{pressSI}}" style="position: absolute; min-height: 44px; padding: 0 14px; border-radius: 999px; border: 1.5px solid #0E2A33; background: #FFFFFF; font: 600 14px 'Archivo', sans-serif; color: #0E2A33; cursor: pointer; white-space: nowrap; left: 226px; top: 224px">SI joint and pelvis</button>
+<button type="button" onClick="{{pickKnee}}" aria-pressed="{{pressKnee}}" style="position: absolute; min-height: 44px; padding: 0 14px; border-radius: 999px; border: 1.5px solid #0E2A33; background: #FFFFFF; font: 600 14px 'Archivo', sans-serif; color: #0E2A33; cursor: pointer; white-space: nowrap; left: -44px; top: 404px">Knee</button>
+<button type="button" onClick="{{pickAnkle}}" aria-pressed="{{pressAnkle}}" style="position: absolute; min-height: 44px; padding: 0 14px; border-radius: 999px; border: 1.5px solid #0E2A33; background: #FFFFFF; font: 600 14px 'Archivo', sans-serif; color: #0E2A33; cursor: pointer; white-space: nowrap; left: 196px; top: 500px">Ankle and foot</button>
+</div>
+<div style="flex: 1 1 460px; min-width: 0; background: #FFFFFF; border-radius: 28px; padding: 40px; display: flex; flex-direction: column; gap: 14px; position: relative; overflow: hidden">
+<span aria-hidden="true" style="position: absolute; right: -36px; top: 30px; width: 220px; height: 34px; background: #2BB3D6; transform: rotate(30deg); border-radius: 6px"></span>
+<span style="font-size: 15px; color: #5B727A">Selected area</span>
+<h3 style="margin: 0 0 8px; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 700; letter-spacing: -0.02em; font-size: 42px; line-height: 1">{{area.name}}</h3>
+<ul style="list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column">
+<sc-for list="{{area.courses}}" as="k" hint-placeholder-count="3">
+<li style="padding: 14px 0; border-top: 1px solid #DDE6E3; display: flex; flex-direction: column; gap: 4px"><span style="display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; font-size: 16px"><strong>{{k.t}}</strong><span style="color: #5B727A; font-size: 14px">{{k.by}}</span></span><span style="font-size: 14px; line-height: 1.5; color: #35505A">{{k.spec}}</span></li>
+</sc-for>
+</ul>
+</div>
+</div>
+<div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; font-size: 15px">
+<span style="color: #35505A">For children:</span>
+<button type="button" onClick="{{pickKids}}" aria-pressed="{{pressKids}}" style="min-height: 44px; padding: 0 18px; border-radius: 999px; border: 1.5px solid #0E2A33; background: transparent; font: 600 14px 'Archivo', sans-serif; color: #0E2A33; cursor: pointer">Whole-body pediatric rehab</button>
+</div>
+</div>
+</section>
+
+<!-- 3b. TOOLS: stacked cards (like Omar's capabilities) -->
+<!-- Tool cards content (order, tag, title, image, description) for the build:
+01 Recovery | Achedaway Cupping Therapy | 2eb53a188d553e393ed26ed6535188e7 | We use Achedaway Cupping Therapy to help relieve muscle tension, reduce discomfort, and improve local blood circulation through controlled suction. It is used as part of a recovery program to promote muscle relaxation and support overall mobility.
+02 Trigger points | Dry Needling Therapy | 91026ff34e043463d2647941ba74963b | We use Dry Needling Therapy to relieve muscle pain and tension by targeting myofascial trigger points, tight, sensitive areas within the muscles that often develop due to muscular overload, repetitive strain, and intense physical training. This technique helps reduce muscle tightness, alleviate pain, and restore optimal muscle function and mobility.
+03 Soft tissue | Advanced IASTM Therapy | 4279c31f405977268d0169664b30c4bf | We use Advanced IASTM Therapy with heat and vibration to relieve muscle tension, improve soft tissue mobility, reduce discomfort, and support faster recovery and optimal muscle function.
+04 Support | Kinesiology Taping | a26fa588612bf2a6839c8f7b6380e02d | We use Kinesiology Taping to support muscles and joints, improve movement efficiency, and help manage pain during physical activity. The elastic therapeutic tape is applied to targeted areas to provide additional support, reduce excessive strain, and facilitate functional movement without restricting the body's natural range of motion. It can also be used as part of a comprehensive rehabilitation program to support recovery and optimize physical performance.
+05 Tendon pain | Shockwave Therapy | 630957b0eb06219eed5fcf85ec45e0a5 | We use Shockwave Therapy to target chronic muscle and tendon pain through focused acoustic waves, helping stimulate tissue healing, reduce discomfort, and improve mobility and functional recovery.
+06 Joint mobility | Mulligan Technique | d76a53f2b0b2b8ae8bbf48c4ec594c88 | We use the Mulligan Technique to improve joint mobility, reduce pain, and restore normal movement through specific manual mobilization techniques combined with active patient movement.
+07 Muscle activation | Electrical Stimulation Therapy | e4abf4d71d803c9600e51d68209236be | We use Electrical Stimulation Therapy to help relieve pain, stimulate muscle activity, improve circulation, and support muscle strengthening and rehabilitation.
+-->
+<section id="tools" style="background: #032D3B; color: #EEF2F0; padding: 120px 40px" class="sec-pad">
+<div style="max-width: 1280px; margin: 0 auto; display: flex; flex-wrap: wrap; gap: 64px; align-items: center">
+<div style="flex: 1 1 360px; min-width: 0; display: flex; flex-direction: column; gap: 22px">
+<span style="font-size: 13px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: #9FC4CF">Tools in the clinic</span>
+<h2 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 700; letter-spacing: -0.02em; font-size: 60px; line-height: 1.02; color: #F4F7F6">What he treats <span style="color: #2BB3D6">with.</span></h2>
+<ol style="list-style: none; margin: 8px 0 0; padding: 0; max-width: 380px; border-bottom: 1px solid rgba(238,242,240,0.12)">
+<li style="display: flex; align-items: center; gap: 14px; padding: 11px 0; border-top: 1px solid rgba(238,242,240,0.12); font-size: 17px; font-weight: 700; color: #F4F7F6"><span style="width: 28px; font-size: 13px; color: #2BB3D6">01</span>Cupping therapy<span style="margin-left: auto; width: 8px; height: 8px; border-radius: 50%; background: #2BB3D6"></span></li>
+<li style="display: flex; align-items: center; gap: 14px; padding: 11px 0; border-top: 1px solid rgba(238,242,240,0.12); font-size: 17px; font-weight: 500; color: #6F96A2"><span style="width: 28px; font-size: 13px; color: #4F7480">02</span>Dry needling</li>
+<li style="display: flex; align-items: center; gap: 14px; padding: 11px 0; border-top: 1px solid rgba(238,242,240,0.12); font-size: 17px; font-weight: 500; color: #6F96A2"><span style="width: 28px; font-size: 13px; color: #4F7480">03</span>IASTM therapy</li>
+<li style="display: flex; align-items: center; gap: 14px; padding: 11px 0; border-top: 1px solid rgba(238,242,240,0.12); font-size: 17px; font-weight: 500; color: #6F96A2"><span style="width: 28px; font-size: 13px; color: #4F7480">04</span>Kinesiology taping</li>
+<li style="display: flex; align-items: center; gap: 14px; padding: 11px 0; border-top: 1px solid rgba(238,242,240,0.12); font-size: 17px; font-weight: 500; color: #6F96A2"><span style="width: 28px; font-size: 13px; color: #4F7480">05</span>Shockwave therapy</li>
+<li style="display: flex; align-items: center; gap: 14px; padding: 11px 0; border-top: 1px solid rgba(238,242,240,0.12); font-size: 17px; font-weight: 500; color: #6F96A2"><span style="width: 28px; font-size: 13px; color: #4F7480">06</span>Mulligan technique</li>
+<li style="display: flex; align-items: center; gap: 14px; padding: 11px 0; border-top: 1px solid rgba(238,242,240,0.12); font-size: 17px; font-weight: 500; color: #6F96A2"><span style="width: 28px; font-size: 13px; color: #4F7480">07</span>Electrical stimulation</li>
+</ol>
+<span style="font-size: 13px; color: #9FC4CF; display: inline-flex; align-items: center; gap: 8px"><span style="width: 8px; height: 8px; border-radius: 50%; background: #F26B3A; display: inline-block"></span>The cards stack as you scroll, one tool at a time.</span>
+</div>
+<div style="flex: 1 1 640px; min-width: 0; display: flex; flex-direction: column; gap: 22px">
+<div style="display: flex; align-items: center; gap: 18px; font-size: 15px">
+<span style="font-weight: 700; color: #F4F7F6">01 <span style="color: #6F96A2; font-weight: 500">/ 07</span></span>
+<span style="flex: 1; height: 2px; background: rgba(238,242,240,0.16); position: relative"><span style="position: absolute; left: 0; top: 0; bottom: 0; width: 14.3%; background: #2BB3D6"></span></span>
+<span style="letter-spacing: 0.22em; font-weight: 600; font-size: 13px; color: #2BB3D6; text-transform: uppercase">Recovery</span>
+</div>
+<h3 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 700; letter-spacing: -0.02em; font-size: 44px; line-height: 1.05; color: #F4F7F6">Achedaway Cupping Therapy</h3>
+<div style="position: relative; padding-top: 54px">
+<div style="position: absolute; top: 0px; left: 7%; right: 7%; height: 90px; border-radius: 26px 26px 0 0; overflow: hidden; border: 1px solid rgba(238,242,240,0.14)"><img src="../assets/tool-needling.jpg" alt="" style="width: 100%; height: 420px; object-fit: cover; display: block; filter: brightness(0.55)"></div>
+<div style="position: absolute; top: 18px; left: 4.5%; right: 4.5%; height: 90px; border-radius: 26px 26px 0 0; overflow: hidden; border: 1px solid rgba(238,242,240,0.14)"><img src="../assets/tool-iastm.jpg" alt="" style="width: 100%; height: 420px; object-fit: cover; display: block; filter: brightness(0.55)"></div>
+<div style="position: absolute; top: 36px; left: 2%; right: 2%; height: 90px; border-radius: 26px 26px 0 0; overflow: hidden; border: 1px solid rgba(238,242,240,0.14)"><img src="../assets/tool-taping.jpg" alt="" style="width: 100%; height: 420px; object-fit: cover; display: block; filter: brightness(0.55)"></div>
+<div style="position: relative; height: 440px; border-radius: 26px; overflow: hidden; border: 1px solid rgba(238,242,240,0.14); box-shadow: 0 30px 60px -30px rgba(0,0,0,0.7)">
+<img src="../assets/tool-cupping.jpg" alt="Two Achedaway smart cupping devices with red light on a patient's upper back" style="width: 100%; height: 100%; object-fit: cover; object-position: center 45%; display: block">
+</div>
+</div>
+<p style="margin: 0; font-size: 17px; line-height: 1.6; color: #CFE0E5; max-width: 640px">We use Achedaway Cupping Therapy to help relieve muscle tension, reduce discomfort, and improve local blood circulation through controlled suction. It is used as part of a recovery program to promote muscle relaxation and support overall mobility.</p>
+</div>
+</div>
+</section>
+
+<!-- 4. REELS: animated background -->
+<section id="reels" style="position: relative; overflow: hidden; color: #0E2A33; padding: 110px 0 110px">
+<div aria-hidden="true" class="grain-bg"><span class="blob b1"></span><span class="blob b2"></span><span class="blob b3"></span><span class="blob b4"></span><svg class="grain"><filter id="grain1"><feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="2" stitchTiles="stitch"></feTurbulence><feColorMatrix type="saturate" values="0"></feColorMatrix></filter><rect width="100%" height="100%" filter="url(#grain1)"></rect></svg></div>
+<div style="position: relative">
+<div style="max-width: 1240px; margin: 0 auto; padding: 0 40px 36px; display: flex; justify-content: space-between; align-items: flex-end; gap: 24px; flex-wrap: wrap" class="sec-pad">
+<div style="display: flex; flex-direction: column; gap: 14px">
+<h2 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 700; letter-spacing: -0.02em; font-size: 60px; line-height: 1">Learn from his reels</h2>
+<p style="margin: 0; font-size: 17px; color: #35505A; max-width: 520px">Paste a reel link in the dashboard and it appears here with its cover. Tap to watch.</p>
+</div>
+<div role="group" aria-label="Filter reels by area" style="display: flex; gap: 8px; flex-wrap: wrap">
+<button type="button" aria-pressed="true" style="min-height: 44px; padding: 0 16px; border-radius: 999px; border: 0; background: #032D3B; color: #EEF2F0; font: 600 14px 'Archivo', sans-serif">All</button>
+<button type="button" aria-pressed="false" style="min-height: 44px; padding: 0 16px; border-radius: 999px; border: 1.5px solid rgba(3,45,59,0.45); background: rgba(255,255,255,0.35); color: #0E2A33; font: 500 14px 'Archivo', sans-serif">Posture</button>
+<button type="button" aria-pressed="false" style="min-height: 44px; padding: 0 16px; border-radius: 999px; border: 1.5px solid rgba(3,45,59,0.45); background: rgba(255,255,255,0.35); color: #0E2A33; font: 500 14px 'Archivo', sans-serif">Ankle</button>
+<button type="button" aria-pressed="false" style="min-height: 44px; padding: 0 16px; border-radius: 999px; border: 1.5px solid rgba(3,45,59,0.45); background: rgba(255,255,255,0.35); color: #0E2A33; font: 500 14px 'Archivo', sans-serif">Knee</button>
+<button type="button" aria-pressed="false" style="min-height: 44px; padding: 0 16px; border-radius: 999px; border: 1.5px solid rgba(3,45,59,0.45); background: rgba(255,255,255,0.35); color: #0E2A33; font: 500 14px 'Archivo', sans-serif">Taping</button>
+</div>
+</div>
+<div style="overflow-x: auto; padding: 10px 0 24px">
+<div style="display: flex; gap: 22px; padding: 0 40px; width: max-content; align-items: flex-start">
+<sc-for list="{{reels}}" as="r" hint-placeholder-count="6">
+<a href="{{r.url}}" style="width: 260px; display: flex; flex-direction: column; gap: 12px; text-decoration: none; color: #0E2A33">
+<div style="position: relative; width: 260px; height: 462px; border-radius: 22px; background: #032D3B; color: #EEF2F0; box-shadow: 0 24px 40px -26px rgba(3,45,59,0.7); overflow: hidden; display: flex; align-items: center; justify-content: center">
+<sc-if value="{{r.hasCover}}" hint-placeholder-val="{{ false }}"><img src="{{r.cover}}" alt="" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover"></sc-if>
+<span aria-hidden="true" style="position: absolute; left: -16px; top: 22px; padding: 6px 30px; background: #2BB3D6; color: #032D3B; font-size: 13px; font-weight: 700; transform: rotate(-8deg)">{{r.tag}}</span>
+<span aria-hidden="true" style="position: relative; width: 58px; height: 58px; border-radius: 50%; background: rgba(3,45,59,0.55); display: flex; align-items: center; justify-content: center"><svg width="54" height="54" viewBox="0 0 56 56"><circle cx="28" cy="28" r="26" fill="none" stroke="#EEF2F0" stroke-width="2"></circle><path d="M23 18 L38 28 L23 38 Z" fill="#EEF2F0"></path></svg></span>
+<span style="position: absolute; left: 14px; bottom: 14px; display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; border-radius: 999px; background: rgba(3,45,59,0.85); font-size: 13px; font-weight: 600"><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M4 2.5 L11 7 L4 11.5 Z" fill="#EEF2F0"></path></svg>{{r.views}} views</span>
+</div>
+<h3 dir="{{r.dir}}" style="margin: 0; font-size: 17px; line-height: 1.35; font-weight: 700">{{r.title}}</h3>
+</a>
+</sc-for>
+<a href="https://www.instagram.com/dr.mohamedelhallaj/" style="width: 200px; height: 462px; border-radius: 22px; border: 1.5px solid #032D3B; background: rgba(255,255,255,0.35); display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 10px; text-decoration: none; font-weight: 700; font-size: 17px; color: #0E2A33">More on Instagram<span style="font-weight: 500; font-size: 14px; color: #35505A">370K followers</span></a>
+</div>
+</div>
+</div>
+</section>
+
+<!-- 5. EXPERIENCE: static navy, the recovery journey on the track -->
+
+
+<!-- 6. EDUCATION: animated background -->
+<section id="track" style="background: #032D3B; color: #EEF2F0; padding: 110px 0" aria-label="Experience">
+<div style="max-width: 1360px; margin: 0 auto; padding: 0 40px 36px; display: flex; justify-content: space-between; align-items: flex-end; gap: 24px; flex-wrap: wrap" class="sec-pad">
+<h2 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 700; letter-spacing: -0.02em; font-size: 60px; line-height: 1">Step by step, back to the pitch</h2>
+<p style="margin: 0; font-size: 16px; color: #9FC4CF; max-width: 400px">The track slides sideways as you scroll. With each workplace the patient needs less help, from a wheelchair to crutches to his first free steps, until he runs and shoots.</p>
+</div>
+<div style="overflow-x: auto">
+<div style="width: 2750px; position: relative; height: 600px; padding-left: 40px">
+<img src="../assets/track-figure-1.png" alt="The doctor pushing the patient in a wheelchair" style="position: absolute; left: 150px; top: 10px; width: 278px; height: 290px">
+<img src="../assets/track-figure-2.png" alt="The patient walking on two crutches beside the doctor" style="position: absolute; left: 600px; top: 10px; width: 211px; height: 290px">
+<img src="../assets/track-figure-3.png" alt="The patient walking with one crutch, the doctor talking to him" style="position: absolute; left: 900px; top: 10px; width: 208px; height: 290px">
+<img src="../assets/track-figure-4.png" alt="The patient walking on his own with kinesio tape, the doctor just behind" style="position: absolute; left: 1180px; top: 10px; width: 202px; height: 290px">
+<img src="../assets/track-figure-5.png" alt="The doctor watching proudly as the patient walks ahead" style="position: absolute; left: 1480px; top: 10px; width: 233px; height: 290px">
+<img src="../assets/track-figure-6.png" alt="The patient running" style="position: absolute; left: 1880px; top: 38px; width: 188px; height: 262px">
+<img src="../assets/track-figure-7.png" alt="The patient kicking a football" style="position: absolute; left: 2400px; top: 74px; width: 209px; height: 226px">
+<div aria-hidden="true" style="position: absolute; left: 0; right: 0; top: 300px; height: 96px; background: #0B6E91; border-top: 3px solid #EEF2F0; border-bottom: 3px solid #EEF2F0"></div>
+<div aria-hidden="true" style="position: absolute; left: 0; right: 0; top: 346px; border-top: 2px dashed rgba(238,242,240,0.55)"></div>
+<ol style="list-style: none; margin: 0; padding: 0">
+<li style="position: absolute; left: 240px; top: 420px; width: 210px; display: flex; flex-direction: column; gap: 6px"><span aria-hidden="true" style="position: absolute; left: 0; top: -94px; width: 18px; height: 30px; border-radius: 9px 9px 7px 7px; background: #EEF2F0"></span><span style="width: 56px; height: 56px; border-radius: 50%; background: #FFFFFF; display: flex; align-items: center; justify-content: center; overflow: hidden; margin-bottom: 6px; box-shadow: 0 6px 16px -8px rgba(0,0,0,0.5)"><img src="../assets/station-logo-islamic.png" alt="Islamic Relief" style="width: 74%; height: 74%; object-fit: contain"></span><span style="font-size: 14px; color: #9FC4CF">2007</span><strong style="font-size: 19px; line-height: 1.2">Islamic Relief pediatric center</strong><span style="font-size: 14px; color: #CFE0E5">Trainee physiotherapist</span></li>
+<li style="position: absolute; left: 500px; top: 420px; width: 210px; display: flex; flex-direction: column; gap: 6px"><span aria-hidden="true" style="position: absolute; left: 0; top: -60px; width: 18px; height: 30px; border-radius: 9px 9px 7px 7px; background: #EEF2F0"></span><span style="width: 56px; height: 56px; border-radius: 50%; background: #FFFFFF; display: flex; align-items: center; justify-content: center; overflow: hidden; margin-bottom: 6px; box-shadow: 0 6px 16px -8px rgba(0,0,0,0.5)"><img src="../assets/station-logo-free2move.png" alt="Free2move Pediatric Rehab Center" style="width: 74%; height: 74%; object-fit: contain"></span><span style="font-size: 14px; color: #9FC4CF">2008 to 2010</span><strong style="font-size: 19px; line-height: 1.2">Free2move pediatric rehabilitation center</strong><span style="font-size: 14px; color: #CFE0E5">Physiotherapist</span></li>
+<li style="position: absolute; left: 760px; top: 420px; width: 210px; display: flex; flex-direction: column; gap: 6px"><span aria-hidden="true" style="position: absolute; left: 0; top: -94px; width: 18px; height: 30px; border-radius: 9px 9px 7px 7px; background: #EEF2F0"></span><span style="width: 52px; height: 52px; border-radius: 50%; background: #EEF2F0; border: 2px dashed #6F97A3; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; color: #3F5E68; margin-bottom: 6px">Logo</span><span style="font-size: 14px; color: #9FC4CF">2008 to 2010</span><strong style="font-size: 19px; line-height: 1.2">Alyasmen center for orthopedic, neurological and sports injuries</strong><span style="font-size: 14px; color: #CFE0E5">Senior physiotherapist</span></li>
+<li style="position: absolute; left: 1020px; top: 420px; width: 210px; display: flex; flex-direction: column; gap: 6px"><span aria-hidden="true" style="position: absolute; left: 0; top: -60px; width: 18px; height: 30px; border-radius: 9px 9px 7px 7px; background: #EEF2F0"></span><span style="width: 56px; height: 56px; border-radius: 50%; background: #FFFFFF; display: flex; align-items: center; justify-content: center; overflow: hidden; margin-bottom: 6px; box-shadow: 0 6px 16px -8px rgba(0,0,0,0.5)"><img src="../assets/station-logo-moh_eg.png" alt="Ministry of Health and Population, Egypt" style="width: 74%; height: 74%; object-fit: contain"></span><span style="font-size: 14px; color: #9FC4CF">2009 to 2011</span><strong style="font-size: 19px; line-height: 1.2">Ministry of Health, Egypt</strong><span style="font-size: 14px; color: #CFE0E5">Physiotherapist</span></li>
+<li style="position: absolute; left: 1280px; top: 420px; width: 210px; display: flex; flex-direction: column; gap: 6px"><span aria-hidden="true" style="position: absolute; left: 0; top: -94px; width: 18px; height: 30px; border-radius: 9px 9px 7px 7px; background: #EEF2F0"></span><span style="width: 56px; height: 56px; border-radius: 50%; background: #FFFFFF; display: flex; align-items: center; justify-content: center; overflow: hidden; margin-bottom: 6px; box-shadow: 0 6px 16px -8px rgba(0,0,0,0.5)"><img src="../assets/station-logo-nour.png" alt="Nour Alhayah pediatric rehabilitation center" style="width: 74%; height: 74%; object-fit: contain"></span><span style="font-size: 14px; color: #9FC4CF">2010 to 2011</span><strong style="font-size: 19px; line-height: 1.2">Nour Alhayah pediatric rehabilitation center</strong><span style="font-size: 14px; color: #CFE0E5">Senior pediatric physiotherapist</span></li>
+<li style="position: absolute; left: 1540px; top: 420px; width: 240px; display: flex; flex-direction: column; gap: 6px"><span aria-hidden="true" style="position: absolute; left: 0; top: -60px; width: 18px; height: 30px; border-radius: 9px 9px 7px 7px; background: #FF6B3D"></span><span style="width: 56px; height: 56px; border-radius: 50%; background: #FFFFFF; display: flex; align-items: center; justify-content: center; overflow: hidden; margin-bottom: 6px; box-shadow: 0 6px 16px -8px rgba(0,0,0,0.5)"><img src="../assets/station-logo-nibras.png" alt="Alnibras School for Special Needs" style="width: 74%; height: 74%; object-fit: contain"></span><span style="font-size: 14px; color: #FF8A63">2011 to now</span><strong style="font-size: 19px; line-height: 1.2">Alnibras School for Special Needs</strong><span style="font-size: 14px; color: #CFE0E5">Spine and posture physiotherapist</span></li>
+<li style="position: absolute; left: 1880px; top: 420px; width: 210px; display: flex; flex-direction: column; gap: 6px"><span aria-hidden="true" style="position: absolute; left: 0; top: -94px; width: 22px; height: 34px; border-radius: 11px 11px 8px 8px; background: #EEF2F0; transform: rotate(14deg)"></span><span style="width: 56px; height: 56px; border-radius: 50%; background: #FFFFFF; display: flex; align-items: center; justify-content: center; overflow: hidden; margin-bottom: 6px; box-shadow: 0 6px 16px -8px rgba(0,0,0,0.5)"><img src="../assets/station-logo-khaitan.png" alt="Khaitan Sports Club" style="width: 74%; height: 74%; object-fit: contain"></span><span style="font-size: 14px; color: #9FC4CF">2013 to 2014</span><strong style="font-size: 19px; line-height: 1.2">Khaitan Sports Club</strong><span style="font-size: 14px; color: #CFE0E5">Sports physical therapist</span></li>
+<li style="position: absolute; left: 2170px; top: 420px; width: 210px; display: flex; flex-direction: column; gap: 6px"><span aria-hidden="true" style="position: absolute; left: 0; top: -60px; width: 22px; height: 34px; border-radius: 11px 11px 8px 8px; background: #EEF2F0; transform: rotate(14deg)"></span><span style="width: 56px; height: 56px; border-radius: 50%; background: #FFFFFF; display: flex; align-items: center; justify-content: center; overflow: hidden; margin-bottom: 6px; box-shadow: 0 6px 16px -8px rgba(0,0,0,0.5)"><img src="../assets/station-logo-tadamon.png" alt="Al-Tadamon Sports Club" style="width: 74%; height: 74%; object-fit: contain"></span><span style="font-size: 14px; color: #9FC4CF">2014 to 2016</span><strong style="font-size: 19px; line-height: 1.2">Al-Tadamon Sports Club</strong><span style="font-size: 14px; color: #CFE0E5">Sports physical therapist</span></li>
+<li style="position: absolute; left: 2460px; top: 420px; width: 230px; display: flex; flex-direction: column; gap: 6px"><span aria-hidden="true" style="position: absolute; left: 0; top: -94px; width: 22px; height: 34px; border-radius: 11px 11px 8px 8px; background: #EEF2F0; transform: rotate(14deg)"></span><span style="width: 56px; height: 56px; border-radius: 50%; background: #FFFFFF; display: flex; align-items: center; justify-content: center; overflow: hidden; margin-bottom: 6px; box-shadow: 0 6px 16px -8px rgba(0,0,0,0.5)"><img src="../assets/station-logo-qadsia.png" alt="Al-Qadsiya Sports Club" style="width: 74%; height: 74%; object-fit: contain"></span><span style="font-size: 14px; color: #9FC4CF">2017 to 2023</span><strong style="font-size: 19px; line-height: 1.2">Al-Qadsiya Sports Club</strong><span style="font-size: 14px; color: #CFE0E5">Senior sports physiotherapist</span></li>
+</ol>
+</div>
+</div>
+</section><section class="sec-pad" style="position: relative; overflow: hidden; color: #0E2A33; padding: 120px 40px">
+<div aria-hidden="true" class="grain-bg"><span class="blob b1"></span><span class="blob b2"></span><span class="blob b3"></span><span class="blob b4"></span><svg class="grain"><filter id="grain2"><feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="2" stitchTiles="stitch"></feTurbulence><feColorMatrix type="saturate" values="0"></feColorMatrix></filter><rect width="100%" height="100%" filter="url(#grain2)"></rect></svg></div>
+<div style="position: relative; max-width: 1280px; margin: 0 auto">
+<h2 style="margin: 0 0 56px; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 700; letter-spacing: -0.02em; font-size: 60px; line-height: 1">Education and training</h2>
+
+<h3 style="margin: 0 0 22px; font-size: 15px; font-weight: 500; color: #3F5E68">Degrees, Cairo University</h3>
+<div style="display: flex; flex-wrap: wrap; position: relative">
+<div aria-hidden="true" style="position: absolute; left: 0; right: 0; top: 42px; border-top: 2px dashed rgba(3,45,59,0.35)"></div>
+<div style="flex: 1 1 420px; min-width: 0; display: flex; flex-direction: column; gap: 10px; padding-right: 40px; position: relative">
+<span aria-hidden="true" style="width: 52px; height: 84px; border-radius: 26px 26px 20px 20px; background: #032D3B"></span>
+<span style="font-size: 15px; color: #3F5E68; padding-top: 8px">2005 to 2010</span>
+<strong style="font-family: 'Bricolage Grotesque', sans-serif; font-weight: 700; letter-spacing: -0.02em; font-size: 32px; line-height: 1.1">Bachelor of Physical Therapy</strong>
+<span style="font-size: 16px; color: #35505A">Faculty of Physical Therapy</span>
+</div>
+<div style="flex: 1 1 420px; min-width: 0; display: flex; flex-direction: column; gap: 10px; position: relative">
+<span aria-hidden="true" style="width: 52px; height: 84px; border-radius: 26px 26px 20px 20px; background: #FF6B3D; transform: rotate(10deg)"></span>
+<span style="font-size: 15px; color: #C2410C; padding-top: 8px">2017 to 2019</span>
+<strong style="font-family: 'Bricolage Grotesque', sans-serif; font-weight: 700; letter-spacing: -0.02em; font-size: 32px; line-height: 1.1">Doctor of Physical Therapy (DPT)</strong>
+<span style="font-size: 16px; color: #35505A">Orthopedic diseases specialist</span>
+</div>
+</div>
+
+<h3 style="margin: 80px 0 22px; font-size: 15px; font-weight: 500; color: #3F5E68">Diplomas</h3>
+<div style="display: flex; gap: 20px; flex-wrap: wrap">
+<div style="flex: 1 1 420px; min-width: 0; padding: 30px; border-radius: 24px; background: rgba(255,255,255,0.55); border: 1px solid rgba(3,45,59,0.14); display: flex; flex-direction: column; gap: 10px">
+<span style="font-size: 14px; color: #3F5E68">Levels one and two, UK certified</span>
+<strong style="font-family: 'Bricolage Grotesque', sans-serif; font-weight: 700; letter-spacing: -0.02em; font-size: 26px; line-height: 1.15">Orthopaedic Manual Therapy Diploma (OMTC)</strong>
+<span style="font-size: 15px; color: #35505A">Dr. Mahmoud Saad, Kuwait</span>
+</div>
+<div style="flex: 1 1 420px; min-width: 0; padding: 30px; border-radius: 24px; background: rgba(255,255,255,0.4); border: 1.5px dashed #0B6E91; display: flex; flex-direction: column; gap: 10px">
+<span style="align-self: flex-start; display: inline-flex; align-items: center; gap: 8px; padding: 5px 12px; border-radius: 999px; background: rgba(11,110,145,0.12); font-size: 13px; font-weight: 600; color: #0B6E91"><span aria-hidden="true" style="width: 7px; height: 7px; border-radius: 50%; background: #2BB3D6"></span>In progress</span>
+<strong style="font-family: 'Bricolage Grotesque', sans-serif; font-weight: 700; letter-spacing: -0.02em; font-size: 26px; line-height: 1.15">FIFA Diploma in Football Medicine</strong>
+<span style="font-size: 15px; color: #35505A">FIFA Medical Network</span>
+</div>
+</div>
+
+<h3 style="margin: 80px 0 8px; font-size: 15px; font-weight: 500; color: #3F5E68">Further training</h3>
+<ul style="list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 48px">
+<sc-for list="{{courses}}" as="c" hint-placeholder-count="11">
+<li style="padding: 15px 0; border-top: 1px solid rgba(3,45,59,0.16); display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; font-size: 15px"><span style="font-weight: 600">{{c.t}}</span><span style="color: #3F5E68">{{c.by}}</span></li>
+</sc-for>
+</ul>
+</div>
+</section>
+
+<!-- 6b. BRANCHES: co-founder + two clinics on a 3D map of Alexandria -->
+<section id="clinics" style="position: relative; overflow: hidden; background: #EEF2F0; color: #0E2A33; padding: 120px 40px 110px" class="sec-pad">
+<div style="max-width: 1280px; margin: 0 auto; display: flex; flex-direction: column; gap: 8px">
+<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 56px">
+<div style="flex: 0 0 auto; position: relative; width: 250px; height: 250px">
+<svg class="spin" viewBox="0 0 250 250" width="250" height="250" aria-hidden="true" style="position: absolute; inset: 0"><defs><path id="seal" d="M125,125 m-104,0 a104,104 0 1,1 208,0 a104,104 0 1,1 -208,0"></path></defs><text style="font: 700 18px 'Archivo', sans-serif; letter-spacing: 0.31em; fill: #032D3B"><textPath href="#seal">CO-FOUNDER ✦ EXPERTS PHYSIO HOUSE ✦ </textPath></text></svg>
+<div style="position: absolute; inset: 38px; border-radius: 50%; background: #FFFFFF; box-shadow: 0 20px 44px -22px rgba(3,45,59,0.55), inset 0 0 0 1.5px rgba(3,45,59,0.12); display: flex; align-items: center; justify-content: center"><img src="../assets/logo-experts-physio-house-orange.png" alt="Experts Physio House logo" style="width: 118px; height: auto; display: block"></div>
+</div>
+<div style="flex: 1 1 560px; min-width: 0; display: flex; flex-direction: column; gap: 18px">
+<span style="align-self: flex-start; display: inline-flex; align-items: center; gap: 10px; padding: 10px 18px 10px 12px; border-radius: 999px; background: #F26B3A; color: #FFFFFF; font-weight: 700; font-size: 15px; letter-spacing: 0.14em; text-transform: uppercase; box-shadow: 0 12px 26px -14px rgba(242,107,58,0.9)"><span style="width: 26px; height: 26px; border-radius: 50%; background: #FFFFFF; color: #F26B3A; display: inline-flex; align-items: center; justify-content: center; font-size: 14px; letter-spacing: 0">★</span>Co-founder</span>
+<h2 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; letter-spacing: -0.03em; font-size: 88px; line-height: 0.95; color: #032D3B">Experts <span style="color: #0B6E91">Physio House</span></h2>
+<p dir="rtl" lang="ar" style="margin: 0; align-self: flex-start; font-size: 26px; font-weight: 700; color: #35505A">مركز الخبراء للعلاج الطبيعي</p>
+<a href="https://www.instagram.com/experts_physio_house_clinic/" style="align-self: flex-start; font-size: 15px; font-weight: 600; color: #0B6E91">Follow the clinic on Instagram →</a>
+</div>
+</div>
+</div>
+<div style="position: relative; margin: 10px -40px 0">
+<img src="../assets/clinics-map-3d.jpg" alt="3D map of eastern Alexandria with the Smouha and Gianaclis areas raised" style="width: 100%; height: auto; display: block">
+<div style="position: absolute; left: 38.7%; top: 54%; transform: translate(-50%, -100%); display: flex; flex-direction: column; align-items: center">
+<span style="padding: 9px 18px; border-radius: 14px; background: #F26B3A; color: #FFFFFF; font-family: 'Bricolage Grotesque', sans-serif; font-size: 22px; font-weight: 700; white-space: nowrap; box-shadow: 0 14px 28px -14px rgba(160,58,24,0.9)">01 · Smouha</span>
+<span style="width: 2px; height: 26px; background: #A03A18"></span>
+</div>
+<div style="position: absolute; left: 60.5%; top: 10%; transform: translate(-50%, -100%); display: flex; flex-direction: column; align-items: center">
+<span style="padding: 9px 18px; border-radius: 14px; background: #2BB3D6; color: #032D3B; font-family: 'Bricolage Grotesque', sans-serif; font-size: 22px; font-weight: 700; white-space: nowrap; box-shadow: 0 14px 28px -14px rgba(11,96,125,0.9)">02 · Gianaclis</span>
+<span style="width: 2px; height: 22px; background: #0B607D"></span>
+</div>
+<span style="position: absolute; left: 14%; top: 22%; font-size: 13px; letter-spacing: 0.3em; text-transform: uppercase; color: #35505A; transform: rotate(-16deg)">Mediterranean Sea</span>
+<span style="position: absolute; right: 2%; top: 2%; font-size: 11px; color: #35505A">© OpenStreetMap contributors</span>
+</div>
+<div style="max-width: 1280px; margin: 0 auto; display: flex; flex-direction: column">
+<div style="display: flex; flex-wrap: wrap; gap: 18px; margin-top: -60px; position: relative">
+<article style="flex: 1 1 420px; min-width: 0; display: flex; gap: 18px; align-items: flex-start; padding: 24px 26px; border-radius: 22px; background: #FFFFFF; border-top: 5px solid #F26B3A; box-shadow: 0 22px 44px -28px rgba(3,45,59,0.55)">
+<span style="flex: 0 0 auto; width: 46px; height: 46px; border-radius: 50%; background: #F26B3A; color: #FFFFFF; display: flex; align-items: center; justify-content: center; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 700; font-size: 18px">01</span>
+<div style="flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 6px">
+<strong style="font-family: 'Bricolage Grotesque', sans-serif; font-weight: 700; font-size: 26px; letter-spacing: -0.01em">Smouha</strong>
+<span style="font-size: 15px; line-height: 1.5; color: #3F5E68">11 Zaki Ragab St. (Saeed Nassar), Al-Tawheed Tower, Al-Iman Building, 1st floor, above Sobeiko Market</span>
+<span style="font-size: 15px; color: #3F5E68">+20 128 222 5725 · 03 427 8388</span>
+<span style="font-size: 15px; color: #3F5E68">Open 12 pm – 8 pm</span>
+<a href="#clinics" style="margin-top: 6px; font-size: 14px; font-weight: 600; color: #0B6E91">Get directions →</a>
+</div>
+</article>
+<article style="flex: 1 1 420px; min-width: 0; display: flex; gap: 18px; align-items: flex-start; padding: 24px 26px; border-radius: 22px; background: #FFFFFF; border-top: 5px solid #2BB3D6; box-shadow: 0 22px 44px -28px rgba(3,45,59,0.55)">
+<span style="flex: 0 0 auto; width: 46px; height: 46px; border-radius: 50%; background: #2BB3D6; color: #032D3B; display: flex; align-items: center; justify-content: center; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 700; font-size: 18px">02</span>
+<div style="flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 6px">
+<strong style="font-family: 'Bricolage Grotesque', sans-serif; font-weight: 700; font-size: 26px; letter-spacing: -0.01em">Gianaclis</strong>
+<span style="font-size: 15px; line-height: 1.5; color: #3F5E68">133 El Horreya Rd., Al-Zeraiyin Towers, Mohamed Saleh Tower (1), 1st floor, Apt. 12</span>
+<span style="font-size: 15px; color: #3F5E68">+20 104 444 2813</span>
+<span style="font-size: 15px; color: #3F5E68">Open 12 pm – 8 pm</span>
+<a href="#clinics" style="margin-top: 6px; font-size: 14px; font-weight: 600; color: #0B6E91">Get directions →</a>
+</div>
+</article>
+</div>
+<p style="margin: 18px 0 0; font-size: 13px; color: #6A8189; display: flex; align-items: center; gap: 8px"><span style="width: 8px; height: 8px; border-radius: 50%; background: #F26B3A; display: inline-block"></span>On scroll the map tilts in and the two areas rise one after the other.</p>
+</div>
+</section>
+
+<!-- 7. CONTACT: static navy -->
+<section id="contact" style="background: #032D3B; color: #EEF2F0; padding: 110px 40px" class="sec-pad">
+<div style="max-width: 1280px; margin: 0 auto; display: flex; flex-wrap: wrap; gap: 56px; align-items: center">
+<div style="flex: 0 0 280px; height: 498px"><img src="../assets/contact-stretch.jpg" alt="The recovered patient in a full overhead stretch" style="width: 100%; height: 100%; object-fit: cover; display: block"></div>
+<div style="flex: 999 1 560px; min-width: 0; display: flex; flex-direction: column; gap: 26px">
+<h2 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 700; letter-spacing: -0.02em; font-size: 76px; line-height: 1">Ready for your first session?</h2>
+<p style="margin: 0; font-size: 19px; line-height: 1.55; color: #B6CDD4; max-width: 520px">Tell him about the injury or your child’s needs, and you will plan the first session together.</p>
+<div style="display: flex; gap: 14px; flex-wrap: wrap">
+<a href="https://wa.me/96550282082" style="display: inline-flex; align-items: center; min-height: 52px; padding: 0 26px; border-radius: 999px; background: #2BB3D6; color: #032D3B; text-decoration: none; font-weight: 700; font-size: 16px">Message on WhatsApp</a>
+<a href="mailto:Dr.mohamed.elhallaj@gmail.com" style="display: inline-flex; align-items: center; min-height: 52px; padding: 0 26px; border-radius: 999px; border: 1.5px solid #EEF2F0; text-decoration: none; font-weight: 600; font-size: 16px">Send an email</a>
+</div>
+<div style="display: flex; gap: 32px; flex-wrap: wrap; font-size: 15px; color: #B6CDD4">
+<span>+965 5028 2082</span><span>Dr.mohamed.elhallaj@gmail.com</span><span>Salmiya, Kuwait</span>
+</div>
+</div>
+</div>
+</section>
+
+<!-- FOOTER -->
+<footer style="background: #021F29; color: #EEF2F0; padding: 56px 40px 32px; border-top: 1px solid #2C4A54" class="sec-pad">
+<div style="max-width: 1280px; margin: 0 auto; display: flex; flex-direction: column; gap: 44px">
+<div style="display: flex; justify-content: space-between; gap: 40px; flex-wrap: wrap; align-items: flex-start">
+<a href="#top" aria-label="Dr. Elhallaj Clinic, back to top" style="display: flex; align-items: center; gap: 18px; text-decoration: none">
+<img src="../assets/logo-dr-elhallaj-dark-bg.png" alt="Dr. Elhallaj Clinic" style="height: 88px; width: auto; display: block">
+<span style="display: flex; flex-direction: column; gap: 4px"><strong style="font-family: 'Bricolage Grotesque', sans-serif; font-weight: 700; letter-spacing: -0.02em; font-size: 20px">Dr. Mohamed Abdellatif Elhallaj</strong><span style="font-size: 14px; color: #9FC4CF">Doctor of Physical Therapy</span></span>
+</a>
+<nav aria-label="Footer" style="display: flex; gap: 56px; flex-wrap: wrap; font-size: 15px">
+<div style="display: flex; flex-direction: column; gap: 12px"><span style="font-size: 13px; color: #9FC4CF">Explore</span><a href="#about" style="text-decoration: none">About</a><a href="#map" style="text-decoration: none">What I treat</a><a href="#reels" style="text-decoration: none">Reels</a><a href="#track" style="text-decoration: none">Experience</a></div>
+<div style="display: flex; flex-direction: column; gap: 12px"><span style="font-size: 13px; color: #9FC4CF">Follow</span><a href="https://www.instagram.com/dr.mohamedelhallaj/" style="text-decoration: none">Instagram</a><a href="#" style="text-decoration: none">YouTube [link]</a></div>
+</nav>
+</div>
+<div style="display: flex; justify-content: space-between; gap: 20px; flex-wrap: wrap; padding-top: 22px; border-top: 1px solid #2C4A54; font-size: 13px; color: #9FC4CF"><span>© 2026 Dr. Mohamed Elhallaj</span><a href="#top" style="text-decoration: none">Back to top</a></div>
+</div>
+</footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":6400}}'>
+class Component extends DCLogic {
+  constructor(props) { super(props); this.state = { area: 'knee' }; }
+  renderVals() {
+    const C = {
+      fifa: { t: 'FIFA Diploma in Football Medicine (in progress)', by: 'FIFA Medical Network', spec: 'Managing and rehabilitating football injuries, tendinopathy load management, pitch-side first aid and safe return to play.' },
+      dn: { t: 'Dry needling', by: 'AIMS Academy', spec: 'Dry needling of muscle trigger points to ease referred pain, improve circulation and relax the muscle.' },
+      omtc: { t: 'Orthopaedic Manual Therapy Diploma (OMTC)', by: 'UK certified, Dr. Mahmoud Saad', spec: 'Hands-on manual therapy for bones, joints and soft tissue.' },
+      cerv: { t: 'Cervical pain management workshop', by: 'Prime Physio, Dr. Mahmoud Saad', spec: 'Assessing and treating neck pain and its mechanical causes.' },
+      si: { t: 'Sacroiliac pain management workshop', by: 'Prime Physio, Dr. Mahmoud Saad', spec: 'Diagnosing and treating sacroiliac joint and pelvic pain.' },
+      img: { t: 'Imaging course: spine, knee, brain and shoulder', by: 'Dr. Mamdouh Mahfouz', spec: 'Reading X-ray and MRI imaging of the spine, knee, brain and shoulder.' },
+      gait: { t: 'Gait analysis updates and gait analysis in cerebral palsy', by: 'Dr. Ehab Wally, Free2move', spec: 'Analysing walking and movement in children and adults, especially cerebral palsy.' },
+      ndt: { t: 'NDT, levels one and two', by: 'Free2move, Mrs Estelle', spec: 'Neurodevelopmental treatment for children with neurological conditions.' },
+      suit: { t: 'Suit training for paediatric rehabilitation', by: 'Free2move', spec: 'Using a therapy suit to improve alignment, stability and neuromuscular control in children.' },
+      ueu: { t: 'Universal exercise unit workshop (Spider, Ogle)', by: 'Free2move', spec: 'Strengthening and balance training for children using the universal exercise unit.' },
+      gmfm: { t: 'Gross Motor Function Measure (GMFM)', by: 'Free2move', spec: 'Measuring gross motor function in children, especially cerebral palsy.' }
+    };
+    const areas = {
+      neck: { name: 'Neck', courses: [C.cerv, C.omtc, C.dn, C.img] },
+      shoulder: { name: 'Shoulder', courses: [C.omtc, C.dn, C.img] },
+      back: { name: 'Back and spine', courses: [C.omtc, C.dn, C.img, C.gait] },
+      si: { name: 'SI joint and pelvis', courses: [C.si, C.omtc, C.dn, C.fifa, C.gait] },
+      knee: { name: 'Knee', courses: [C.fifa, C.omtc, C.dn, C.img, C.gait] },
+      ankle: { name: 'Ankle and foot', courses: [C.fifa, C.omtc, C.gait] },
+      kids: { name: 'Pediatric rehab', courses: [C.ndt, C.suit, C.ueu, C.gmfm, C.gait] }
+    };
+    const courses = [
+      { t: 'Dry needling specialist', by: 'AIMS Academy, 2024 to now' },
+      { t: 'Cervical pain management workshop', by: 'Prime Physio, Dr. Mahmoud Saad' },
+      { t: 'Sacroiliac pain management workshop', by: 'Prime Physio, Dr. Mahmoud Saad' },
+      { t: 'Imaging course: spine, knee, brain and shoulder', by: 'Dr. Mamdouh Mahfouz' },
+      { t: 'Gait analysis updates', by: 'Dr. Ehab Wally' },
+      { t: 'Gait analysis in cerebral palsy', by: 'Free2move' },
+      { t: 'NDT, levels one and two', by: 'Free2move, Mrs Estelle' },
+      { t: 'Suit training for paediatric rehabilitation', by: 'Free2move' },
+      { t: 'Universal exercise unit workshop (Spider, Ogle)', by: 'Free2move' },
+      { t: 'Gross Motor Function Measure (GMFM)', by: 'Free2move' },
+      { t: 'Heartsaver First Aid, CPR and AED', by: 'American Heart Association' }
+    ];
+    const cur = this.state.area;
+    const front = cur === 'shoulder' || cur === 'knee' || cur === 'ankle';
+    const pick = (k) => () => this.setState({ area: k });
+    const keys = ['Neck', 'Shoulder', 'Back', 'SI', 'Knee', 'Ankle', 'Kids'];
+    const ids = { Neck: 'neck', Shoulder: 'shoulder', Back: 'back', SI: 'si', Knee: 'knee', Ankle: 'ankle', Kids: 'kids' };
+    const v = {
+      heroLine: 'Doctor of physical therapy\nOrthopedic diseases and sports injuries specialist',
+      area: areas[cur], courses,
+      showFront: front, showBack: !front,
+      reels: [
+        { id: 'C0hPJjsN1RB', views: '129M', tag: 'Posture', cover: '../assets/reel-cover-posture.jpg', dir: 'rtl', title: 'بعض التمارين المهمة لتعديل وضعية انحناء الظهر' },
+        { id: 'C9clDvaNb6W', views: '21.3M', tag: 'Ankle', cover: '', dir: 'ltr', title: 'Messi’s ankle injury' },
+        { id: 'DWPHtm2Dh-8', views: '739K', tag: 'Ankle', cover: '', dir: 'ltr', title: 'What should we do in case of acute ankle sprain?' },
+        { id: 'DewNhUEu4vS', views: '659K', tag: 'Knee', cover: '', dir: 'ltr', title: 'Complete tear of ACL' },
+        { id: 'DXpaFifDgHC', views: '639K', tag: 'Taping', cover: '../assets/reel-cover-taping.jpg', dir: 'rtl', title: 'أتعلم ازاي تستخدم اللاصق الطبي لالتهاب وتر أكيليس والشوكة العظمية' },
+        { id: 'DdMRB3-PISr', views: '613K', tag: 'Knee', cover: '', dir: 'ltr', title: 'Neymar’s knee fixation' }
+      ].map((r) => ({ ...r, hasCover: !!r.cover, url: 'https://www.instagram.com/reel/' + r.id + '/' }))
+    };
+    keys.forEach((k) => { v['on' + k] = cur === ids[k]; v['press' + k] = String(cur === ids[k]); v['pick' + k] = pick(ids[k]); });
+    return v;
+  }
+}
+</script>
+</body>
+</html>
