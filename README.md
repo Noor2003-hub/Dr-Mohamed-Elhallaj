@@ -53,29 +53,46 @@ Every list has an **Order** number (lower shows first) and a **Visible** switch.
 | Body map | `components/BodyMap.tsx` | front/back photo crossfade, kinesio tape "sticks on" strip by strip |
 | Tools | `components/Tools.tsx` | section pins; each scroll step slides the next card over the stack (like Omar's capabilities) |
 | Reels | `components/Reels.tsx` + `Grainient.tsx` | animated colour blobs with grain, filter chips |
-| Track | `components/Track.tsx` | section pins and the track slides sideways; recovery figures step in; stations light up as you pass |
+| Track | `components/Track.tsx` | section pins and the track slides sideways under the recovery walk video, which plays with the scroll in the middle; stations light up as you pass |
 | Experts Physio House | `components/Clinics.tsx` | spinning co-founder seal; real CSS‑3D map tilts back and the two branch areas rise one after the other |
 
 All animations respect `prefers-reduced-motion`.
 
-## Replacing the placeholder video
+## The hero → About video
 
-The hero → About "video" is an image sequence in `public/sequence/story/` (`0001.webp` … `0160.webp`).
-Right now those frames are made from the still images (zoom + crossfade). When the real Wan 2.2 video is ready:
+The hero → About "video" is an image sequence in `public/sequence/story/` (`0001.webp` … `0231.webp`).
+It is made from the two clips in `public/videos/` (clip 1: knee → doctor kneeling; clip 2: doctor stands → arms crossed, `clip2-doctor-face-fixed.mp4`),
+joined with a 0.33 s crossfade, and cropped at the bottom to hide the KlingAI watermark:
 
 ```bash
 rm public/sequence/story/*.webp
-ffmpeg -i story.mp4 -vf "fps=30,scale=1600:-2" -c:v libwebp -quality 72 public/sequence/story/%04d.webp
+ffmpeg -i public/videos/kling_20261108_VIDEO_Slow_cinem_0_0.mp4 -i public/videos/clip2-doctor-face-fixed.mp4 \
+  -filter_complex "[0:v]settb=1/24,setpts=N/24/TB,fps=24[a];[1:v]settb=1/24,setpts=N/24/TB,fps=24[b];[a][b]xfade=transition=fade:duration=0.33:offset=4.7,crop=1280:656:0:0" \
+  -c:v libwebp -quality 74 public/sequence/story/%04d.webp
 ls public/sequence/story/*.webp | wc -l     # put this number in FRAME_COUNT in components/Story.tsx
 ```
 
-The video should start close on the knee, pull back, show the doctor kneeling, then end with him standing in the middle of the room, framed down to the knees.
-`public/sequence/story/glow.json` positions the red pain glow on the knee for each frame (x, y as a share of the frame, then zoom). For the real video, set the first frames' values to where the kneecap is, and use `null` once the glow should be gone.
+`public/sequence/story/glow.json` positions the red pain glow on the knee for each frame (x, y as a share of the frame, then zoom), and is `null` once the glow is gone.
+`FOCUS` at the top of `Story.tsx` tells the crop what to keep in view on narrow screens (the knee first, then the doctor). If the clips change, both need updating.
+
+## The recovery walk (Experience track)
+
+One patient walks the track from wheelchair to kicking a football while you scroll. It is an image sequence with transparency in `public/sequence/track/` (`0001.webp` … `0290.webp`), made from the six green-screen clips in `public/sequence/vidoes/`, joined in this order: helping → walking with crutch → walking without crutches → watches → speeds up → kicks.
+
+```bash
+cd public/sequence/vidoes
+for f in Physio*helping* Patient_walking_with_crutch* Patient_walking_without* Physio*watches* Patient_speeds* Patient_kicks*; do echo "file '$PWD/$f'"; done > /tmp/list.txt
+mkdir -p /tmp/key && ffmpeg -f concat -safe 0 -i /tmp/list.txt   -vf "fps=16,scale=1280:720:flags=lanczos,chromakey=0x05AD48:0.13:0.06,despill=type=green,format=rgba" /tmp/key/%04d.png
+cd ../../.. && rm public/sequence/track/*.webp
+ffmpeg -i /tmp/key/%04d.png -vf "crop=1200:640:80:70,scale=960:512:flags=lanczos" -c:v libwebp -quality 78 -pix_fmt yuva420p public/sequence/track/%04d.webp
+ls public/sequence/track/*.webp | wc -l   # put this number in WALK_FRAMES in components/Track.tsx
+```
+
+The crop keeps the area the people use in every clip. In `styles.css`, `.track__walk` puts the feet (92% down the frame) on the lane.
 
 ## Other static images
 
 - `public/img/body/front.jpg`, `back.jpg`: body map photos. The tape positions are in `TAPES` at the top of `components/BodyMap.tsx`; adjust them if the photos change.
-- `public/img/track/t1–t7.png`: recovery figures on the track.
 - `public/map/alexandria-east.jpg`: map of eastern Alexandria (© OpenStreetMap contributors). The two raised areas are in `src/lib/mapgeo.json`.
 
 ## Deploying

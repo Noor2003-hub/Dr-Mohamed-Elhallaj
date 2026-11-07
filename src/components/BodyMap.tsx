@@ -65,12 +65,17 @@ export default function BodyMap({
 }) {
   const start = areas.find((a) => a.key === 'knee') || areas[0]
   const [key, setKey] = useState(start?.key)
-  const [kidsPhoto, setKidsPhoto] = useState(true)
+  // the adult area to go back to when switching from Children to Adults
+  const [adultKey, setAdultKey] = useState(start?.key)
   const area = areas.find((a) => a.key === key)
   if (!area) return null
+  const isKids = key === 'kids'
+  const view = isKids ? 'kids' : area.view
   const kids = areas.find((a) => a.key === 'kids')
-  // children get their own photo (public/img/body/kids.jpg); until it exists, the front photo is used
-  const view = key === 'kids' && kidsPhoto ? 'kids' : area.view
+  const pick = (k: SiteData['areas'][number]['key']) => {
+    setKey(k)
+    if (k !== 'kids') setAdultKey(k)
+  }
 
   return (
     <section id="map" className="bodymap sec">
@@ -83,15 +88,8 @@ export default function BodyMap({
           <div className="bodymap__figure" dir="ltr" data-reveal>
             <img className={`bodymap__img ${view === 'back' ? 'is-on' : ''}`} src="/img/body/back.jpg" alt={t.body.back} />
             <img className={`bodymap__img ${view === 'front' ? 'is-on' : ''}`} src="/img/body/front.jpg" alt={t.body.front} />
-            {kids && kidsPhoto && (
-              <img
-                className={`bodymap__img ${view === 'kids' ? 'is-on' : ''}`}
-                src="/img/body/kids.jpg"
-                alt={t.body.kidsPhoto}
-                onError={() => setKidsPhoto(false)}
-              />
-            )}
-            <div key={key} className={`bodymap__tapes ${key === 'kids' ? 'is-kids' : ''}`} aria-hidden="true">
+            <img className={`bodymap__img ${view === 'kids' ? 'is-on' : ''}`} src="/img/body/kid-back.png" alt={t.body.kidsPhoto} />
+            <div key={key} className="bodymap__tapes" aria-hidden="true">
               {(TAPES[key || ''] || []).map((s, i) => (
                 <span
                   key={i}
@@ -108,7 +106,9 @@ export default function BodyMap({
                 />
               ))}
             </div>
-            {areas
+            {/* children have no body-part certificates, so the area buttons are adults only */}
+            {!isKids &&
+              areas
               .filter((a) => PINS[a.key])
               .map((a) => (
                 <button
@@ -117,7 +117,7 @@ export default function BodyMap({
                   className="chip chip--pin"
                   aria-pressed={a.key === key}
                   style={pinStyle(PINS[a.key])}
-                  onClick={() => setKey(a.key)}
+                  onClick={() => pick(a.key)}
                 >
                   {a.name}
                 </button>
@@ -145,10 +145,13 @@ export default function BodyMap({
           </div>
         </div>
         {kids && (
-          <div className="bodymap__kids" data-reveal>
-            <span className="muted">{t.body.forChildren}</span>
-            <button type="button" className="chip" aria-pressed={key === 'kids'} onClick={() => setKey('kids')}>
-              {t.body.kids}
+          <div className="bodymap__switch" role="group" aria-label={t.body.patient} data-reveal>
+            <span className={`bodymap__switch-thumb ${isKids ? 'is-kids' : ''}`} aria-hidden="true" />
+            <button type="button" aria-pressed={!isKids} onClick={() => adultKey && pick(adultKey)}>
+              {t.body.adults}
+            </button>
+            <button type="button" aria-pressed={isKids} onClick={() => pick('kids')}>
+              {t.body.children}
             </button>
           </div>
         )}

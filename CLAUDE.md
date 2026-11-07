@@ -21,9 +21,6 @@
 
 ## Still pending (from the doctor)
 
-- Real Wan 2.2 clinic video to replace the placeholder frames in `public/sequence/story` (see docs/VIDEO-GUIDE.md).
-- Track walk video (docs/VIDEO-GUIDE.md part 2): when frames arrive in `public/sequence/track`, add a scroll-scrubbed walking figure to `Track.tsx`.
-- Child photo `public/img/body/kids.jpg` (BodyMap already uses it when present).
 - Alyasmen center logo.
 - YouTube link.
 - Reel covers for 4 reels.

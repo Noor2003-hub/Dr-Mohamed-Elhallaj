@@ -39,10 +39,12 @@ const en = {
   body: {
     back: 'Patient seen from the back',
     front: 'Patient seen from the front',
-    kidsPhoto: 'A child patient seen from the front',
+    kidsPhoto: 'A child patient seen from the back',
     selected: 'Selected area',
     inProgress: ' (in progress)',
-    forChildren: 'For children:',
+    patient: 'Patient',
+    adults: 'Adults',
+    children: 'Children',
     kids: 'Whole-body pediatric rehab',
   },
   tools: { eyebrow: 'Tools in the clinic' },
@@ -57,15 +59,7 @@ const en = {
   track: {
     label: 'Experience',
     logo: 'Logo',
-    figures: [
-      'The doctor pushing the patient in a wheelchair',
-      'The patient walking on two crutches beside the doctor',
-      'The patient walking with one crutch, the doctor talking to him',
-      'The patient walking on his own with kinesio tape, the doctor just behind',
-      'The doctor watching proudly as the patient walks ahead',
-      'The patient running',
-      'The patient kicking a football',
-    ],
+    walk: 'The patient’s recovery: pushed in a wheelchair by the doctor, then two crutches, one crutch, walking on his own, running, and kicking a football',
   },
   edu: { diplomas: 'Diplomas', inProgress: '● In progress', further: 'Further training' },
   clinics: {
@@ -109,10 +103,12 @@ const ar: Dict = {
   body: {
     back: 'المريض من الخلف',
     front: 'المريض من الأمام',
-    kidsPhoto: 'طفل من الأمام',
+    kidsPhoto: 'طفل من الخلف',
     selected: 'المنطقة المختارة',
     inProgress: ' (قيد الدراسة)',
-    forChildren: 'للأطفال:',
+    patient: 'المريض',
+    adults: 'الكبار',
+    children: 'الأطفال',
     kids: 'تأهيل الأطفال للجسم كله',
   },
   tools: { eyebrow: 'الأدوات في العيادة' },
@@ -127,15 +123,7 @@ const ar: Dict = {
   track: {
     label: 'الخبرة',
     logo: 'الشعار',
-    figures: [
-      'الدكتور يدفع المريض على كرسي متحرك',
-      'المريض يمشي على عكازين بجانب الدكتور',
-      'المريض يمشي بعكاز واحد والدكتور يتحدث معه',
-      'المريض يمشي وحده بشريط الكينزيو والدكتور خلفه',
-      'الدكتور يتابع بفخر والمريض يمشي أمامه',
-      'المريض يركض',
-      'المريض يسدد كرة القدم',
-    ],
+    walk: 'رحلة تعافي المريض: الدكتور يدفعه على كرسي متحرك، ثم عكازان، ثم عكاز واحد، ثم يمشي وحده، ثم يركض ويسدد كرة القدم',
   },
   edu: { diplomas: 'الدبلومات', inProgress: '● قيد الدراسة', further: 'تدريب إضافي' },
   clinics: {

@@ -274,8 +274,11 @@ button {
 
 /* ============ Story (hero → about) ============ */
 .story {
+  /* scroll for the video, then one --line-scroll per story line (read by Story.tsx) */
+  --video-scroll: 430vh;
+  --line-scroll: 75vh;
   position: relative;
-  height: 560vh;
+  height: calc(100vh + var(--video-scroll) + var(--lines, 4) * var(--line-scroll));
   background: var(--navy);
   color: var(--on-dark);
 }
@@ -520,11 +523,6 @@ button {
   inset: 0;
   z-index: 2;
 }
-.bodymap__tapes.is-kids {
-  border-radius: 24px;
-  box-shadow: inset 0 0 0 3px var(--cyan), 0 0 40px rgba(43, 179, 214, 0.45);
-  animation: animIn 0.5s ease both;
-}
 .tape {
   position: absolute;
   background: var(--cyan);
@@ -609,12 +607,45 @@ button {
   font-size: 14px;
   color: var(--muted);
 }
-.bodymap__kids {
+.bodymap__switch {
+  position: relative;
+  display: inline-grid;
+  grid-template-columns: 1fr 1fr;
   margin-top: 40px;
-  display: flex;
-  gap: 12px;
-  align-items: center;
-  flex-wrap: wrap;
+  padding: 4px;
+  border-radius: 999px;
+  background: #fff;
+  border: 1.5px solid rgba(3, 45, 59, 0.15);
+}
+.bodymap__switch button {
+  position: relative;
+  z-index: 1;
+  min-height: 44px;
+  padding: 0 26px;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--ink);
+  font-weight: 600;
+  font-size: 15px;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+.bodymap__switch button[aria-pressed='true'] {
+  color: #fff;
+}
+.bodymap__switch-thumb {
+  position: absolute;
+  top: 4px;
+  bottom: 4px;
+  inset-inline-start: 4px;
+  width: calc(50% - 4px);
+  border-radius: 999px;
+  background: var(--navy);
+  transition: inset-inline-start 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.bodymap__switch-thumb.is-kids {
+  inset-inline-start: 50%;
 }
 
 /* ============ Tools (stacked cards) ============ */
@@ -647,15 +678,31 @@ button {
   border-bottom: 1px solid rgba(238, 242, 240, 0.12);
 }
 .tools__index li {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  padding: 11px 0;
   border-top: 1px solid rgba(238, 242, 240, 0.12);
   font-size: 17px;
   font-weight: 500;
   color: #6f96a2;
   transition: color 0.3s;
+}
+.tools__index button {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 11px 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  text-align: start;
+  cursor: pointer;
+}
+.tools__index li:not(.is-active):hover {
+  color: #c4d6db;
+}
+.tools__index button:focus-visible {
+  outline: 2px solid var(--cyan);
+  outline-offset: 2px;
 }
 .tools__index li span {
   width: 28px;
@@ -670,7 +717,7 @@ button {
   color: var(--cyan);
 }
 .tools__index li i {
-  margin-left: auto;
+  margin-inline-start: auto;
   width: 8px;
   height: 8px;
   border-radius: 50%;
@@ -951,9 +998,48 @@ button {
   padding-left: 40px;
   will-change: transform;
 }
-.track__fig {
+.track__stage {
+  position: relative;
+}
+/* pinned on desktop: less space above so the stations' text fits on the screen too */
+@media (min-width: 900px) {
+  .track {
+    padding-top: 60px;
+    /* fills the screen while pinned, whatever the language's text height */
+    min-height: 100vh;
+    min-height: 100svh;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+  }
+  /* spare height (e.g. the shorter Arabic heading) goes above the track, so it sits low */
+  .track__stage {
+    margin-top: auto;
+  }
+  .track__head {
+    width: 100%;
+    margin-bottom: -40px;
+  }
+}
+/* the recovery walk stays in the middle; its feet (92% down the frame) stand on the lane */
+.track__walk {
   position: absolute;
-  width: auto;
+  z-index: 2;
+  left: 50%;
+  top: 318px;
+  width: min(648px, calc(100vw - 32px));
+  height: auto;
+  aspect-ratio: 960 / 512;
+  transform: translate(-50%, -92%);
+  pointer-events: none;
+  /* people leaving the clip fade out instead of being cut at its edge */
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
+}
+/* while the track animates (Track.tsx adds .is-animated), anything not reached yet is fully hidden */
+.track.is-animated .station:not(.is-lit) {
+  opacity: 0;
+  transform: translateY(10px);
 }
 .track__lane {
   position: absolute;
@@ -978,7 +1064,8 @@ button {
   left: 0;
   top: 0;
   bottom: 0;
-  width: calc(var(--progress, 0) * 100%);
+  width: var(--fill, 0px);
+  transition: width 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
   background: linear-gradient(90deg, rgba(43, 179, 214, 0) 0%, rgba(43, 179, 214, 0.55) 100%);
 }
 .track__stations {
@@ -993,13 +1080,7 @@ button {
   display: flex;
   flex-direction: column;
   gap: 6px;
-  opacity: 0.45;
   transition: opacity 0.5s ease, transform 0.5s ease;
-  transform: translateY(10px);
-}
-.station.is-lit {
-  opacity: 1;
-  transform: none;
 }
 .station__step {
   position: absolute;
@@ -1009,8 +1090,7 @@ button {
   height: 30px;
   border-radius: 9px 9px 7px 7px;
   background: var(--on-dark);
-  opacity: 0.35;
-  transition: opacity 0.4s, background 0.4s;
+  transition: background 0.4s;
 }
 .station__step.is-low {
   top: -60px;
@@ -1019,9 +1099,6 @@ button {
   width: 22px;
   height: 34px;
   transform: rotate(14deg);
-}
-.station.is-lit .station__step {
-  opacity: 1;
 }
 .station.is-current .station__step {
   background: var(--orange-2);
@@ -1518,7 +1595,8 @@ button {
     padding: 88px 0;
   }
   .story {
-    height: 420vh;
+    --video-scroll: 320vh;
+    --line-scroll: 65vh;
   }
   .story__name {
     white-space: normal;
@@ -1623,6 +1701,10 @@ button {
   .tape {
     animation-duration: 0.01s;
   }
+  .bodymap__switch-thumb,
+  .bodymap__switch button {
+    transition: none;
+  }
 }
 
 /* ============ Language switch ============ */
@@ -1685,8 +1767,9 @@ button {
   padding-left: 0;
   padding-right: 40px;
 }
-[dir='rtl'] .track__fig {
-  scale: -1 1;
+/* mirror inside the transform: the `scale` property would also mirror the -50% centring */
+[dir='rtl'] .track__walk {
+  transform: translate(-50%, -92%) scaleX(-1);
 }
 [dir='rtl'] .track__lane-fill {
   left: auto;
@@ -1724,4 +1807,12 @@ button {
 /* stations sit in the left-to-right rail; keep their text right-aligned in Arabic */
 [dir='rtl'] .station {
   text-align: right;
+}
+/* the footprint sits above the start of the text: its right edge in Arabic */
+[dir='rtl'] .station__step {
+  left: auto;
+  right: 0;
+}
+[dir='rtl'] .station__step.is-boot {
+  transform: rotate(-14deg);
 }

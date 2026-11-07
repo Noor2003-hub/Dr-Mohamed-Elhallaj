@@ -8,16 +8,42 @@ import type { Dict } from '@/lib/i18n'
 /**
  * Hero → connector → About as ONE scroll-scrubbed clinic video.
  * The video is an image sequence in /public/sequence/story (0001.webp …).
- * To swap in the real Wan video: export its frames with ffmpeg into that folder
- * and update FRAME_COUNT (see README). glow.json holds the knee position per frame.
+ * The frames come from the two clips in /public/videos (see README for the ffmpeg command).
+ * glow.json holds the knee position per frame.
  */
-const FRAME_COUNT = 160
+const FRAME_COUNT = 231
 const FRAME_PATH = (i: number) => `/sequence/story/${String(i + 1).padStart(4, '0')}.webp`
 
-// Where each part of the story happens, as a share of the scroll (0 → 1)
-const HERO_OUT = 0.14 // hero text has gone
-const GLOW_OUT = 0.4 // pain glow has faded
-const ABOUT_IN = 0.8 // about content starts to appear
+// What the crop keeps in view when the screen is narrower than the video:
+// [scroll progress, x as a share of the frame]. The knee first, then the doctor.
+const FOCUS: [number, number][] = [
+  [0, 0.875],
+  [0.045, 0.875],
+  [0.09, 0.79],
+  [0.13, 0.71],
+  [0.17, 0.61],
+  [0.26, 0.54],
+  [0.34, 0.48],
+  [1, 0.5],
+]
+const focusAt = (p: number) => {
+  let i = 0
+  while (i < FOCUS.length - 2 && FOCUS[i + 1][0] < p) i++
+  const [p0, x0] = FOCUS[i]
+  const [p1, x1] = FOCUS[i + 1]
+  return x0 + (x1 - x0) * gsap.utils.clamp(0, 1, (p - p0) / (p1 - p0))
+}
+
+// The scroll has two parts (lengths are --video-scroll and --line-scroll in styles.css):
+// 1. the video plays; the values below are shares of this part (0 → 1)
+// 2. the video holds on its last frame and each story line stays in focus for one --line-scroll
+const HERO_OUT = 0.15 // hero text has gone
+const GLOW_OUT = 0.42 // pain glow has faded
+const ABOUT_IN = 0.86 // about content starts to appear
+
+/** A CSS length in vh (e.g. "430vh") as pixels. */
+const vhToPx = (el: HTMLElement, name: string) =>
+  (parseFloat(getComputedStyle(el).getPropertyValue(name)) || 0) * (window.innerHeight / 100)
 
 type Glow = ([number, number, number] | null)[]
 
@@ -83,12 +109,12 @@ export default function Story({ site, t }: { site: SiteData['site']; t: Dict }) 
       ctx.fillStyle = '#032D3B'
       ctx.fillRect(0, 0, W, H)
       if (!im) return
-      // cover-fit; on narrow screens keep the right side (the knee) in view
+      // cover-fit; when the sides are cut off, keep the knee and then the doctor in view
       const s = Math.max(W / im.naturalWidth, H / im.naturalHeight)
       const dw = im.naturalWidth * s
       const dh = im.naturalHeight * s
-      // on phones keep the knee in view first, then centre on the doctor
-      const focusX = W < H ? 0.72 - 0.22 * gsap.utils.clamp(0, 1, (p - 0.3) / 0.35) : 0.5
+      const visible = W / dw // share of the frame width on screen
+      const focusX = visible > 0.999 ? 0.5 : gsap.utils.clamp(0, 1, (focusAt(p) - visible / 2) / (1 - visible))
       const dx = (W - dw) * focusX
       const dy = (H - dh) / 2
       ctx.drawImage(im, dx, dy, dw, dh)
@@ -132,8 +158,12 @@ export default function Story({ site, t }: { site: SiteData['site']; t: Dict }) 
       start: 'top top',
       end: 'bottom bottom',
       onUpdate: (self) => {
-        target = self.progress
-        const p = self.progress
+        const el = section.current!
+        const scrolled = self.progress * (self.end - self.start)
+        const videoLen = vhToPx(el, '--video-scroll')
+        const lineLen = vhToPx(el, '--line-scroll')
+        const p = gsap.utils.clamp(0, 1, scrolled / videoLen)
+        target = p
         // hero copy drifts up and fades
         const h = gsap.utils.clamp(0, 1, p / HERO_OUT)
         gsap.set(hero.current, { autoAlpha: 1 - h, y: -60 * h })
@@ -151,10 +181,9 @@ export default function Story({ site, t }: { site: SiteData['site']; t: Dict }) 
           counted = false
           setCount(0)
         }
-        // story lines come into focus one by one
+        // story lines come into focus one by one, each held for one --line-scroll
         if (lines.length) {
-          const lp = gsap.utils.clamp(0, 0.999, (p - (ABOUT_IN + 0.04)) / (1 - ABOUT_IN - 0.06))
-          const li = Math.floor(lp * lines.length)
+          const li = gsap.utils.clamp(0, lines.length - 1, Math.floor((scrolled - videoLen) / lineLen))
           if (li !== lastLine) {
             lastLine = li
             setActiveLine(li)
@@ -172,7 +201,13 @@ export default function Story({ site, t }: { site: SiteData['site']; t: Dict }) 
   }, [lines.length, site.years])
 
   return (
-    <section id="top" ref={section} className="story" aria-label={t.story.label}>
+    <section
+      id="top"
+      ref={section}
+      className="story"
+      aria-label={t.story.label}
+      style={{ ['--lines' as string]: lines.length }}
+    >
       <div className="story__stage">
         <canvas ref={canvas} className="story__canvas" aria-hidden="true" />
         <div ref={heroShade} className="story__shade" aria-hidden="true" />
