@@ -272,6 +272,337 @@ button {
   color: var(--cyan);
 }
 
+/* burger: only where the links don't fit (see the 1100px breakpoint) */
+.burger {
+  display: none;
+  position: relative;
+  width: 46px;
+  height: 46px;
+  flex: none;
+  border: 1.5px solid rgba(238, 242, 240, 0.35);
+  border-radius: 50%;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+}
+.burger span,
+.burger span::before,
+.burger span::after {
+  position: absolute;
+  width: 18px;
+  height: 2px;
+  border-radius: 2px;
+  background: currentColor;
+}
+.burger span {
+  left: 50%;
+  top: 50%;
+  margin: -1px 0 0 -9px;
+}
+.burger span::before,
+.burger span::after {
+  content: '';
+  left: 0;
+}
+.burger span::before {
+  top: -6px;
+}
+.burger span::after {
+  top: 6px;
+}
+.burger:focus-visible,
+.side-menu a:focus-visible,
+.side-menu__close:focus-visible {
+  outline: 2px solid var(--cyan);
+  outline-offset: 3px;
+}
+
+/* side menu: slides in from the end side over a blurred, darkened page */
+html.menu-open,
+html.modal-open {
+  overflow: hidden;
+}
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* details modal (components/Modal.tsx): body map certificates and clinic branches, phones only */
+.modal,
+.clinics__tap {
+  display: none;
+}
+@media (max-width: 900px) {
+  .bodymap .bodymap__card,
+  .clinics .clinics__cards {
+    display: none;
+  }
+  .clinics .clinics__tap {
+    display: block;
+    margin-top: 4px;
+    margin-bottom: 0;
+    text-align: center;
+    font-size: 14px;
+    color: var(--muted);
+  }
+  /* the branch labels and raised areas on the map open the modal */
+  .map3d .map3d__label,
+  .map3d .map3d__label button,
+  .map3d .map3d__slice--top polygon {
+    pointer-events: auto;
+    cursor: pointer;
+  }
+  .modal .branch--modal {
+    flex: none;
+    border: 0;
+    padding: 0;
+    box-shadow: none;
+  }
+  .modal {
+    display: flex;
+    position: fixed;
+    inset: 0;
+    z-index: 90;
+    align-items: flex-end;
+    justify-content: center;
+    padding: 16px;
+    visibility: hidden;
+    transition: visibility 0s linear 0.45s;
+  }
+  .modal.is-open {
+    visibility: visible;
+    transition-delay: 0s;
+  }
+  .modal__backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(3, 20, 27, 0.55);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    opacity: 0;
+    transition: opacity 0.4s ease;
+  }
+  .modal.is-open .modal__backdrop {
+    opacity: 1;
+  }
+  .modal__card {
+    position: relative;
+    width: 100%;
+    max-height: calc(100svh - 32px);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    touch-action: pan-y;
+    padding: 30px 24px 24px;
+    border-radius: 24px;
+    background: #fff;
+    color: var(--ink);
+    box-shadow: 0 30px 60px -20px rgba(3, 45, 59, 0.6);
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.35s ease, transform 0.45s cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+  .modal.is-open .modal__card {
+    opacity: 1;
+    transform: none;
+  }
+  .modal__card {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .modal__card .bodymap__ribbon {
+    display: none;
+  }
+  .modal__card .branch__name {
+    padding-inline-end: 52px;
+  }
+  .modal__card .bodymap__title {
+    padding-inline-end: 52px;
+    font-size: 40px;
+  }
+  .modal__close {
+    position: absolute;
+    z-index: 2;
+    top: 16px;
+    inset-inline-end: 16px;
+    width: 44px;
+    height: 44px;
+    border: 1.5px solid rgba(3, 45, 59, 0.2);
+    border-radius: 50%;
+    background: #fff;
+    color: var(--ink);
+    cursor: pointer;
+  }
+  .modal__close span::before,
+  .modal__close span::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 16px;
+    height: 2px;
+    margin: -1px 0 0 -8px;
+    border-radius: 2px;
+    background: currentColor;
+    transform: rotate(45deg);
+  }
+  .modal__close span::after {
+    transform: rotate(-45deg);
+  }
+  .modal__close:focus-visible {
+    outline: 2px solid var(--cyan);
+    outline-offset: 3px;
+  }
+}
+.side-menu {
+  position: fixed;
+  inset: 0;
+  z-index: 80;
+  visibility: hidden;
+  transition: visibility 0s linear 0.5s;
+}
+.side-menu.is-open {
+  visibility: visible;
+  transition-delay: 0s;
+}
+.side-menu__backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(3, 20, 27, 0.55);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  opacity: 0;
+  transition: opacity 0.45s ease;
+}
+.side-menu.is-open .side-menu__backdrop {
+  opacity: 1;
+}
+.side-menu__panel {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  inset-inline-end: 0;
+  width: min(380px, 86vw);
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  padding: 96px 32px 36px;
+  background: var(--navy);
+  color: var(--on-dark);
+  box-shadow: -24px 0 60px -20px rgba(0, 0, 0, 0.5);
+  overflow-y: auto;
+  transform: translateX(100%);
+  transition: transform 0.5s cubic-bezier(0.7, 0, 0.2, 1);
+}
+[dir='rtl'] .side-menu__panel {
+  transform: translateX(-100%);
+  box-shadow: 24px 0 60px -20px rgba(0, 0, 0, 0.5);
+}
+.side-menu.is-open .side-menu__panel {
+  transform: none;
+  transition-timing-function: cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.side-menu__close {
+  position: absolute;
+  top: 24px;
+  inset-inline-end: 24px;
+  width: 46px;
+  height: 46px;
+  border: 1.5px solid rgba(238, 242, 240, 0.35);
+  border-radius: 50%;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+}
+.side-menu__close span::before,
+.side-menu__close span::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 18px;
+  height: 2px;
+  margin: -1px 0 0 -9px;
+  border-radius: 2px;
+  background: currentColor;
+  transform: rotate(45deg);
+}
+.side-menu__close span::after {
+  transform: rotate(-45deg);
+}
+.side-menu__links {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  counter-reset: menu;
+}
+.side-menu__links li,
+.side-menu__foot {
+  opacity: 0;
+  transform: translateY(14px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+.side-menu.is-open .side-menu__links li,
+.side-menu.is-open .side-menu__foot {
+  opacity: 1;
+  transform: none;
+  transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
+  transition-delay: calc(0.15s + var(--i) * 0.05s);
+}
+.side-menu__links a {
+  display: flex;
+  align-items: baseline;
+  gap: 14px;
+  padding: 14px 0;
+  border-bottom: 1px solid rgba(238, 242, 240, 0.12);
+  font-family: var(--head);
+  font-size: 26px;
+  font-weight: 700;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.side-menu__links a::before {
+  counter-increment: menu;
+  content: counter(menu, decimal-leading-zero);
+  font-family: var(--body);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--cyan);
+}
+.side-menu__links a:hover {
+  color: var(--cyan);
+}
+.side-menu__foot {
+  margin-top: auto;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+}
+.side-menu__label {
+  width: 100%;
+  font-size: 13px;
+  opacity: 0.7;
+}
+.side-menu .lang-switch {
+  display: inline-flex;
+  align-items: center;
+  min-height: 40px;
+  padding: 0 16px;
+  border: 1.5px solid rgba(238, 242, 240, 0.45);
+  border-radius: 999px;
+  font-weight: 600;
+  text-decoration: none;
+}
+.side-menu .lang-switch:hover {
+  border-color: var(--cyan);
+  color: var(--cyan);
+}
+
 /* ============ Story (hero → about) ============ */
 .story {
   /* scroll for the video, then one --line-scroll per story line (read by Story.tsx) */
@@ -496,9 +827,15 @@ button {
   gap: 64px;
   align-items: flex-start;
 }
+.bodymap__side {
+  flex: 0 0 338px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
 .bodymap__figure {
   position: relative;
-  flex: 0 0 338px;
+  flex: none;
   width: 338px;
   height: 600px;
   margin: 0 auto;
@@ -611,7 +948,7 @@ button {
   position: relative;
   display: inline-grid;
   grid-template-columns: 1fr 1fr;
-  margin-top: 40px;
+  margin-top: 28px;
   padding: 4px;
   border-radius: 999px;
   background: #fff;
@@ -980,6 +1317,14 @@ button {
   position: relative;
   padding: 110px 0 60px;
   overflow: hidden;
+  /* the lane's top edge in the rail; the walk, the lane and the stations all follow it */
+  --lane: 300px;
+  --station-offset: 120px;
+  --station-height: 180px;
+  --track-heading-height: 160px;
+  --track-heading-gap: 24px;
+  --track-top-padding: 60px;
+  --track-bottom-padding: 40px;
 }
 .track__head {
   display: flex;
@@ -994,31 +1339,86 @@ button {
 }
 .track__rail {
   position: relative;
-  height: 600px;
+  height: calc(var(--lane) + var(--station-offset) + var(--station-height));
   padding-left: 40px;
   will-change: transform;
 }
 .track__stage {
   position: relative;
 }
-/* pinned on desktop: less space above so the stations' text fits on the screen too */
-@media (min-width: 900px) {
+/* Reserve the full heading and tallest station first; the video uses the space left. */
+.track.is-animated {
+  --lane: max(0px, min(300px, calc(100svh - var(--track-top-padding) - var(--track-bottom-padding) - var(--track-heading-height) - var(--track-heading-gap) - var(--station-offset) - var(--station-height))));
+  padding-top: var(--track-top-padding);
+  padding-bottom: var(--track-bottom-padding);
+  min-height: 100vh;
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+}
+/* spare height (e.g. the shorter Arabic heading) goes above the track, so it sits low */
+.track.is-animated .track__stage {
+  margin-top: auto;
+  flex-shrink: 0;
+}
+.track.is-animated .track__head {
+  width: 100%;
+  flex-shrink: 0;
+  margin-bottom: var(--track-heading-gap);
+}
+.track.is-animated .track__walk {
+  /* Feet are 92% down the 960 x 512 frame. Keep the whole frame above the lane. */
+  width: min(648px, calc(100vw - 32px), calc((var(--lane) + 18px) * 960 / 512 / 0.92));
+}
+/* the track moves with the scroll, not by swiping */
+.track.is-animated .track__viewport {
+  overflow: hidden;
+}
+/* phones: the walk is smaller, so the lane comes up and the whole section fits one screen */
+@media (max-width: 899px) {
   .track {
-    padding-top: 60px;
-    /* fills the screen while pinned, whatever the language's text height */
-    min-height: 100vh;
-    min-height: 100svh;
-    box-sizing: border-box;
-    display: flex;
-    flex-direction: column;
+    --lane: 200px;
+    --station-offset: 112px;
+    --track-top-padding: max(24px, env(safe-area-inset-top));
+    --track-bottom-padding: max(24px, env(safe-area-inset-bottom));
+    --track-heading-gap: 12px;
   }
-  /* spare height (e.g. the shorter Arabic heading) goes above the track, so it sits low */
-  .track__stage {
-    margin-top: auto;
+  .track .track__walk {
+    width: min(648px, 150vw);
+  }
+  .track.is-animated {
+    --lane: max(0px, calc(100svh - var(--track-top-padding) - var(--track-bottom-padding) - var(--track-heading-height) - var(--track-heading-gap) - var(--station-offset) - var(--station-height)));
+  }
+  .track.is-animated .track__walk {
+    /* On phones, size the frame by the available height, not the screen width. */
+    width: calc((var(--lane) + 18px) * 960 / 512 / 0.92);
+  }
+  /* smaller text so the heading, intro and the stations all fit one phone screen */
+  .track .h-section {
+    font-size: 30px;
+  }
+  .track .sec-head__intro {
+    font-size: 14px;
+    line-height: 1.5;
   }
   .track__head {
-    width: 100%;
-    margin-bottom: -40px;
+    gap: 12px;
+  }
+  .track .station {
+    width: 200px;
+    gap: 6px;
+    overflow-wrap: anywhere;
+  }
+  .track .station__logo {
+    width: 52px;
+    height: 52px;
+  }
+  .track .station__years,
+  .track .station__role {
+    font-size: 15px;
+  }
+  .track .station__place {
+    font-size: 18px;
   }
 }
 /* the recovery walk stays in the middle; its feet (92% down the frame) stand on the lane */
@@ -1026,7 +1426,7 @@ button {
   position: absolute;
   z-index: 2;
   left: 50%;
-  top: 318px;
+  top: calc(var(--lane) + 18px);
   width: min(648px, calc(100vw - 32px));
   height: auto;
   aspect-ratio: 960 / 512;
@@ -1045,7 +1445,7 @@ button {
   position: absolute;
   left: 0;
   right: 0;
-  top: 300px;
+  top: var(--lane);
   height: 96px;
   background: var(--teal);
   border-top: 3px solid var(--on-dark);
@@ -1075,7 +1475,7 @@ button {
 }
 .station {
   position: absolute;
-  top: 420px;
+  top: calc(var(--lane) + var(--station-offset));
   width: 220px;
   display: flex;
   flex-direction: column;
@@ -1399,7 +1799,9 @@ button {
   pointer-events: none;
   visibility: hidden;
 }
-.map3d__label span {
+.map3d__label button {
+  border: 0;
+  cursor: default;
   padding: 10px 20px;
   border-radius: 14px;
   font-family: var(--head);
@@ -1583,6 +1985,22 @@ button {
   .site-header__nav a:not(.btn) {
     display: none;
   }
+  .site-header__nav {
+    margin-inline-start: auto;
+  }
+  .burger {
+    display: block;
+  }
+  .site-header {
+    gap: 12px;
+  }
+  /* the language switch lives in the side menu here */
+  .site-header .site-header__nav a.lang-switch {
+    display: none;
+  }
+  .site-header__nav .btn {
+    white-space: nowrap;
+  }
   .story__about-gap {
     flex-basis: 120px;
   }
@@ -1591,8 +2009,70 @@ button {
   :root {
     --pad: 20px;
   }
+  /* phones: the header is only the logo and the burger; booking is in the side menu */
+  .site-header__nav {
+    display: none;
+  }
+  .burger {
+    margin-inline-start: auto;
+  }
   .sec {
-    padding: 88px 0;
+    padding: 64px 0;
+  }
+  /* the tools section only needs a full screen when it pins (desktop) */
+  .tools {
+    min-height: 0;
+    padding: 0;
+  }
+  .tools__grid {
+    gap: 32px;
+    padding-top: 64px;
+    padding-bottom: 56px;
+  }
+  /* clinic: smaller seal with the title beside it, as on desktop */
+  .clinics__head {
+    flex-wrap: nowrap;
+    align-items: center;
+    gap: 16px;
+  }
+  .seal {
+    flex: 0 0 116px;
+    width: 116px;
+    height: 116px;
+  }
+  .seal__logo {
+    inset: 17px;
+  }
+  .seal__logo img {
+    width: 56px;
+  }
+  .clinics__title {
+    flex: 1 1 0;
+    gap: 4px;
+  }
+  .clinics__title .h-display {
+    font-size: 18px;
+    line-height: 1.1;
+  }
+  .clinics__title .badge-role {
+    gap: 6px;
+    padding: 3px 10px 3px 6px;
+    font-size: 10px;
+    line-height: 1.2;
+    letter-spacing: 0.08em;
+  }
+  .clinics__title .badge-role i {
+    width: 18px;
+    height: 18px;
+    font-size: 11px;
+  }
+  .clinics__title .clinics__ar {
+    font-size: 14px;
+    line-height: 1.3;
+  }
+  .clinics__title .link {
+    font-size: 12px;
+    line-height: 1.3;
   }
   .story {
     --video-scroll: 320vh;
@@ -1601,8 +2081,17 @@ button {
   .story__name {
     white-space: normal;
   }
-  .story__shade {
-    background: linear-gradient(to top, rgba(3, 45, 59, 0.95) 0%, rgba(3, 45, 59, 0.5) 55%, rgba(3, 45, 59, 0.2) 100%);
+  /* phones: the dark half is the bottom half (under the name and buttons), in both languages;
+     the extra .story beats the Arabic side shade further down */
+  .story .story__shade,
+  [dir='rtl'] .story .story__shade {
+    background: linear-gradient(
+      to top,
+      rgba(3, 45, 59, 0.95) 0%,
+      rgba(3, 45, 59, 0.85) 38%,
+      rgba(3, 45, 59, 0.35) 52%,
+      rgba(3, 45, 59, 0) 62%
+    );
   }
   .story__hero {
     justify-content: flex-end;
@@ -1612,11 +2101,28 @@ button {
     flex-direction: column;
     justify-content: flex-end;
     align-items: stretch;
-    padding-bottom: 40px;
+    padding-top: 92px;
+    padding-bottom: 32px;
     gap: 16px;
   }
+  /* phones: only the title stays at the top; the story line, years and text sit at the bottom */
+  .story__about-left {
+    display: contents;
+  }
+  /* desktop sizes this column by width (flex-basis); in this vertical layout it would become a
+     430px height and leave empty space under the text */
+  .story__about-right {
+    flex: none;
+    gap: 20px;
+  }
+  .story__about .h-section {
+    order: -1;
+    margin-bottom: auto;
+  }
   .story__about::before {
-    background: linear-gradient(to top, rgba(3, 45, 59, 0.95) 0%, rgba(3, 45, 59, 0.75) 55%, rgba(3, 45, 59, 0) 80%);
+    background:
+      linear-gradient(to bottom, rgba(3, 45, 59, 0.85) 0%, rgba(3, 45, 59, 0) 24%),
+      linear-gradient(to top, rgba(3, 45, 59, 0.95) 0%, rgba(3, 45, 59, 0.75) 55%, rgba(3, 45, 59, 0) 80%);
   }
   .story__about-gap {
     display: none;
@@ -1634,10 +2140,22 @@ button {
   .story__about-text {
     font-size: 16px;
   }
+  .bodymap .sec-head {
+    margin-bottom: 8px;
+  }
+  .bodymap__side {
+    flex-basis: 100%;
+  }
+  /* zoom, not transform: the fade-up reveal writes its own transform, and zoom also shrinks the
+     layout box, so the switch always sits right under the area buttons */
   .bodymap__figure {
-    transform: scale(0.78);
-    transform-origin: right top;
-    margin: 0 0 -130px auto;
+    zoom: 0.78;
+  }
+  .bodymap__side .bodymap__switch {
+    margin-top: 36px;
+  }
+  .bodymap__grid {
+    gap: 40px;
   }
   .tools__stack {
     clip-path: none;
@@ -1702,8 +2220,16 @@ button {
     animation-duration: 0.01s;
   }
   .bodymap__switch-thumb,
-  .bodymap__switch button {
-    transition: none;
+  .bodymap__switch button,
+  .side-menu,
+  .side-menu__backdrop,
+  .side-menu__panel,
+  .side-menu__links li,
+  .side-menu__foot,
+  .modal,
+  .modal__backdrop,
+  .modal__card {
+    transition: none !important;
   }
 }
 
@@ -1779,6 +2305,12 @@ button {
 /* the Arabic clinic name is longer: smaller so it fits on one line */
 [lang='ar'] .clinics__title .h-display {
   font-size: clamp(34px, 4vw, 58px);
+}
+@media (max-width: 900px) {
+  [lang='ar'] .clinics__title .h-display {
+    font-size: 18px;
+    line-height: 1.3;
+  }
 }
 @media (min-width: 900px) {
   [lang='ar'] .clinics__title .h-display {

@@ -1,5 +1,6 @@
 'use client'
 import { useState } from 'react'
+import Modal, { PHONE } from './Modal'
 import type { SiteData } from '@/lib/data'
 import type { Dict } from '@/lib/i18n'
 
@@ -50,7 +51,8 @@ const PINS: Record<string, Pin> = {
   knee: { r: 104, t: 404 },
   ankle: { l: 196, t: 500 },
 }
-const pinStyle = (p: Pin) => ('r' in p ? { right: `calc(100% - ${p.r}px)`, top: p.t } : { left: p.l, top: p.t })
+const pinStyle = (p: Pin) =>
+  'r' in p ? { right: `calc(100% - ${p.r}px)`, top: p.t } : { left: p.l, top: p.t }
 
 export default function BodyMap({
   heading,
@@ -67,15 +69,43 @@ export default function BodyMap({
   const [key, setKey] = useState(start?.key)
   // the adult area to go back to when switching from Children to Adults
   const [adultKey, setAdultKey] = useState(start?.key)
+  const [modal, setModal] = useState(false)
+
   const area = areas.find((a) => a.key === key)
   if (!area) return null
   const isKids = key === 'kids'
   const view = isKids ? 'kids' : area.view
   const kids = areas.find((a) => a.key === 'kids')
-  const pick = (k: SiteData['areas'][number]['key']) => {
+  /** `show`: on a phone, open the certificates modal (area buttons and Children do; Adults doesn't) */
+  const pick = (k: SiteData['areas'][number]['key'], show = true) => {
     setKey(k)
     if (k !== 'kids') setAdultKey(k)
+    // phones show the certificates in a modal instead of the card
+    if (show && window.matchMedia(PHONE).matches) setModal(true)
   }
+
+  const certificates = (
+    <>
+      <span className="bodymap__label">{t.body.selected}</span>
+      <h3 key={`h${key}`} className="bodymap__title anim-in">
+        {area.name}
+      </h3>
+      <ul key={`l${key}`} className="bodymap__list">
+        {area.certificates.map((c, i) => (
+          <li key={c.title} className="anim-in" style={{ animationDelay: `${80 + i * 70}ms` }}>
+            <span className="bodymap__row">
+              <strong>
+                {c.title}
+                {c.inProgress ? t.body.inProgress : ''}
+              </strong>
+              <span className="muted">{c.issuer}</span>
+            </span>
+            {c.description && <span className="bodymap__desc">{c.description}</span>}
+          </li>
+        ))}
+      </ul>
+    </>
+  )
 
   return (
     <section id="map" className="bodymap sec">
@@ -85,77 +115,94 @@ export default function BodyMap({
           <p className="sec-head__intro">{intro}</p>
         </div>
         <div className="bodymap__grid">
-          <div className="bodymap__figure" dir="ltr" data-reveal>
-            <img className={`bodymap__img ${view === 'back' ? 'is-on' : ''}`} src="/img/body/back.jpg" alt={t.body.back} />
-            <img className={`bodymap__img ${view === 'front' ? 'is-on' : ''}`} src="/img/body/front.jpg" alt={t.body.front} />
-            <img className={`bodymap__img ${view === 'kids' ? 'is-on' : ''}`} src="/img/body/kid-back.png" alt={t.body.kidsPhoto} />
-            <div key={key} className="bodymap__tapes" aria-hidden="true">
-              {(TAPES[key || ''] || []).map((s, i) => (
-                <span
-                  key={i}
-                  className={`tape ${s.c === 'skin' ? 'tape--skin' : ''}`}
-                  style={{
-                    left: s.l,
-                    top: s.t,
-                    width: s.w,
-                    height: s.h,
-                    ['--r' as string]: `${s.r || 0}deg`,
-                    ['--d' as string]: `${i * 120}ms`,
-                    ['--o' as string]: s.w > s.h ? 'left center' : 'center top',
-                  }}
-                />
-              ))}
+          {/* the photo with the Adults / Children switch right under it */}
+          <div className="bodymap__side">
+            <div className="bodymap__figure" dir="ltr" data-reveal>
+              <img
+                className={`bodymap__img ${view === 'back' ? 'is-on' : ''}`}
+                src="/img/body/back.jpg"
+                alt={t.body.back}
+              />
+              <img
+                className={`bodymap__img ${view === 'front' ? 'is-on' : ''}`}
+                src="/img/body/front.jpg"
+                alt={t.body.front}
+              />
+              <img
+                className={`bodymap__img ${view === 'kids' ? 'is-on' : ''}`}
+                src="/img/body/kid-back.png"
+                alt={t.body.kidsPhoto}
+              />
+              <div key={key} className="bodymap__tapes" aria-hidden="true">
+                {(TAPES[key || ''] || []).map((s, i) => (
+                  <span
+                    key={i}
+                    className={`tape ${s.c === 'skin' ? 'tape--skin' : ''}`}
+                    style={{
+                      left: s.l,
+                      top: s.t,
+                      width: s.w,
+                      height: s.h,
+                      ['--r' as string]: `${s.r || 0}deg`,
+                      ['--d' as string]: `${i * 120}ms`,
+                      ['--o' as string]: s.w > s.h ? 'left center' : 'center top',
+                    }}
+                  />
+                ))}
+              </div>
+              {/* children have no body-part certificates, so the area buttons are adults only */}
+              {!isKids &&
+                areas
+                  .filter((a) => PINS[a.key])
+                  .map((a) => (
+                    <button
+                      key={a.key}
+                      type="button"
+                      className="chip chip--pin"
+                      aria-pressed={a.key === key}
+                      style={pinStyle(PINS[a.key])}
+                      onClick={() => pick(a.key)}
+                    >
+                      {a.name}
+                    </button>
+                  ))}
             </div>
-            {/* children have no body-part certificates, so the area buttons are adults only */}
-            {!isKids &&
-              areas
-              .filter((a) => PINS[a.key])
-              .map((a) => (
+            {kids && (
+              <div className="bodymap__switch" role="group" aria-label={t.body.patient} data-reveal>
+                <span
+                  className={`bodymap__switch-thumb ${isKids ? 'is-kids' : ''}`}
+                  aria-hidden="true"
+                />
                 <button
-                  key={a.key}
                   type="button"
-                  className="chip chip--pin"
-                  aria-pressed={a.key === key}
-                  style={pinStyle(PINS[a.key])}
-                  onClick={() => pick(a.key)}
+                  aria-pressed={!isKids}
+                  onClick={() => adultKey && pick(adultKey, false)}
                 >
-                  {a.name}
+                  {t.body.adults}
                 </button>
-              ))}
+                <button type="button" aria-pressed={isKids} onClick={() => pick('kids')}>
+                  {t.body.children}
+                </button>
+              </div>
+            )}
           </div>
 
           <div className="bodymap__card" data-reveal>
             <span className="bodymap__ribbon" aria-hidden="true" />
-            <span className="bodymap__label">{t.body.selected}</span>
-            <h3 key={`h${key}`} className="bodymap__title anim-in">{area.name}</h3>
-            <ul key={`l${key}`} className="bodymap__list">
-              {area.certificates.map((c, i) => (
-                <li key={c.title} className="anim-in" style={{ animationDelay: `${80 + i * 70}ms` }}>
-                  <span className="bodymap__row">
-                    <strong>
-                      {c.title}
-                      {c.inProgress ? t.body.inProgress : ''}
-                    </strong>
-                    <span className="muted">{c.issuer}</span>
-                  </span>
-                  {c.description && <span className="bodymap__desc">{c.description}</span>}
-                </li>
-              ))}
-            </ul>
+            {certificates}
           </div>
         </div>
-        {kids && (
-          <div className="bodymap__switch" role="group" aria-label={t.body.patient} data-reveal>
-            <span className={`bodymap__switch-thumb ${isKids ? 'is-kids' : ''}`} aria-hidden="true" />
-            <button type="button" aria-pressed={!isKids} onClick={() => adultKey && pick(adultKey)}>
-              {t.body.adults}
-            </button>
-            <button type="button" aria-pressed={isKids} onClick={() => pick('kids')}>
-              {t.body.children}
-            </button>
-          </div>
-        )}
       </div>
+
+      {/* phones: the same certificates in a modal */}
+      <Modal
+        open={modal}
+        onClose={() => setModal(false)}
+        label={area.name}
+        closeLabel={t.body.close}
+      >
+        {certificates}
+      </Modal>
     </section>
   )
 }

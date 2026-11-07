@@ -1,5 +1,6 @@
 'use client'
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
+import Modal, { PHONE } from './Modal'
 import { gsap, prefersReducedMotion } from '@/lib/gsap'
 import geo from '@/lib/mapgeo.json'
 import type { SiteData } from '@/lib/data'
@@ -33,6 +34,9 @@ export default function Clinics({
   const section = useRef<HTMLElement>(null)
   const plane = useRef<HTMLDivElement>(null)
   const seal = useRef<SVGSVGElement>(null)
+  // phones: tapping a branch on the map opens its details in a modal (the cards are hidden there)
+  const [branch, setBranch] = useState<number | null>(null)
+  const openBranch = (ci: number) => window.matchMedia(PHONE).matches && setBranch(ci)
 
   useEffect(() => {
     const pl = plane.current!
@@ -62,15 +66,30 @@ export default function Clinics({
       const tl = gsap.timeline({
         scrollTrigger: { trigger: '.map3d', start: 'top 85%', end: 'center 45%', scrub: 0.8 },
       })
-      tl.fromTo(pl, { rotateX: 6, scale: 0.88 }, { rotateX: 48, scale: 1, ease: 'power2.out', duration: 1 })
+      tl.fromTo(
+        pl,
+        { rotateX: 6, scale: 0.88 },
+        { rotateX: 48, scale: 1, ease: 'power2.out', duration: 1 },
+      )
       areas.forEach((a, i) => {
-        tl.fromTo(a, { '--h': 0 }, { '--h': 1, ease: 'back.out(1.6)', duration: 0.5 }, 0.55 + i * 0.3)
-        if (labels[i]) tl.fromTo(labels[i], { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.3 }, 0.8 + i * 0.3)
+        tl.fromTo(
+          a,
+          { '--h': 0 },
+          { '--h': 1, ease: 'back.out(1.6)', duration: 0.5 },
+          0.55 + i * 0.3,
+        )
+        if (labels[i])
+          tl.fromTo(labels[i], { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.3 }, 0.8 + i * 0.3)
       })
       gsap.to(seal.current, {
         rotate: 200,
         ease: 'none',
-        scrollTrigger: { trigger: section.current, start: 'top bottom', end: 'bottom top', scrub: true },
+        scrollTrigger: {
+          trigger: section.current,
+          start: 'top bottom',
+          end: 'bottom top',
+          scrub: true,
+        },
       })
     }, section)
     return () => {
@@ -80,13 +99,45 @@ export default function Clinics({
   }, [])
 
   const words = site.clinicName.split(' ')
+  const branchBody = (c: SiteData['clinics'][number]) => (
+    <div className="branch__body">
+      <strong className="branch__name">{c.name}</strong>
+      <span>{c.address}</span>
+      {c.phones.length > 0 && (
+        <span>
+          {c.phones.map((p, i) => (
+            <span key={p}>
+              {i > 0 && ' · '}
+              <a href={telLink(p)}>{p}</a>
+            </span>
+          ))}
+        </span>
+      )}
+      {c.hours && <span>{c.hours}</span>}
+      <a
+        className="link"
+        href={
+          c.mapsUrl ||
+          `https://www.google.com/maps/search/${encodeURIComponent(`${c.address}, ${c.name}, Alexandria`)}`
+        }
+        target="_blank"
+        rel="noreferrer"
+      >
+        {t.clinics.directions}
+      </a>
+    </div>
+  )
+  const shown = branch === null ? null : clinics[branch]
   return (
     <section id="clinics" ref={section} className="clinics sec">
       <div className="wrap clinics__head">
         <div className="seal" data-reveal>
           <svg ref={seal} className="seal__ring spin" viewBox="0 0 250 250" aria-hidden="true">
             <defs>
-              <path id="seal-path" d="M125,125 m-104,0 a104,104 0 1,1 208,0 a104,104 0 1,1 -208,0" />
+              <path
+                id="seal-path"
+                d="M125,125 m-104,0 a104,104 0 1,1 208,0 a104,104 0 1,1 -208,0"
+              />
             </defs>
             <text>
               <textPath href="#seal-path">
@@ -113,7 +164,13 @@ export default function Clinics({
             </p>
           )}
           {site.clinicInstagram && (
-            <a className="link" href={site.clinicInstagram} target="_blank" rel="noreferrer" data-reveal>
+            <a
+              className="link"
+              href={site.clinicInstagram}
+              target="_blank"
+              rel="noreferrer"
+              data-reveal
+            >
               {t.clinics.followClinic}
             </a>
           )}
@@ -121,7 +178,11 @@ export default function Clinics({
       </div>
 
       <div className="map3d" dir="ltr" aria-label={t.clinics.map}>
-        <div ref={plane} className="map3d__plane" style={{ aspectRatio: `${geo.width} / ${geo.height}` }}>
+        <div
+          ref={plane}
+          className="map3d__plane"
+          style={{ aspectRatio: `${geo.width} / ${geo.height}` }}
+        >
           <img className="map3d__img" src="/map/alexandria-east.jpg" alt="" />
           <span className="map3d__sea">{t.clinics.sea}</span>
           {clinics.map((c, ci) => {
@@ -134,11 +195,12 @@ export default function Clinics({
                 {Array.from({ length: LAYERS }).map((_, k) => (
                   <svg
                     key={k}
-                    className="map3d__slice"
+                    className={`map3d__slice ${k === LAYERS - 1 ? 'map3d__slice--top' : ''}`}
                     viewBox="0 0 100 100"
                     preserveAspectRatio="none"
                     style={{ ['--k' as string]: k }}
                     aria-hidden="true"
+                    onClick={k === LAYERS - 1 ? () => openBranch(ci) : undefined}
                   >
                     {k === LAYERS - 1 ? (
                       // top face: the raised piece of the map itself, tinted, so the streets show through
@@ -153,14 +215,24 @@ export default function Clinics({
                           preserveAspectRatio="none"
                           clipPath={`url(#map-area-${c.id})`}
                         />
-                        <polygon points={pts} fill={col.top} fillOpacity={0.6} stroke="#fff" strokeWidth={0.25} />
+                        <polygon
+                          points={pts}
+                          fill={col.top}
+                          fillOpacity={0.6}
+                          stroke="#fff"
+                          strokeWidth={0.25}
+                        />
                       </>
                     ) : (
                       <polygon points={pts} fill={col.side} />
                     )}
                   </svg>
                 ))}
-                <span className="map3d__anchor" data-anchor={ci} style={{ left: `${a.center[0]}%`, top: `${a.center[1]}%` }} />
+                <span
+                  className="map3d__anchor"
+                  data-anchor={ci}
+                  style={{ left: `${a.center[0]}%`, top: `${a.center[1]}%` }}
+                />
               </div>
             )
           })}
@@ -170,15 +242,22 @@ export default function Clinics({
           if (!c.area || !AREAS[c.area]) return null
           return (
             <div key={c.id} className="map3d__label" data-label={ci}>
-              <span style={{ background: col.top, color: col.text }}>
+              {/* a button on phones: opens this branch's details */}
+              <button
+                type="button"
+                style={{ background: col.top, color: col.text }}
+                aria-haspopup="dialog"
+                onClick={() => openBranch(ci)}
+              >
                 {String(ci + 1).padStart(2, '0')} · {c.name}
-              </span>
+              </button>
               <i style={{ background: col.side }} />
             </div>
           )
         })}
       </div>
 
+      <p className="wrap clinics__tap">{t.clinics.tap}</p>
       <div className="wrap clinics__cards">
         {clinics.map((c, ci) => {
           const col = COLORS[c.color as keyof typeof COLORS] || COLORS.orange
@@ -187,33 +266,33 @@ export default function Clinics({
               <span className="branch__num" style={{ background: col.top, color: col.text }}>
                 {String(ci + 1).padStart(2, '0')}
               </span>
-              <div className="branch__body">
-                <strong className="branch__name">{c.name}</strong>
-                <span>{c.address}</span>
-                {c.phones.length > 0 && (
-                  <span>
-                    {c.phones.map((p, i) => (
-                      <span key={p}>
-                        {i > 0 && ' · '}
-                        <a href={telLink(p)}>{p}</a>
-                      </span>
-                    ))}
-                  </span>
-                )}
-                {c.hours && <span>{c.hours}</span>}
-                <a
-                  className="link"
-                  href={c.mapsUrl || `https://www.google.com/maps/search/${encodeURIComponent(`${c.address}, ${c.name}, Alexandria`)}`}
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  {t.clinics.directions}
-                </a>
-              </div>
+              {branchBody(c)}
             </article>
           )
         })}
       </div>
+
+      <Modal
+        open={shown !== null}
+        onClose={() => setBranch(null)}
+        label={shown?.name || ''}
+        closeLabel={t.body.close}
+      >
+        {shown && branch !== null && (
+          <div className="branch branch--modal">
+            <span
+              className="branch__num"
+              style={{
+                background: (COLORS[shown.color as keyof typeof COLORS] || COLORS.orange).top,
+                color: (COLORS[shown.color as keyof typeof COLORS] || COLORS.orange).text,
+              }}
+            >
+              {String(branch + 1).padStart(2, '0')}
+            </span>
+            {branchBody(shown)}
+          </div>
+        )}
+      </Modal>
     </section>
   )
 }

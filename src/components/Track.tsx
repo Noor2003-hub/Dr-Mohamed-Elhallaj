@@ -35,6 +35,38 @@ export default function Track({
   const walk = useRef<HTMLCanvasElement>(null)
   const width = FIRST + stations.length * STEP + 260
 
+  // Reserve the tallest translated station before allocating space to the video.
+  useEffect(() => {
+    const el = section.current!
+    const head = el.querySelector<HTMLElement>('.track__head')!
+    const items = [...el.querySelectorAll<HTMLElement>('.station')]
+    let raf = 0
+    const measure = () => {
+      const headingHeight = `${Math.ceil(head.getBoundingClientRect().height)}px`
+      const stationHeight = `${Math.ceil(Math.max(0, ...items.map((item) => item.scrollHeight)))}px`
+      const changed = el.style.getPropertyValue('--track-heading-height') !== headingHeight ||
+        el.style.getPropertyValue('--station-height') !== stationHeight
+      el.style.setProperty('--track-heading-height', headingHeight)
+      el.style.setProperty('--station-height', stationHeight)
+      return changed
+    }
+    const resize = new ResizeObserver(() => {
+      cancelAnimationFrame(raf)
+      raf = requestAnimationFrame(() => {
+        if (measure()) ScrollTrigger.refresh()
+      })
+    })
+    measure()
+    resize.observe(head)
+    items.forEach((item) => resize.observe(item))
+    ScrollTrigger.addEventListener('refreshInit', measure)
+    return () => {
+      resize.disconnect()
+      cancelAnimationFrame(raf)
+      ScrollTrigger.removeEventListener('refreshInit', measure)
+    }
+  }, [stations, rtl])
+
   // the walk: load the frames once the section is near, draw the frame for a progress (0 → 1)
   const frames = useRef<HTMLImageElement[]>([])
   const progress = useRef(0)
@@ -83,31 +115,27 @@ export default function Track({
   }, [])
 
   useEffect(() => {
-    // small screens scroll the track by hand: in Arabic start at its right end
-    const vp = rail.current?.parentElement
-    if (rtl && vp) vp.scrollLeft = vp.scrollWidth
+    // With reduced motion the track is scrolled sideways by hand: in Arabic start at its right end.
+    // Otherwise the section pins on every screen size and the vertical scroll moves the track.
     if (prefersReducedMotion()) {
+      const vp = rail.current?.parentElement
+      if (rtl && vp) vp.scrollLeft = vp.scrollWidth
       draw(1)
       return
     }
-    // hand-scrolled track (small screens): the walk follows the horizontal scroll
-    const onSwipe = () => {
-      if (!vp || window.matchMedia('(min-width: 900px)').matches) return
-      const max = vp.scrollWidth - vp.clientWidth
-      const p = max > 0 ? Math.abs(vp.scrollLeft) / max : 0
-      draw(rtl ? 1 - p : p)
-    }
-    vp?.addEventListener('scroll', onSwipe, { passive: true })
-    onSwipe()
     const mm = gsap.matchMedia()
-    mm.add('(min-width: 900px)', () => {
+    mm.add('all', () => {
       const r = rail.current!
-      const distance = () => r.scrollWidth - window.innerWidth + 40
+      // exactly the rail beyond the screen, so the lane always reaches both edges
+      const distance = () => r.offsetWidth - window.innerWidth
       // English moves the rail left; Arabic starts at its right end and moves it right
-      // the walk reads the tween's own progress, so it follows the scrub smoothing
-      // (`this` is the tween: fromTo already calls this while it is being created, before `move` exists)
+      // the walk and the stations read the tween's own progress and position, so they follow the
+      // scrub smoothing (`this` is the tween: fromTo already calls this while it is being created,
+      // before `move` and `light` exist)
+      let ready = false
       const onUpdate = function (this: gsap.core.Tween) {
         draw(this.progress())
+        if (ready) light(this.progress())
       }
       const move = rtl
         ? gsap.fromTo(r, { x: () => -distance() }, { x: 0, ease: 'none', onUpdate })
@@ -133,28 +161,26 @@ export default function Track({
         if (p >= LAST_CLIP_AT) fill = r.offsetWidth
         r.style.setProperty('--fill', `${fill}px`)
       }
+      section.current!.classList.add('is-animated')
       const st = ScrollTrigger.create({
         trigger: section.current,
-        start: 'top top',
+        // If enlarged text exceeds a screen, let it scroll into view before pinning.
+        start: () => section.current!.offsetHeight > window.innerHeight ? 'bottom bottom' : 'top top',
         end: () => `+=${distance()}`,
         pin: true,
         scrub: 0.8,
         animation: move,
         invalidateOnRefresh: true,
-        onUpdate: (self) => light(self.progress),
       })
-      section.current!.classList.add('is-animated')
-      light(st.progress)
+      ready = true
+      light(move.progress())
       draw(move.progress())
       return () => {
         st.kill()
         section.current?.classList.remove('is-animated')
       }
     })
-    return () => {
-      vp?.removeEventListener('scroll', onSwipe)
-      mm.revert()
-    }
+    return () => mm.revert()
     // draw only touches refs
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [stations.length, rtl])
