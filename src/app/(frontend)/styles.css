@@ -2195,6 +2195,30 @@ html.modal-open {
   .track__viewport {
     overflow-x: auto;
   }
+  .edu__degrees {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .edu__line {
+    display: none;
+  }
+  .edu__degree {
+    min-height: 52px;
+    padding-inline-start: 50px;
+  }
+  .edu__degree .edu__pill {
+    position: absolute;
+    inset-inline-start: 0;
+    top: 0;
+    margin-bottom: 0;
+  }
+  .edu__degree:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    inset-inline-start: 14px;
+    top: 52px;
+    bottom: -40px;
+    border-inline-start: 2px dashed rgba(3, 45, 59, 0.35);
+  }
   .edu__courses {
     grid-template-columns: 1fr;
   }
