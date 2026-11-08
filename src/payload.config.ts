@@ -39,7 +39,10 @@ export default buildConfig({
   secret: process.env.PAYLOAD_SECRET || '',
   typescript: { outputFile: path.resolve(dirname, 'payload-types.ts') },
   db: sqliteAdapter({
-    client: { url: process.env.DATABASE_URL || 'file:./elhallaj.db' },
+    client: {
+      url: process.env.DATABASE_URL || 'file:./elhallaj.db',
+      authToken: process.env.DATABASE_AUTH_TOKEN,
+    },
   }),
   sharp,
   plugins: [],
