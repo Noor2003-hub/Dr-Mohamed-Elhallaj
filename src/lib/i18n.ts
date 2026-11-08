@@ -74,8 +74,21 @@ const en = {
     city: 'Alexandria',
     region: 'Egypt, Alexandria',
   },
-  contact: { whatsapp: 'Message on WhatsApp', email: 'Send an email', kuwait: 'Kuwait', egypt: 'Egypt', general: 'Contact & social' },
-  footer: { explore: 'Explore', follow: 'Follow', instagram: 'Instagram', youtube: 'YouTube', top: 'Back to top ↑', credit: 'Developed by' },
+  contact: {
+    whatsapp: 'Message on WhatsApp',
+    email: 'Send an email',
+    kuwait: 'Kuwait',
+    egypt: 'Egypt',
+    general: 'Contact & social',
+  },
+  footer: {
+    explore: 'Explore',
+    follow: 'Follow',
+    instagram: 'Instagram',
+    youtube: 'YouTube',
+    top: 'Back to top ↑',
+    credit: 'Developed by',
+  },
 }
 
 export type Dict = typeof en
@@ -144,8 +157,21 @@ const ar: Dict = {
     city: 'الإسكندرية',
     region: 'مصر، الإسكندرية',
   },
-  contact: { whatsapp: 'راسلنا على واتساب', email: 'أرسل بريدًا إلكترونيًا', kuwait: 'الكويت', egypt: 'مصر', general: 'التواصل والحسابات' },
-  footer: { explore: 'تصفّح', follow: 'تابعنا', instagram: 'إنستجرام', youtube: 'يوتيوب', top: 'العودة للأعلى ↑', credit: 'تطوير' },
+  contact: {
+    whatsapp: 'راسلنا على واتساب',
+    email: 'أرسل بريدًا إلكترونيًا',
+    kuwait: 'الكويت',
+    egypt: 'مصر',
+    general: 'التواصل والحسابات',
+  },
+  footer: {
+    explore: 'تصفّح',
+    follow: 'تابعنا',
+    instagram: 'إنستجرام',
+    youtube: 'يوتيوب',
+    top: 'العودة للأعلى ↑',
+    credit: 'تنفيذ الموقع',
+  },
 }
 
 const DICTS: Record<Locale, Dict> = { en, ar }
