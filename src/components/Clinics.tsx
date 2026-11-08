@@ -199,8 +199,7 @@ export default function Clinics({
             />
             <circle cx="12" cy="10" r="2.5" stroke="currentColor" strokeWidth="1.8" />
           </svg>
-          <strong>{t.clinics.city}</strong>
-          <span>{t.clinics.region}</span>
+          <strong>{t.clinics.region}</strong>
         </div>
         <div
           ref={plane}
