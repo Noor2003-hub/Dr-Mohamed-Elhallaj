@@ -1745,7 +1745,7 @@ html.modal-open {
 }
 .map3d__city {
   position: absolute;
-  inset-inline-start: 50%;
+  left: 50%;
   top: 25%;
   translate: -50% 0;
   z-index: 4;
@@ -2041,6 +2041,8 @@ html.modal-open {
 .footer__bottom a {
   text-decoration: none;
 }
+.footer__credit { color: var(--on-dark-3); text-align: center; }
+.footer__credit:hover { color: var(--cyan); }
 
 /* ============ Responsive ============ */
 @media (max-width: 1100px) {

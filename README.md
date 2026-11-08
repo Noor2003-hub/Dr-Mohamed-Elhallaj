@@ -92,9 +92,13 @@ The crop keeps the area the people use in every clip. In `styles.css`, `.track__
 
 ## Other static images
 
-- `public/img/body/front.jpg`, `back.jpg`: body map photos. The tape positions are in `TAPES` at the top of `components/BodyMap.tsx`; adjust them if the photos change.
+- `public/img/body/front.png`, `back.png`: transparent body map photos. Blue region layers use the SVG paths in `REGIONS` in `src/components/BodyMap.tsx`, masked to the photo's silhouette.
 - `public/map/alexandria-east.jpg`: map of eastern Alexandria (© OpenStreetMap contributors). The two raised areas are in `src/lib/mapgeo.json`.
 
 ## Deploying
 
-SQLite is fine locally. For Vercel, switch the adapter in `src/payload.config.ts` to `@payloadcms/db-postgres` (or Mongo), and put media on Vercel Blob or S3 storage.
+The site uses local SQLite in development and hosted SQLite (Turso) on Vercel. Set `DATABASE_URL`, `DATABASE_AUTH_TOKEN`, `PAYLOAD_SECRET`, and `BLOB_READ_WRITE_TOKEN` in Vercel. Media is served from Vercel Blob.
+
+Manage the contact section and footer links under **Content → Contact items** in Payload. Each item has an English/Arabic title, optional details, a link, a country group, and an order. Empty links stay hidden except location text. The initial Facebook, TikTok, and Egyptian WhatsApp links are intentionally empty. `scripts/setup-contact-items.mjs` adds this collection's database tables and initial items without replacing existing content.
+
+The developer credit in the footer is fixed in `src/components/Footer.tsx` and is not editable in Payload.

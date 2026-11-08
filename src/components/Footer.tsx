@@ -31,6 +31,9 @@ export default function Footer({ site, contacts, t }: { site: SiteData['site']; 
       </div>
       <div className="wrap footer__bottom">
         <span>© {new Date().getFullYear()} {site.name}</span>
+        <a className="footer__credit" href="https://noor-3u9l.vercel.app/" target="_blank" rel="noreferrer">
+          {t.footer.credit} <bdi dir="ltr">Eng. Norhan Ahmed</bdi>
+        </a>
         <a href="#top">{t.footer.top}</a>
       </div>
     </footer>

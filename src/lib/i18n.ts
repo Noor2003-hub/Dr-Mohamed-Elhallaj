@@ -75,7 +75,7 @@ const en = {
     region: 'Egypt, Alexandria',
   },
   contact: { whatsapp: 'Message on WhatsApp', email: 'Send an email', kuwait: 'Kuwait', egypt: 'Egypt', general: 'Contact & social' },
-  footer: { explore: 'Explore', follow: 'Follow', instagram: 'Instagram', youtube: 'YouTube', top: 'Back to top ↑' },
+  footer: { explore: 'Explore', follow: 'Follow', instagram: 'Instagram', youtube: 'YouTube', top: 'Back to top ↑', credit: 'Developed by' },
 }
 
 export type Dict = typeof en
@@ -145,7 +145,7 @@ const ar: Dict = {
     region: 'مصر، الإسكندرية',
   },
   contact: { whatsapp: 'راسلنا على واتساب', email: 'أرسل بريدًا إلكترونيًا', kuwait: 'الكويت', egypt: 'مصر', general: 'التواصل والحسابات' },
-  footer: { explore: 'تصفّح', follow: 'تابعنا', instagram: 'إنستجرام', youtube: 'يوتيوب', top: 'العودة للأعلى ↑' },
+  footer: { explore: 'تصفّح', follow: 'تابعنا', instagram: 'إنستجرام', youtube: 'يوتيوب', top: 'العودة للأعلى ↑', credit: 'تطوير' },
 }
 
 const DICTS: Record<Locale, Dict> = { en, ar }
