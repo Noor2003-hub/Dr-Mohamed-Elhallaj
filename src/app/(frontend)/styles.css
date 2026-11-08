@@ -1857,6 +1857,9 @@ html.modal-open {
 .branch__body a:not(.link) {
   text-decoration: none;
 }
+[dir='rtl'] .branch__phones {
+  text-align: right;
+}
 .branch__name {
   font-family: var(--head);
   font-weight: 700;

@@ -104,7 +104,7 @@ export default function Clinics({
       <strong className="branch__name">{c.name}</strong>
       <span>{c.address}</span>
       {c.phones.length > 0 && (
-        <span dir="ltr">
+        <span className="branch__phones" dir="ltr">
           {c.phones.map((p, i) => (
             <span key={p}>
               {i > 0 && ' · '}
