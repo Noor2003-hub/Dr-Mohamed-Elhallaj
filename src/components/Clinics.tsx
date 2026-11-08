@@ -66,7 +66,7 @@ export default function Clinics({
     }
     const ctx = gsap.context(() => {
       const tl = gsap.timeline({
-        scrollTrigger: { trigger: '.map3d', start: 'top 3%', end: 'center 60%', scrub: 0.8 },
+        scrollTrigger: { trigger: '.map3d', start: 'top -1%', end: 'center 60%', scrub: 0.8 },
       })
       tl.fromTo(
         pl,
