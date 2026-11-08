@@ -37,7 +37,11 @@ const TAPES: Record<string, Strip[]> = {
     { l: 124, t: 500, w: 10, h: 44 },
     { l: 112, t: 528, w: 36, h: 9, r: -20, c: 'skin' },
   ],
-  kids: [],
+  kids: [
+    { l: 156, t: 242, w: 8, h: 66 },
+    { l: 173, t: 242, w: 8, h: 66 },
+    { l: 148, t: 291, w: 41, h: 8, c: 'skin' },
+  ],
 }
 // Where each button sits around the body (px on the 338px photo).
 // l = left edge of the button; r = right edge, for buttons left of the body,
@@ -120,12 +124,12 @@ export default function BodyMap({
             <div className="bodymap__figure" dir="ltr" data-reveal>
               <img
                 className={`bodymap__img ${view === 'back' ? 'is-on' : ''}`}
-                src="/img/body/back.jpg"
+                src="/img/body/back.png"
                 alt={t.body.back}
               />
               <img
                 className={`bodymap__img ${view === 'front' ? 'is-on' : ''}`}
-                src="/img/body/front.jpg"
+                src="/img/body/front.png"
                 alt={t.body.front}
               />
               <img

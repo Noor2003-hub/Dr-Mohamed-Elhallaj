@@ -25,7 +25,7 @@ export default function Contact({ site, t }: { site: SiteData['site']; t: Dict }
             )}
           </div>
           <p className="contact__facts" data-reveal>
-            {site.whatsapp && <span>{site.whatsapp}</span>}
+            {site.whatsapp && <bdi dir="ltr">{site.whatsapp}</bdi>}
             {site.email && <span>{site.email}</span>}
             {site.location && <span>{site.location}</span>}
           </p>

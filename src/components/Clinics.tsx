@@ -104,11 +104,11 @@ export default function Clinics({
       <strong className="branch__name">{c.name}</strong>
       <span>{c.address}</span>
       {c.phones.length > 0 && (
-        <span>
+        <span dir="ltr">
           {c.phones.map((p, i) => (
             <span key={p}>
               {i > 0 && ' · '}
-              <a href={telLink(p)}>{p}</a>
+              <a href={telLink(p)}><bdi dir="ltr">{p}</bdi></a>
             </span>
           ))}
         </span>
