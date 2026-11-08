@@ -52,3 +52,5 @@ node_modules/
 # local database
 *.db
 *.db-journal
+*.db-shm
+*.db-wal
