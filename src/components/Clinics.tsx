@@ -66,14 +66,19 @@ export default function Clinics({
     }
     const ctx = gsap.context(() => {
       const tl = gsap.timeline({
-        scrollTrigger: { trigger: '.map3d', start: 'top 85%', end: 'center 45%', scrub: 0.8 },
+        scrollTrigger: { trigger: '.map3d', start: 'top 3%', end: 'center 60%', scrub: 0.8 },
       })
       tl.fromTo(
         pl,
         { rotateX: 0, scale: 0.55 },
         { rotateX: 48, scale: 1, ease: 'power2.inOut', duration: 1.6 },
       )
-      tl.fromTo(city.current, { autoAlpha: 1, scale: 1 }, { autoAlpha: 0, scale: 0.8, duration: 0.5 }, 0.6)
+      tl.fromTo(
+        city.current,
+        { autoAlpha: 1, scale: 1 },
+        { autoAlpha: 0, scale: 0.8, duration: 0.5 },
+        0.6,
+      )
       areas.forEach((a, i) => {
         tl.fromTo(
           a,
@@ -112,7 +117,9 @@ export default function Clinics({
           {c.phones.map((p, i) => (
             <span key={p}>
               {i > 0 && ' · '}
-              <a href={telLink(p)}><bdi dir="ltr">{p}</bdi></a>
+              <a href={telLink(p)}>
+                <bdi dir="ltr">{p}</bdi>
+              </a>
             </span>
           ))}
         </span>
@@ -161,7 +168,7 @@ export default function Clinics({
           <h2 className="h-display" data-reveal>
             {words[0]} <span className="accent-teal">{words.slice(1).join(' ')}</span>
           </h2>
-          <p className="clinics__region" data-reveal>{t.clinics.region}</p>
+
           {/* on the Arabic page the main name is already Arabic */}
           {lang !== 'ar' && site.clinicNameArabic && (
             <p className="clinics__ar" dir="rtl" lang="ar" data-reveal>
@@ -184,7 +191,14 @@ export default function Clinics({
 
       <div className="map3d" dir="ltr" aria-label={t.clinics.map}>
         <div ref={city} className="map3d__city" dir={lang === 'ar' ? 'rtl' : 'ltr'}>
-          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M20 10c0 6-8 12-8 12S4 16 4 10a8 8 0 1 1 16 0Z" stroke="currentColor" strokeWidth="1.8" /><circle cx="12" cy="10" r="2.5" stroke="currentColor" strokeWidth="1.8" /></svg>
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path
+              d="M20 10c0 6-8 12-8 12S4 16 4 10a8 8 0 1 1 16 0Z"
+              stroke="currentColor"
+              strokeWidth="1.8"
+            />
+            <circle cx="12" cy="10" r="2.5" stroke="currentColor" strokeWidth="1.8" />
+          </svg>
           <strong>{t.clinics.city}</strong>
           <span>{t.clinics.region}</span>
         </div>
@@ -260,7 +274,9 @@ export default function Clinics({
                 aria-haspopup="dialog"
                 onClick={() => openBranch(ci)}
               >
-                <span>{String(ci + 1).padStart(2, '0')} · {c.name}</span>
+                <span>
+                  {String(ci + 1).padStart(2, '0')} · {c.name}
+                </span>
                 <small>{t.clinics.region}</small>
               </button>
               <i style={{ background: col.side }} />
@@ -269,7 +285,11 @@ export default function Clinics({
         })}
       </div>
 
-      <p className="map3d__credit"><a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noreferrer">© OpenStreetMap contributors</a></p>
+      <p className="map3d__credit">
+        <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noreferrer">
+          © OpenStreetMap contributors
+        </a>
+      </p>
 
       <p className="wrap clinics__tap">{t.clinics.tap}</p>
       <div className="wrap clinics__cards">
