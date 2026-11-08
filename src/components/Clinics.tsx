@@ -66,29 +66,63 @@ export default function Clinics({
     }
     const ctx = gsap.context(() => {
       const tl = gsap.timeline({
-        scrollTrigger: { trigger: '.map3d', start: 'top -1%', end: 'center 60%', scrub: 0.8 },
+        scrollTrigger: {
+          trigger: '.map3d',
+          start: 'top -1%',
+          end: 'center 60%',
+          scrub: 1.2,
+        },
       })
+
       tl.fromTo(
         pl,
         { rotateX: 0, scale: 0.55 },
-        { rotateX: 48, scale: 1, ease: 'power2.inOut', duration: 1.6 },
+        {
+          rotateX: 48,
+          scale: 1,
+          ease: 'power2.inOut',
+          duration: 2.5,
+        },
       )
+
       tl.fromTo(
         city.current,
         { autoAlpha: 1, scale: 1 },
-        { autoAlpha: 0, scale: 0.8, duration: 0.5 },
-        0.6,
+        {
+          autoAlpha: 0,
+          scale: 0.85,
+          ease: 'power2.inOut',
+          duration: 1,
+        },
+        0.8,
       )
+
       areas.forEach((a, i) => {
         tl.fromTo(
           a,
           { '--h': 0 },
-          { '--h': 1, ease: 'back.out(1.6)', duration: 0.5 },
-          1.15 + i * 0.3,
+          {
+            '--h': 1,
+            ease: 'power2.inOut',
+            duration: 1,
+          },
+          1.8 + i * 0.5,
         )
-        if (labels[i])
-          tl.fromTo(labels[i], { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.3 }, 1.4 + i * 0.3)
+
+        if (labels[i]) {
+          tl.fromTo(
+            labels[i],
+            { autoAlpha: 0 },
+            {
+              autoAlpha: 1,
+              ease: 'power2.out',
+              duration: 0.8,
+            },
+            2.1 + i * 0.5,
+          )
+        }
       })
+
       gsap.to(seal.current, {
         rotate: 200,
         ease: 'none',
@@ -96,7 +130,7 @@ export default function Clinics({
           trigger: section.current,
           start: 'top bottom',
           end: 'bottom top',
-          scrub: true,
+          scrub: 1.2,
         },
       })
     }, section)
