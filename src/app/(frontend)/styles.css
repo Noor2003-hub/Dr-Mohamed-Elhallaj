@@ -2039,15 +2039,15 @@ html.modal-open {
     gap: 16px;
   }
   .seal {
-    flex: 0 0 116px;
-    width: 116px;
-    height: 116px;
+    flex: 0 0 136px;
+    width: 136px;
+    height: 136px;
   }
   .seal__logo {
     inset: 17px;
   }
   .seal__logo img {
-    width: 56px;
+    width: 68px;
   }
   .clinics__title {
     flex: 1 1 0;
