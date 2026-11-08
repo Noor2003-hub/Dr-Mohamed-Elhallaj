@@ -34,6 +34,7 @@ export default function Clinics({
   const section = useRef<HTMLElement>(null)
   const plane = useRef<HTMLDivElement>(null)
   const seal = useRef<SVGSVGElement>(null)
+  const city = useRef<HTMLDivElement>(null)
   // phones: tapping a branch on the map opens its details in a modal (the cards are hidden there)
   const [branch, setBranch] = useState<number | null>(null)
   const openBranch = (ci: number) => window.matchMedia(PHONE).matches && setBranch(ci)
@@ -58,6 +59,7 @@ export default function Clinics({
     raf = requestAnimationFrame(place)
     if (prefersReducedMotion()) {
       gsap.set(pl, { rotateX: 48 })
+      gsap.set(city.current, { autoAlpha: 0 })
       areas.forEach((a) => a.style.setProperty('--h', '1'))
       gsap.set(labels, { autoAlpha: 1 })
       return () => cancelAnimationFrame(raf)
@@ -68,18 +70,19 @@ export default function Clinics({
       })
       tl.fromTo(
         pl,
-        { rotateX: 6, scale: 0.88 },
-        { rotateX: 48, scale: 1, ease: 'power2.out', duration: 1 },
+        { rotateX: 0, scale: 0.55 },
+        { rotateX: 48, scale: 1, ease: 'power2.inOut', duration: 1.6 },
       )
+      tl.fromTo(city.current, { autoAlpha: 1, scale: 1 }, { autoAlpha: 0, scale: 0.8, duration: 0.5 }, 0.6)
       areas.forEach((a, i) => {
         tl.fromTo(
           a,
           { '--h': 0 },
           { '--h': 1, ease: 'back.out(1.6)', duration: 0.5 },
-          0.55 + i * 0.3,
+          1.15 + i * 0.3,
         )
         if (labels[i])
-          tl.fromTo(labels[i], { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.3 }, 0.8 + i * 0.3)
+          tl.fromTo(labels[i], { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.3 }, 1.4 + i * 0.3)
       })
       gsap.to(seal.current, {
         rotate: 200,
@@ -102,6 +105,7 @@ export default function Clinics({
   const branchBody = (c: SiteData['clinics'][number]) => (
     <div className="branch__body">
       <strong className="branch__name">{c.name}</strong>
+      <span className="branch__region">{t.clinics.region}</span>
       <span>{c.address}</span>
       {c.phones.length > 0 && (
         <span className="branch__phones" dir="ltr">
@@ -157,6 +161,7 @@ export default function Clinics({
           <h2 className="h-display" data-reveal>
             {words[0]} <span className="accent-teal">{words.slice(1).join(' ')}</span>
           </h2>
+          <p className="clinics__region" data-reveal>{t.clinics.region}</p>
           {/* on the Arabic page the main name is already Arabic */}
           {lang !== 'ar' && site.clinicNameArabic && (
             <p className="clinics__ar" dir="rtl" lang="ar" data-reveal>
@@ -178,6 +183,11 @@ export default function Clinics({
       </div>
 
       <div className="map3d" dir="ltr" aria-label={t.clinics.map}>
+        <div ref={city} className="map3d__city" dir={lang === 'ar' ? 'rtl' : 'ltr'}>
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M20 10c0 6-8 12-8 12S4 16 4 10a8 8 0 1 1 16 0Z" stroke="currentColor" strokeWidth="1.8" /><circle cx="12" cy="10" r="2.5" stroke="currentColor" strokeWidth="1.8" /></svg>
+          <strong>{t.clinics.city}</strong>
+          <span>{t.clinics.region}</span>
+        </div>
         <div
           ref={plane}
           className="map3d__plane"
@@ -245,17 +255,21 @@ export default function Clinics({
               {/* a button on phones: opens this branch's details */}
               <button
                 type="button"
+                dir={lang === 'ar' ? 'rtl' : 'ltr'}
                 style={{ background: col.top, color: col.text }}
                 aria-haspopup="dialog"
                 onClick={() => openBranch(ci)}
               >
-                {String(ci + 1).padStart(2, '0')} · {c.name}
+                <span>{String(ci + 1).padStart(2, '0')} · {c.name}</span>
+                <small>{t.clinics.region}</small>
               </button>
               <i style={{ background: col.side }} />
             </div>
           )
         })}
       </div>
+
+      <p className="map3d__credit"><a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noreferrer">© OpenStreetMap contributors</a></p>
 
       <p className="wrap clinics__tap">{t.clinics.tap}</p>
       <div className="wrap clinics__cards">

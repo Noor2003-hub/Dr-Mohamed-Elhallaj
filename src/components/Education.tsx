@@ -24,7 +24,7 @@ export default function Education({
 
         {degrees.length > 0 && (
           <>
-            <span className="eyebrow eyebrow--ink" data-reveal>{degreesNote}</span>
+            <span className="eyebrow eyebrow--ink edu__university" data-reveal>{degreesNote}</span>
             <div className="edu__degrees">
               <span className="edu__line" aria-hidden="true" />
               {degrees.map((d, i) => (

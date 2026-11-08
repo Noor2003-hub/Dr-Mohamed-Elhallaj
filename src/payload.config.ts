@@ -14,6 +14,7 @@ import { BodyAreas } from './collections/BodyAreas'
 import { Reels } from './collections/Reels'
 import { Tools } from './collections/Tools'
 import { Clinics } from './collections/Clinics'
+import { ContactItems } from './collections/ContactItems'
 import { Site } from './globals/Site'
 
 const filename = fileURLToPath(import.meta.url)
@@ -25,7 +26,7 @@ export default buildConfig({
     importMap: { baseDir: path.resolve(dirname) },
     meta: { titleSuffix: ' · Dr. Elhallaj' },
   },
-  collections: [Tools, BodyAreas, Certificates, Experiences, Reels, Clinics, Media, Users],
+  collections: [Tools, BodyAreas, Certificates, Experiences, Reels, Clinics, ContactItems, Media, Users],
   globals: [Site],
   localization: {
     locales: [

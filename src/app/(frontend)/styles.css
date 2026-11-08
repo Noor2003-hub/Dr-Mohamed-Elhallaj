@@ -855,34 +855,24 @@ html.modal-open {
   opacity: 1;
   transform: none;
 }
-.bodymap__tapes {
+.bodymap__highlight {
   position: absolute;
   inset: 0;
   z-index: 2;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
 }
-.tape {
-  position: absolute;
-  background: var(--cyan);
-  border-radius: 4px;
-  transform-origin: var(--o);
-  transform: rotate(var(--r)) scaleY(0);
-  animation: tapeOn 0.55s cubic-bezier(0.2, 0.9, 0.3, 1.2) var(--d) forwards;
-  box-shadow: 0 2px 6px rgba(3, 45, 59, 0.25);
+.bodymap__region {
+  fill: rgba(16, 160, 231, 0.58);
+  stroke: #6be2ff;
+  stroke-width: 1.5px;
+  filter: drop-shadow(0 0 9px rgba(25, 181, 255, 0.9));
+  animation: regionOn 0.4s ease both;
 }
-.tape--skin {
-  background: #e9c9a8;
-  transform: rotate(var(--r)) scaleX(0);
-  animation-name: tapeOnX;
-}
-@keyframes tapeOn {
-  to {
-    transform: rotate(var(--r)) scaleY(1);
-  }
-}
-@keyframes tapeOnX {
-  to {
-    transform: rotate(var(--r)) scaleX(1);
-  }
+@keyframes regionOn {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 .bodymap__card {
   position: relative;
@@ -1546,6 +1536,12 @@ html.modal-open {
 .edu__h {
   margin-bottom: 56px;
 }
+.edu__university {
+  font-size: clamp(20px, 2.2vw, 28px);
+  line-height: 1.4;
+  font-weight: 700;
+  margin-bottom: 24px;
+}
 .edu__degrees {
   position: relative;
   display: grid;
@@ -1741,6 +1737,32 @@ html.modal-open {
   perspective: 2600px;
   perspective-origin: 50% 30%;
 }
+.clinics__region,
+.branch__region {
+  margin: 0;
+  font-size: 14px;
+  color: var(--muted-2);
+}
+.map3d__city {
+  position: absolute;
+  inset-inline-start: 50%;
+  top: 25%;
+  translate: -50% 0;
+  z-index: 4;
+  display: grid;
+  justify-items: center;
+  gap: 6px;
+  padding: 18px 26px;
+  border-radius: 22px;
+  background: rgba(238, 242, 240, 0.94);
+  box-shadow: 0 16px 45px rgba(3, 45, 59, 0.15);
+  pointer-events: none;
+  white-space: nowrap;
+}
+.map3d__city svg { width: 34px; height: 34px; color: var(--orange); }
+.map3d__city strong { font: 700 clamp(26px, 4vw, 44px)/1.15 var(--head); }
+.map3d__city > span { font-size: 14px; color: var(--muted); }
+.map3d__credit { margin: 8px 20px 18px; text-align: center; font-size: 11px; color: var(--muted); }
 .map3d__plane {
   position: relative;
   width: 100%;
@@ -1800,6 +1822,10 @@ html.modal-open {
   visibility: hidden;
 }
 .map3d__label button {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
   border: 0;
   cursor: default;
   padding: 10px 20px;
@@ -1809,6 +1835,11 @@ html.modal-open {
   font-size: clamp(16px, 1.6vw, 24px);
   white-space: nowrap;
   box-shadow: 0 14px 28px -14px rgba(3, 45, 59, 0.9);
+}
+.map3d__label button small {
+  font-family: var(--body);
+  font-size: 0.55em;
+  font-weight: 500;
 }
 .map3d__label i {
   width: 2px;
@@ -1916,6 +1947,34 @@ html.modal-open {
   flex-wrap: wrap;
   color: var(--on-dark-3);
   font-size: 15px;
+}
+.contact__groups {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px;
+}
+.contact__group {
+  padding: 22px;
+  border: 1px solid rgba(159, 196, 207, 0.3);
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.035);
+}
+.contact__group--general { grid-column: 1 / -1; }
+.contact__group h3 { margin: 0 0 16px; font: 700 24px/1.3 var(--head); }
+.contact__group--kuwait h3 { color: var(--cyan); }
+.contact__group--egypt h3 { color: #ff8a63; }
+.contact__items { list-style: none; margin: 0; padding: 0; }
+.contact__items li + li { border-top: 1px solid rgba(159, 196, 207, 0.18); }
+.contact__items a,
+.contact__location { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 13px 0; text-decoration: none; }
+.contact__items a:hover { color: var(--cyan); }
+.contact__item-copy { display: flex; flex-direction: column; gap: 5px; min-width: 0; }
+.contact__item-copy strong { font-size: 16px; font-weight: 600; }
+.contact__item-copy > span,
+.contact__item-copy > bdi { color: var(--on-dark-3); font-size: 14px; overflow-wrap: anywhere; }
+.contact__item-arrow { color: var(--cyan); font-size: 23px; }
+@media (max-width: 600px) {
+  .contact__groups { grid-template-columns: minmax(0, 1fr); }
 }
 .footer {
   background: var(--navy-2);
@@ -2243,7 +2302,7 @@ html.modal-open {
     animation: none;
   }
   .anim-in,
-  .tape {
+  .bodymap__region {
     animation-duration: 0.01s;
   }
   .bodymap__switch-thumb,

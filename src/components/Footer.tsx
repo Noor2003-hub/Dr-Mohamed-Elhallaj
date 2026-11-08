@@ -1,7 +1,7 @@
 import type { SiteData } from '@/lib/data'
 import type { Dict } from '@/lib/i18n'
 
-export default function Footer({ site, t }: { site: SiteData['site']; t: Dict }) {
+export default function Footer({ site, contacts, t }: { site: SiteData['site']; contacts: SiteData['contacts']; t: Dict }) {
   return (
     <footer className="footer">
       <div className="wrap footer__top">
@@ -22,17 +22,10 @@ export default function Footer({ site, t }: { site: SiteData['site']; t: Dict })
             <a href="#clinics">{t.nav.clinics}</a>
           </div>
           <div>
-            <span className="footer__h">{t.footer.follow}</span>
-            {site.instagram && (
-              <a href={site.instagram} target="_blank" rel="noreferrer">
-                {t.footer.instagram}
-              </a>
-            )}
-            {site.youtube && (
-              <a href={site.youtube} target="_blank" rel="noreferrer">
-                {t.footer.youtube}
-              </a>
-            )}
+            <span className="footer__h">{t.contact.general}</span>
+            {contacts.filter((item) => item.url && item.kind !== 'location').map((item) => (
+              <a key={item.id} href={item.url} target="_blank" rel="noreferrer">{item.title}</a>
+            ))}
           </div>
         </div>
       </div>

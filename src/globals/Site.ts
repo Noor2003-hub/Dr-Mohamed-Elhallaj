@@ -64,7 +64,7 @@ export const Site: GlobalConfig = {
           label: 'Section texts',
           fields: [
             { name: 'mapHeading', localized: true, type: 'text', defaultValue: 'Where does it hurt?' },
-            { name: 'mapIntro', localized: true, type: 'text', defaultValue: 'Choose an area. Kinesio tape goes on, and you see the training behind its treatment.' },
+            { name: 'mapIntro', localized: true, type: 'text', defaultValue: 'Choose an area to highlight it and explore the training behind its treatment.' },
             { name: 'toolsHeading', localized: true, type: 'text', defaultValue: 'What he treats with.' },
             { name: 'reelsHeading', localized: true, type: 'text', defaultValue: 'Learn from his reels' },
             { name: 'reelsIntro', localized: true, type: 'text' },

@@ -71,8 +71,10 @@ const en = {
     sea: 'Mediterranean Sea',
     directions: 'Get directions →',
     tap: 'Tap a branch on the map for its address and phone numbers.',
+    city: 'Alexandria',
+    region: 'Egypt, Alexandria',
   },
-  contact: { whatsapp: 'Message on WhatsApp', email: 'Send an email' },
+  contact: { whatsapp: 'Message on WhatsApp', email: 'Send an email', kuwait: 'Kuwait', egypt: 'Egypt', general: 'Contact & social' },
   footer: { explore: 'Explore', follow: 'Follow', instagram: 'Instagram', youtube: 'YouTube', top: 'Back to top ↑' },
 }
 
@@ -139,8 +141,10 @@ const ar: Dict = {
     sea: 'البحر المتوسط',
     directions: 'احصل على الاتجاهات ←',
     tap: 'اضغط على فرع في الخريطة لعرض عنوانه وأرقام هاتفه.',
+    city: 'الإسكندرية',
+    region: 'مصر، الإسكندرية',
   },
-  contact: { whatsapp: 'راسلنا على واتساب', email: 'أرسل بريدًا إلكترونيًا' },
+  contact: { whatsapp: 'راسلنا على واتساب', email: 'أرسل بريدًا إلكترونيًا', kuwait: 'الكويت', egypt: 'مصر', general: 'التواصل والحسابات' },
   footer: { explore: 'تصفّح', follow: 'تابعنا', instagram: 'إنستجرام', youtube: 'يوتيوب', top: 'العودة للأعلى ↑' },
 }
 

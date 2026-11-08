@@ -39,9 +39,9 @@ export default async function HomePage({ params }: PageProps<'/[lang]'>) {
         <Track heading={site.trackHeading} intro={site.trackIntro} stations={data.experiences} t={t} rtl={lang === 'ar'} />
         <Education heading={site.educationHeading} degreesNote={site.degreesNote} certificates={data.certificates} t={t} />
         {data.clinics.length > 0 && <Clinics site={site} clinics={data.clinics} lang={lang} t={t} />}
-        <Contact site={site} t={t} />
+        <Contact site={site} contacts={data.contacts} t={t} />
       </main>
-      <Footer site={site} t={t} />
+      <Footer site={site} contacts={data.contacts} t={t} />
     </SmoothScroll>
   )
 }

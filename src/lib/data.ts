@@ -17,7 +17,7 @@ export async function getSiteData(locale: Locale = DEFAULT_LOCALE) {
   const visible = { visible: { not_equals: false } }
   // an Arabic field that is still empty falls back to the English text
   const l = { locale, fallbackLocale: DEFAULT_LOCALE } as const
-  const [site, tools, areas, certificates, experiences, reels, clinics] = await Promise.all([
+  const [site, tools, areas, certificates, experiences, reels, clinics, contacts] = await Promise.all([
     payload.findGlobal({ slug: 'site', depth: 1, ...l }),
     payload.find({ collection: 'tools', where: visible, sort: 'order', limit: 50, depth: 1, ...l }),
     payload.find({ collection: 'body-areas', sort: 'order', limit: 20, depth: 1, ...l }),
@@ -25,10 +25,19 @@ export async function getSiteData(locale: Locale = DEFAULT_LOCALE) {
     payload.find({ collection: 'experiences', where: visible, sort: 'order', limit: 50, depth: 1, ...l }),
     payload.find({ collection: 'reels', where: visible, sort: 'order', limit: 50, depth: 1, ...l }),
     payload.find({ collection: 'clinics', where: visible, sort: 'order', limit: 10, depth: 0, ...l }),
+    payload.find({ collection: 'contact-items', where: visible, sort: 'order', limit: 100, depth: 0, ...l }),
   ])
 
   return {
     locale,
+    contacts: contacts.docs.map((item) => ({
+      id: item.id,
+      title: item.title,
+      detail: item.detail || '',
+      url: item.url || '',
+      country: item.country,
+      kind: item.kind,
+    })),
     site: {
       name: site.name,
       fullName: site.fullName || site.name,

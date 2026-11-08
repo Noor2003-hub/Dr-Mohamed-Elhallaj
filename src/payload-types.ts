@@ -73,6 +73,7 @@ export interface Config {
     experiences: Experience;
     reels: Reel;
     clinics: Clinic;
+    'contact-items': ContactItem;
     media: Media;
     users: User;
     'payload-kv': PayloadKv;
@@ -88,6 +89,7 @@ export interface Config {
     experiences: ExperiencesSelect<false> | ExperiencesSelect<true>;
     reels: ReelsSelect<false> | ReelsSelect<true>;
     clinics: ClinicsSelect<false> | ClinicsSelect<true>;
+    'contact-items': ContactItemsSelect<false> | ContactItemsSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
     users: UsersSelect<false> | UsersSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
@@ -328,6 +330,28 @@ export interface Clinic {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "contact-items".
+ */
+export interface ContactItem {
+  id: number;
+  title: string;
+  detail?: string | null;
+  /**
+   * Use a full link, e.g. https://wa.me/201234567890. Empty links stay hidden, except location text.
+   */
+  url?: string | null;
+  country: 'kuwait' | 'egypt' | 'general';
+  kind: 'whatsapp' | 'location' | 'email' | 'instagram' | 'facebook' | 'tiktok' | 'youtube' | 'link';
+  /**
+   * Lower numbers show first.
+   */
+  order?: number | null;
+  visible?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "users".
  */
 export interface User {
@@ -399,6 +423,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'clinics';
         value: number | Clinic;
+      } | null)
+    | ({
+        relationTo: 'contact-items';
+        value: number | ContactItem;
       } | null)
     | ({
         relationTo: 'media';
@@ -543,6 +571,21 @@ export interface ClinicsSelect<T extends boolean = true> {
       };
   hours?: T;
   mapsUrl?: T;
+  order?: T;
+  visible?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "contact-items_select".
+ */
+export interface ContactItemsSelect<T extends boolean = true> {
+  title?: T;
+  detail?: T;
+  url?: T;
+  country?: T;
+  kind?: T;
   order?: T;
   visible?: T;
   updatedAt?: T;

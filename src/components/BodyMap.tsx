@@ -1,47 +1,18 @@
 'use client'
-import { useState } from 'react'
+import { useId, useState } from 'react'
 import Modal, { PHONE } from './Modal'
 import type { SiteData } from '@/lib/data'
 import type { Dict } from '@/lib/i18n'
 
-/**
- * Tape strips drawn on the 338×600 body photos (public/img/body).
- * If the body photos are regenerated, adjust these numbers.
- * c = colour: cyan tape or skin-tone anchor tape.
- */
-type Strip = { l: number; t: number; w: number; h: number; r?: number; c?: 'skin' }
-const TAPES: Record<string, Strip[]> = {
-  neck: [
-    { l: 158, t: 101, w: 9, h: 36 },
-    { l: 171, t: 101, w: 9, h: 36 },
-  ],
-  back: [
-    { l: 153, t: 151, w: 11, h: 65 },
-    { l: 174, t: 151, w: 11, h: 65 },
-    { l: 136, t: 194, w: 65, h: 11, c: 'skin' },
-  ],
-  si: [
-    { l: 141, t: 219, w: 57, h: 10, r: 25 },
-    { l: 141, t: 219, w: 57, h: 10, r: -25 },
-  ],
-  shoulder: [
-    { l: 97, t: 141, w: 14, h: 56, r: 15 },
-    { l: 80, t: 147, w: 56, h: 12, r: -15, c: 'skin' },
-  ],
-  knee: [
-    { l: 112, t: 410, w: 9, h: 52, r: 10 },
-    { l: 137, t: 410, w: 9, h: 52, r: -10 },
-    { l: 110, t: 452, w: 38, h: 9, c: 'skin' },
-  ],
-  ankle: [
-    { l: 124, t: 500, w: 10, h: 44 },
-    { l: 112, t: 528, w: 36, h: 9, r: -20, c: 'skin' },
-  ],
-  kids: [
-    { l: 156, t: 242, w: 8, h: 66 },
-    { l: 173, t: 242, w: 8, h: 66 },
-    { l: 148, t: 291, w: 41, h: 8, c: 'skin' },
-  ],
+// Region layers share the photo's 338×600 coordinates and its transparent silhouette.
+const REGIONS: Record<string, string> = {
+  neck: 'M144 99 Q169 108 188 99 L191 133 Q169 146 142 133 Z',
+  back: 'M128 128 Q169 112 211 128 L204 217 Q169 239 133 217 Z',
+  si: 'M122 216 Q169 232 213 216 L208 250 Q169 264 127 250 Z',
+  shoulder: 'M89 126 Q106 119 125 132 L129 162 Q119 184 101 182 L85 158 Z',
+  knee: 'M105 411 Q126 399 150 413 L151 455 Q130 477 106 455 Z',
+  ankle: 'M111 491 Q130 480 149 493 L151 533 Q129 550 104 535 Z',
+  kids: 'M155 237 Q169 230 183 237 L182 310 Q169 321 155 310 Z',
 }
 // Where each button sits around the body (px on the 338px photo).
 // l = left edge of the button; r = right edge, for buttons left of the body,
@@ -74,11 +45,13 @@ export default function BodyMap({
   // the adult area to go back to when switching from Children to Adults
   const [adultKey, setAdultKey] = useState(start?.key)
   const [modal, setModal] = useState(false)
+  const maskId = useId()
 
   const area = areas.find((a) => a.key === key)
   if (!area) return null
   const isKids = key === 'kids'
   const view = isKids ? 'kids' : area.view
+  const photo = isKids ? '/img/body/kid-back.png' : `/img/body/${view === 'back' ? 'back' : 'front'}.png`
   const kids = areas.find((a) => a.key === 'kids')
   /** `show`: on a phone, open the certificates modal (area buttons and Children do; Adults doesn't) */
   const pick = (k: SiteData['areas'][number]['key'], show = true) => {
@@ -137,23 +110,16 @@ export default function BodyMap({
                 src="/img/body/kid-back.png"
                 alt={t.body.kidsPhoto}
               />
-              <div key={key} className="bodymap__tapes" aria-hidden="true">
-                {(TAPES[key || ''] || []).map((s, i) => (
-                  <span
-                    key={i}
-                    className={`tape ${s.c === 'skin' ? 'tape--skin' : ''}`}
-                    style={{
-                      left: s.l,
-                      top: s.t,
-                      width: s.w,
-                      height: s.h,
-                      ['--r' as string]: `${s.r || 0}deg`,
-                      ['--d' as string]: `${i * 120}ms`,
-                      ['--o' as string]: s.w > s.h ? 'left center' : 'center top',
-                    }}
-                  />
-                ))}
-              </div>
+              <svg className="bodymap__highlight" viewBox="0 0 338 600" aria-hidden="true">
+                <defs>
+                  <mask id={maskId} style={{ maskType: 'alpha' }}>
+                    <image href={photo} width="338" height="600" preserveAspectRatio="none" />
+                  </mask>
+                </defs>
+                <g mask={`url(#${maskId})`}>
+                  <path key={key} d={REGIONS[key || '']} className="bodymap__region" />
+                </g>
+              </svg>
               {/* children have no body-part certificates, so the area buttons are adults only */}
               {!isKids &&
                 areas
