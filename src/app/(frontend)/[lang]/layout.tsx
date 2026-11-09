@@ -27,6 +27,9 @@ export async function generateMetadata({ params }: LayoutProps<'/[lang]'>) {
   return {
     title: t.meta.title,
     description: t.meta.description,
+    verification: {
+      google: 'IZSHchBZa44n-hHMQWNfXQOhfRuJ18Y0r9IfNp3VXXE',
+    },
     alternates: { languages: Object.fromEntries(LOCALES.map((l) => [l, homePath(l)])) },
   }
 }
