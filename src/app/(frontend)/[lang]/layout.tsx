@@ -2,6 +2,7 @@ import React from 'react'
 import { notFound } from 'next/navigation'
 import { Archivo, Bricolage_Grotesque, Cairo, IBM_Plex_Sans_Arabic } from 'next/font/google'
 import { LOCALES, dirOf, getDict, homePath, isLocale } from '@/lib/i18n'
+import { SITE_URL } from '@/lib/site-url'
 import '../styles.css'
 
 const archivo = Archivo({ subsets: ['latin'], variable: '--font-body', axes: ['wdth'] })
@@ -25,12 +26,16 @@ export async function generateMetadata({ params }: LayoutProps<'/[lang]'>) {
   if (!isLocale(lang)) return {}
   const t = getDict(lang)
   return {
+    metadataBase: new URL(SITE_URL),
     title: t.meta.title,
     description: t.meta.description,
     verification: {
       google: 'IZSHchBZa44n-hHMQWNfXQOhfRuJ18Y0r9IfNp3VXXE',
     },
-    alternates: { languages: Object.fromEntries(LOCALES.map((l) => [l, homePath(l)])) },
+    alternates: {
+      canonical: homePath(lang),
+      languages: Object.fromEntries(LOCALES.map((l) => [l, homePath(l)])),
+    },
   }
 }
 
