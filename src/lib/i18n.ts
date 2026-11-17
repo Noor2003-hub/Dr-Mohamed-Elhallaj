@@ -12,9 +12,9 @@ export const homePath = (l: Locale) => (l === DEFAULT_LOCALE ? '/' : `/${l}`)
 
 const en = {
   meta: {
-    title: 'Dr. Mohamed Elhallaj · Physical therapy and sports injuries',
+    title: 'Dr Mohamed Elhallaj | Physiotherapy & Sports Injuries',
     description:
-      'Doctor of physical therapy, orthopedic diseases and sports injuries specialist. Co-founder of Experts Physio House.',
+      'Dr Mohamed Abdellatif Elhallaj, doctor of physical therapy and specialist in orthopedic conditions and sports injuries. Co-founder of Experts Physio House.',
   },
   nav: {
     main: 'Main',
@@ -95,9 +95,9 @@ export type Dict = typeof en
 
 const ar: Dict = {
   meta: {
-    title: 'د. محمد الحلاج · العلاج الطبيعي وإصابات الملاعب',
+    title: 'دكتور محمد الحلاج | العلاج الطبيعي وإصابات الملاعب',
     description:
-      'دكتور العلاج الطبيعي، أخصائي أمراض العظام وإصابات الملاعب، والشريك المؤسس لمركز الخبراء للعلاج الطبيعي.',
+      'دكتور محمد عبد اللطيف الحلاج، دكتور علاج طبيعي وأخصائي أمراض العظام وإصابات الملاعب، والشريك المؤسس لمركز الخبراء للعلاج الطبيعي.',
   },
   nav: {
     main: 'القائمة الرئيسية',

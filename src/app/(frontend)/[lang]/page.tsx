@@ -1,6 +1,7 @@
 import { notFound } from 'next/navigation'
 import { getSiteData } from '@/lib/data'
 import { getDict, isLocale } from '@/lib/i18n'
+import { searchIdentity } from '@/lib/search-identity'
 import SmoothScroll from '@/components/SmoothScroll'
 import Header from '@/components/Header'
 import Story from '@/components/Story'
@@ -23,6 +24,12 @@ export default async function HomePage({ params }: PageProps<'/[lang]'>) {
   const { site } = data
   return (
     <SmoothScroll>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(searchIdentity(site, lang)).replace(/</g, '\\u003c'),
+        }}
+      />
       <Header logo={site.logoOnDark} whatsapp={site.whatsapp} lang={lang} t={t} />
       <main>
         <Story site={site} t={t} />
